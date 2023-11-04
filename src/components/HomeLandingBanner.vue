@@ -2,12 +2,12 @@
   <div class="row q-mb-xl q-col-gutter-md">
     <div class="col-7">
       <div class="q-py-sm">
-        <p class="text-subtitle1 text-bold q-mb-xs">WELCOME</p>
+        <p class="text-subtitle1 text-bold q-mb-xs">WELCOME TO</p>
         <h1 class="text-h4 text-bold text-primary q-mt-none q-mb-xs">
-          Welcome to Mediqueue
+          MEDIQUEUE Website
         </h1>
         <h1 class="text-h4 text-bold q-mt-none q-mb-xl">
-          Healthcare App You can Trust.
+          Healthcare platform You can Trust.
         </h1>
         <p class="q-mt-none q-mb-xl">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
