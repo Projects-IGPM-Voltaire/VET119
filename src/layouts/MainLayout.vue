@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
     <q-header class="bg-primary container">
       <q-toolbar>
-        <q-toolbar-title class="text-bold">Mediqueue </q-toolbar-title>
+        <q-toolbar-title class="text-bold">MediQueue</q-toolbar-title>
         <q-space></q-space>
       </q-toolbar>
     </q-header>

@@ -22,7 +22,11 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn
+                color="secondary"
+                class="text-capitalize"
+                unelevated
+                @click="onBookScheduleAction"
                 >Proceed</q-btn
               >
             </q-card-actions>
@@ -144,6 +148,8 @@
         </div>
       </div>
     </q-card-section>
+
+    <ScheduleAppointmentDialog v-model="isScheduleAppointmentDialogOpen" />
   </q-card>
 </template>
 
@@ -153,4 +159,15 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "HomeServicesBanner",
 });
+</script>
+
+<script setup>
+import { ref } from "vue";
+import ScheduleAppointmentDialog from "components/ScheduleAppointmentDialog.vue";
+
+const isScheduleAppointmentDialogOpen = ref(false);
+
+const onBookScheduleAction = () =>
+  (isScheduleAppointmentDialogOpen.value =
+    !isScheduleAppointmentDialogOpen.value);
 </script>

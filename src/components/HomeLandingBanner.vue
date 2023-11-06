@@ -4,7 +4,7 @@
       <div class="q-py-sm">
         <p class="text-subtitle1 text-bold q-mb-xs">WELCOME TO</p>
         <h1 class="text-h4 text-bold text-primary q-mt-none q-mb-xs">
-          MEDIQUEUE Website
+          MediQueue
         </h1>
         <h1 class="text-h4 text-bold q-mt-none q-mb-xl">
           Healthcare platform You can Trust.
