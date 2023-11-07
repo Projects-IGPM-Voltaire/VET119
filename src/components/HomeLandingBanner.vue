@@ -15,7 +15,7 @@
           suscipit voluptates?
         </p>
         <div class="flex justify-start">
-          <q-btn color="primary" class="text-capitalize" unelevated
+          <q-btn color="primary" class="text-capitalize"
             >Book <span class="text-lowercase q-pl-xs q-pr-sm">now</span
             ><q-icon name="arrow_right_alt"></q-icon
           ></q-btn>
@@ -24,7 +24,7 @@
     </div>
     <div class="col-5">
       <div class="">
-        <q-card>
+        <q-card flat>
           <q-carousel swipeable animated v-model="slide" infinite>
             <q-carousel-slide :name="1" :img-src="DoctorWithPatientImage" />
           </q-carousel>
