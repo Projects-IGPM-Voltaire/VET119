@@ -15,12 +15,10 @@
           suscipit voluptates?
         </p>
         <div class="flex justify-start">
-          <q-btn color="primary" class="text-capitalize q-mr-sm" unelevated
-            >Book <span class="text-lowercase q-pl-xs">now</span></q-btn
-          >
-          <q-btn color="primary" outline class="text-capitalize"
-            >More info</q-btn
-          >
+          <q-btn color="primary" class="text-capitalize" unelevated
+            >Book <span class="text-lowercase q-pl-xs q-pr-sm">now</span
+            ><q-icon name="arrow_right_alt"></q-icon
+          ></q-btn>
         </div>
       </div>
     </div>

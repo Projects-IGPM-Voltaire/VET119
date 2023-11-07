@@ -1,12 +1,12 @@
 <template>
-  <q-card class="bg-primary q-pb-md" dark flat>
+  <q-card class="bg-white q-pb-md" dark flat>
     <q-card-section>
-      <h6 class="text-h6 q-my-none">Try our offered services</h6>
+      <h6 class="text-h6 q-my-none text-primary">Try our offered services</h6>
     </q-card-section>
     <q-card-section>
       <div class="row q-col-gutter-sm">
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -23,7 +23,8 @@
             </q-card-section>
             <q-card-actions class="justify-end">
               <q-btn
-                color="secondary"
+                color="primary"
+                outline
                 class="text-capitalize"
                 unelevated
                 @click="onBookScheduleAction"
@@ -33,7 +34,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -48,14 +49,14 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn color="primary" outline class="text-capitalize" unelevated
                 >View</q-btn
               >
             </q-card-actions>
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -71,14 +72,14 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn color="primary" outline class="text-capitalize" unelevated
                 >View</q-btn
               >
             </q-card-actions>
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -94,14 +95,14 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn color="primary" outline class="text-capitalize" unelevated
                 >Find</q-btn
               >
             </q-card-actions>
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -117,14 +118,14 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn color="primary" outline class="text-capitalize" unelevated
                 >Find</q-btn
               >
             </q-card-actions>
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="text-black" flat>
+          <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
@@ -140,7 +141,7 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="secondary" class="text-capitalize" unelevated
+              <q-btn color="primary" outline class="text-capitalize" unelevated
                 >View</q-btn
               >
             </q-card-actions>
