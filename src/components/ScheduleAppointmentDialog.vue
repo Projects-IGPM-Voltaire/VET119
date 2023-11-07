@@ -15,7 +15,7 @@
         >
           <div class="row q-col-gutter-md">
             <div class="col-12">
-              <p class="text-subtitle1">How you feeling?</p>
+              <p class="text-subtitle2 text-grey-6">How you feeling?</p>
               <q-select
                 color="primary"
                 label="Choose illnesses"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-12">
-              <p class="text-subtitle1">Patient Information</p>
+              <p class="text-subtitle2 text-grey-6">Patient Information</p>
               <div class="row q-col-gutter-md">
                 <div class="col-6">
                   <q-input color="primary" outlined label="First Name" />
@@ -56,15 +56,15 @@
         >
           <div class="row q-col-gutter-md">
             <div class="col-12">
-              <p class="text-subtitle1">Choose preferred date</p>
+              <p class="text-subtitle2 text-grey-6">Choose preferred date</p>
               <q-date color="primary" style="width: 100%" />
             </div>
             <div class="col-12">
-              <p class="text-subtitle1">Choose preferred time</p>
+              <p class="text-subtitle2 text-grey-6">Choose preferred time</p>
               <q-select v-model="selectedTime" :options="timeRanges" outlined />
             </div>
             <div class="col-12">
-              <p class="text-subtitle1">Available Doctors</p>
+              <p class="text-subtitle2 text-grey-6">Available Doctors</p>
               <div class="row col-gutter-md">
                 <div class="col-6">
                   <q-card class="my-card" flat bordered>
@@ -73,6 +73,7 @@
                         <q-avatar>
                           <img
                             src="https://cdn.quasar.dev/img/boy-avatar.png"
+                            alt="Sample"
                           />
                         </q-avatar>
                       </q-item-section>
@@ -95,8 +96,50 @@
           icon="notifications_active"
           :done="step > 3"
         >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati,
-          quia.
+          <div class="row q-col-gutter-lg">
+            <div class="col-12">
+              <q-card class="bg-primary text-white">
+                <q-card-section>
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label class="text-subtitle2 q-mb-none">
+                        Generated reference number
+                      </q-item-label>
+                      <q-item-label class="text-h6 q-my-none text-bold">
+                        #GUEST-001
+                      </q-item-label>
+                    </q-item-section>
+
+                    <q-item-section side top>
+                      <q-btn
+                        icon="content_copy"
+                        class="text-white"
+                        round
+                        rounded
+                        unelevated
+                      ></q-btn>
+                    </q-item-section>
+                  </q-item>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12">
+              <p class="text-subtitle1 q-mb-sm">
+                <q-icon
+                  size="md"
+                  name="report"
+                  class="q-mr-xs text-black"
+                />Reminders for Appointment!
+              </p>
+              <ul class="q-mt-none q-gutter-md">
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Lorem ipsum dolor sit amet.</li>
+              </ul>
+            </div>
+          </div>
         </q-step>
 
         <template v-slot:navigation>
