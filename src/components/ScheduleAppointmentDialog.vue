@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card>
+    <q-card style="min-width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Book an Appointment</div>
         <q-space />
@@ -9,35 +9,94 @@
       <q-stepper v-model="step" ref="stepper" color="primary" animated>
         <q-step
           :name="1"
-          title="Select campaign settings"
-          icon="settings"
+          title="About the Patient"
+          icon="account_box"
           :done="step > 1"
         >
-          For each ad campaign that you create, you can control how much you're
-          willing to spend on clicks and conversions, which networks and
-          geographical locations you want your ads to show on, and more.
+          <div class="row q-col-gutter-md">
+            <div class="col-12">
+              <p class="text-subtitle1">How you feeling?</p>
+              <q-select
+                color="primary"
+                label="Choose illnesses"
+                outlined
+                :options="commonIllnesses"
+                multiple
+                stack-label
+                use-chips
+                v-model="illnesses"
+              />
+            </div>
+
+            <div class="col-12">
+              <p class="text-subtitle1">Patient Information</p>
+              <div class="row q-col-gutter-md">
+                <div class="col-6">
+                  <q-input color="primary" outlined label="First Name" />
+                </div>
+                <div class="col-6">
+                  <q-input color="primary" outlined label="Last Name" />
+                </div>
+                <div class="col-2">
+                  <q-input color="primary" outlined label="Age" type="number" />
+                </div>
+                <div class="col-10">
+                  <q-input color="primary" outlined label="Mobile Number" />
+                </div>
+              </div>
+            </div>
+          </div>
         </q-step>
 
         <q-step
           :name="2"
-          title="Create an ad group"
-          caption="Optional"
-          icon="create_new_folder"
+          title="Schedule"
+          icon="calendar_month"
           :done="step > 2"
         >
-          An ad group contains one or more ads which target a shared set of
-          keywords.
+          <div class="row q-col-gutter-md">
+            <div class="col-12">
+              <p class="text-subtitle1">Choose preferred date</p>
+              <q-date color="primary" style="width: 100%" />
+            </div>
+            <div class="col-12">
+              <p class="text-subtitle1">Choose preferred time</p>
+              <q-select v-model="selectedTime" :options="timeRanges" outlined />
+            </div>
+            <div class="col-12">
+              <p class="text-subtitle1">Available Doctors</p>
+              <div class="row col-gutter-md">
+                <div class="col-6">
+                  <q-card class="my-card" flat bordered>
+                    <q-item>
+                      <q-item-section avatar>
+                        <q-avatar>
+                          <img
+                            src="https://cdn.quasar.dev/img/boy-avatar.png"
+                          />
+                        </q-avatar>
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label>Dr. John Doe</q-item-label>
+                        <q-item-label caption> Physician </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-card>
+                </div>
+              </div>
+            </div>
+          </div>
         </q-step>
 
-        <q-step :name="3" title="Ad template" icon="assignment" disable>
-          This step won't show up because it is disabled.
-        </q-step>
-
-        <q-step :name="4" title="Create an ad" icon="add_comment">
-          Try out different ad text to see what brings in the most customers,
-          and learn how to enhance your ads using features like ad extensions.
-          If you run into any problems with your ads, find out how to tell if
-          they're running and how to resolve approval issues.
+        <q-step
+          :name="3"
+          title="Reminder"
+          icon="notifications_active"
+          :done="step > 3"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati,
+          quia.
         </q-step>
 
         <template v-slot:navigation>
@@ -45,7 +104,7 @@
             <q-btn
               @click="$refs.stepper.next()"
               color="primary"
-              :label="step === 4 ? 'Finish' : 'Continue'"
+              :label="step === 3 ? 'Finish' : 'Next'"
             />
             <q-btn
               v-if="step > 1"
@@ -71,12 +130,59 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const modelValueLocal = ref(props.modelValue);
 const step = ref(1);
+const illnesses = ref([]);
+const commonIllnesses = ref([
+  "Common Cold",
+  "Influenza (Flu)",
+  "Allergies",
+  "Hypertension (High Blood Pressure)",
+  "Type 2 Diabetes",
+  "Asthma",
+  "Bronchitis",
+  "Gastroenteritis",
+  "Urinary Tract Infection (UTI)",
+  "Migraine",
+  "Arthritis",
+  "Acid Reflux",
+  "Sinusitis",
+  "Pneumonia",
+  "Eczema",
+]);
+const timeRanges = ref([]);
+const selectedTime = ref(null);
+
+const generateTimeRanges = () => {
+  const timeRanges = [];
+  const startHour = 6; // 6:00 AM
+  const endHour = 20; // 8:00 PM
+
+  for (let i = startHour; i < endHour; i++) {
+    const currentHour = i % 12 === 0 ? 12 : i % 12;
+    const period = i < 12 ? "AM" : "PM";
+
+    const label = `${currentHour}:00 ${period} - ${
+      (currentHour + 1) % 12
+    }:00 ${period}`;
+
+    timeRanges.push({
+      label,
+      value: i, // You can use a unique identifier if needed
+      available: true,
+    });
+  }
+
+  return timeRanges;
+};
+
+onMounted(() => {
+  timeRanges.value = generateTimeRanges();
+});
 
 watch(
   () => props.modelValue,

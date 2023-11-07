@@ -2,7 +2,7 @@
   "name": "mediqueue",
   "version": "0.0.1",
   "description": "Mediqueue app",
-  "productName": "Mediqueue",
+  "productName": "MediQueue",
   "author": "Sebastian Curtis T. Lavarias <sebastiancurtislavarias@gmail.com>",
   "private": true,
   "scripts": {
