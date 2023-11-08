@@ -35,9 +35,13 @@
           <q-card-section>
             <p class="text-subtitle2 text-center">
               Don't have an account?
-              <span class="text-primary" style="text-decoration: underline"
-                >Register here</span
+              <router-link
+                :to="{ name: 'register-page' }"
+                class="text-primary text-bold"
+                style="text-decoration: none"
               >
+                Register here
+              </router-link>
             </p>
           </q-card-section>
         </q-card>

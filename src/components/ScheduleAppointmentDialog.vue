@@ -9,7 +9,7 @@
       <q-stepper v-model="step" ref="stepper" color="primary" animated>
         <q-step
           :name="1"
-          title="About the Patient"
+          title="Pre-assessment"
           icon="account_box"
           :done="step > 1"
         >
@@ -26,24 +26,6 @@
                 use-chips
                 v-model="illnesses"
               />
-            </div>
-
-            <div class="col-12">
-              <p class="text-subtitle2 text-grey-6">Patient Information</p>
-              <div class="row q-col-gutter-md">
-                <div class="col-6">
-                  <q-input color="primary" outlined label="First Name" />
-                </div>
-                <div class="col-6">
-                  <q-input color="primary" outlined label="Last Name" />
-                </div>
-                <div class="col-2">
-                  <q-input color="primary" outlined label="Age" type="number" />
-                </div>
-                <div class="col-10">
-                  <q-input color="primary" outlined label="Mobile Number" />
-                </div>
-              </div>
             </div>
           </div>
         </q-step>

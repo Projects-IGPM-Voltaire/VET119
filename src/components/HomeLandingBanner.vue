@@ -15,11 +15,18 @@
           suscipit voluptates?
         </p>
         <div class="flex justify-start">
-          <q-btn color="primary" class="text-capitalize q-mr-sm"
+          <q-btn
+            color="primary"
+            class="text-capitalize q-mr-sm"
+            :to="{ name: 'login-page' }"
             >Login <span class="text-lowercase q-pl-xs q-pr-sm">now</span
             ><q-icon name="arrow_right_alt"></q-icon
           ></q-btn>
-          <q-btn color="primary" outline class="text-capitalize"
+          <q-btn
+            color="primary"
+            outline
+            class="text-capitalize"
+            :to="{ name: 'register-page' }"
             >Register
             <span class="text-lowercase q-pl-xs q-pr-sm">here</span></q-btn
           >
