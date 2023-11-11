@@ -49,7 +49,12 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="primary" outline class="text-capitalize" unelevated
+              <q-btn
+                color="primary"
+                outline
+                class="text-capitalize"
+                unelevated
+                @click="onOpenQueueAction"
                 >View</q-btn
               >
             </q-card-actions>
@@ -72,7 +77,12 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="primary" outline class="text-capitalize" unelevated
+              <q-btn
+                color="primary"
+                outline
+                class="text-capitalize"
+                unelevated
+                @click="onOpenTrackerAction"
                 >View</q-btn
               >
             </q-card-actions>
@@ -150,7 +160,9 @@
       </div>
     </q-card-section>
 
-    <ScheduleAppointmentDialog v-model="isScheduleAppointmentDialogOpen" />
+    <ScheduleAppointmentDialog v-model="isAppointmentDialogOpen" />
+    <ScheduleQueueDialog v-model="isQueueDialogOpen" />
+    <QueueTrackerDialog v-model="isTrackerDialogOpen" />
   </q-card>
 </template>
 
@@ -165,10 +177,17 @@ export default defineComponent({
 <script setup>
 import { ref } from "vue";
 import ScheduleAppointmentDialog from "components/ScheduleAppointmentDialog.vue";
+import ScheduleQueueDialog from "components/SchedulesQueueDialog.vue";
+import QueueTrackerDialog from "components/QueueTrackerDialog.vue";
 
-const isScheduleAppointmentDialogOpen = ref(false);
+const isAppointmentDialogOpen = ref(false);
+const isQueueDialogOpen = ref(false);
+const isTrackerDialogOpen = ref(false);
 
 const onBookScheduleAction = () =>
-  (isScheduleAppointmentDialogOpen.value =
-    !isScheduleAppointmentDialogOpen.value);
+  (isAppointmentDialogOpen.value = !isAppointmentDialogOpen.value);
+const onOpenQueueAction = () =>
+  (isQueueDialogOpen.value = !isQueueDialogOpen.value);
+const onOpenTrackerAction = () =>
+  (isTrackerDialogOpen.value = !isTrackerDialogOpen.value);
 </script>
