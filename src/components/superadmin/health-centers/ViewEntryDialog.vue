@@ -57,43 +57,68 @@
           </q-tab-panel>
           <q-tab-panel name="about">
             <div class="row q-col-gutter-md">
-              <div class="col-12 flex justify-center">
-                <q-img
-                  src="https://pia.gov.ph/uploads/2023/06/ff17733667a781403e5a6d233eef9258-800-1200.jpg"
-                  width="50%"
-                  height="auto"
-                  class="q-mx-auto"
-                />
-              </div>
-              <div class="col-12">
-                <q-input color="primary" outlined label="Name" />
-              </div>
-
-              <div class="col-12">
-                <p class="text-subtitle2 text-grey-6">Address</p>
+              <div class="col-12 q-mb-md">
                 <div class="row q-col-gutter-md">
-                  <div class="col-4">
-                    <q-input
-                      color="primary"
-                      outlined
-                      label="House number or building"
+                  <div class="col-12 flex justify-center">
+                    <q-img
+                      src="https://pia.gov.ph/uploads/2023/06/ff17733667a781403e5a6d233eef9258-800-1200.jpg"
+                      width="50%"
+                      height="auto"
+                      class="q-mx-auto"
                     />
                   </div>
-                  <div class="col-8">
-                    <q-input color="primary" outlined label="Street" />
-                  </div>
                   <div class="col-12">
-                    <q-input color="primary" outlined label="Region" />
+                    <q-input color="primary" outlined label="Name" />
                   </div>
+
                   <div class="col-12">
-                    <q-input color="primary" outlined label="Province" />
+                    <p class="text-subtitle2 text-grey-6">Address</p>
+                    <div class="row q-col-gutter-md">
+                      <div class="col-4">
+                        <q-input
+                          color="primary"
+                          outlined
+                          label="House number or building"
+                        />
+                      </div>
+                      <div class="col-8">
+                        <q-input color="primary" outlined label="Street" />
+                      </div>
+                      <div class="col-12">
+                        <q-input color="primary" outlined label="Region" />
+                      </div>
+                      <div class="col-12">
+                        <q-input color="primary" outlined label="Province" />
+                      </div>
+                      <div class="col-12">
+                        <q-input color="primary" outlined label="Barangay" />
+                      </div>
+                      <div class="col-12">
+                        <q-input
+                          color="primary"
+                          outlined
+                          label="Google Map Link"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-12">
-                    <q-input color="primary" outlined label="Barangay" />
-                  </div>
-                  <div class="col-12">
-                    <q-input color="primary" outlined label="Google Map Link" />
-                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <p class="text-subtitle2 text-grey-6">Services</p>
+                <div class="row q-col-gutter-md">
+                  <template v-for="n in 6" :key="n">
+                    <div class="col-4">
+                      <q-card>
+                        <q-card-section>
+                          <p class="text-subtitle1 text-bold q-mb-none">
+                            Service {{ n }}
+                          </p>
+                          <div class="text-body2">lorem5</div>
+                        </q-card-section>
+                      </q-card>
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
