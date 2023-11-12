@@ -71,14 +71,9 @@ const navigations = ref([
     to: { name: "admin-schedules-page" },
   },
   {
-    label: "Health Center",
-    icon: "local_hospital",
-    to: { name: "admin-health-center-page" },
-  },
-  {
-    label: "Patients",
-    icon: "personal_injury",
-    to: { name: "admin-patients-page" },
+    label: "System",
+    icon: "settings",
+    to: { name: "admin-system-page" },
   },
 ]);
 </script>

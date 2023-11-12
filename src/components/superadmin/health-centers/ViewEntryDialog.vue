@@ -46,6 +46,10 @@
                   <q-td key="name" :props="props">
                     {{ props.row.type }}
                   </q-td>
+                  <q-td key="actions" :props="props">
+                    <q-btn flat icon="edit" dense rounded />
+                    <q-btn flat icon="delete" dense rounded class="text-red" />
+                  </q-td>
                 </q-tr>
               </template>
             </q-table>
@@ -188,6 +192,13 @@ const userColumns = [
     field: "type",
     align: "left",
     label: "Type",
+    sortable: false,
+  },
+  {
+    name: "actions",
+    align: "left",
+    label: "Actions",
+    field: "actions",
     sortable: false,
   },
 ];

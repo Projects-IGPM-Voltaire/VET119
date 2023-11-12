@@ -22,13 +22,18 @@
           </div>
         </div>
         <div class="q-py-md">
-          <div class="flex">
-            <q-input dense placeholder="Search" outlined clearable>
-              <template v-slot:prepend>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-            <div></div>
+          <div class="flex justify-between">
+            <div>
+              <q-input dense placeholder="Search" outlined clearable>
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <div>
+              <q-btn icon="filter_alt" flat rounded round dense></q-btn>
+              <q-btn icon="sort" flat rounded round dense></q-btn>
+            </div>
           </div>
           <q-table flat :rows="rows" :columns="columns" row-key="name">
             <template v-slot:body="props">

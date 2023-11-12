@@ -37,6 +37,20 @@
           <div class="col-12">
             <q-select label="User type" outlined></q-select>
           </div>
+          <div class="col-12">
+            <p class="text-subtitle2 text-grey-6">Login Information</p>
+            <div class="row q-col-gutter-md">
+              <div class="col-12">
+                <q-input label="Username" outlined></q-input>
+              </div>
+              <div class="col-12">
+                <q-input label="Password" outlined></q-input>
+              </div>
+              <div class="col-12">
+                <q-input label="Password Confirmation" outlined></q-input>
+              </div>
+            </div>
+          </div>
         </div>
       </q-card-section>
       <q-card-actions>

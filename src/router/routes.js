@@ -42,7 +42,7 @@ const routes = [
       {
         path: "",
         name: "admin-login-page",
-        component: () => import("pages/admin/Login.vue"),
+        component: () => import("pages/admin/LoginPage.vue"),
       },
 
       {
@@ -61,6 +61,18 @@ const routes = [
         path: "user",
         name: "admin-users-page",
         component: () => import("pages/admin/UserPage.vue"),
+      },
+
+      {
+        path: "schedule",
+        name: "admin-schedules-page",
+        component: () => import("pages/admin/SchedulePage.vue"),
+      },
+
+      {
+        path: "system",
+        name: "admin-system-page",
+        component: () => import("pages/admin/SystemPage.vue"),
       },
     ],
   },

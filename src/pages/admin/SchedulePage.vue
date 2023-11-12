@@ -5,10 +5,10 @@
         <div class="flex justify-between">
           <div>
             <h4 class="text-h4 q-my-none text-bold flex items-center">
-              Health Centers
-              <q-badge class="q-ml-xs bg-primary">Superadmin</q-badge>
+              Schedules
+              <q-badge class="q-ml-xs bg-primary">Admin</q-badge>
             </h4>
-            <p class="text-subtitle1">Manage health centers.</p>
+            <p class="text-subtitle1">Manage schedules.</p>
           </div>
           <div>
             <q-btn
@@ -38,21 +38,16 @@
           <q-table flat :rows="rows" :columns="columns" row-key="name">
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="image" :props="props">
-                  <q-img :src="props.row.image" width="10rem" />
+                <q-td key="date" :props="props">
+                  {{ props.row.date }}
                 </q-td>
-                <q-td class="text-bold" key="name" :props="props">
-                  {{ props.row.name }}
+                <q-td key="time" :props="props">
+                  {{ props.row.time }}
                 </q-td>
-                <q-td key="address" :props="props">
-                  <a :href="props.row.address.link" target="_blank">{{
-                    props.row.address.label
-                  }}</a>
+                <q-td key="patient" :props="props">
+                  {{ props.row.patient }}
                 </q-td>
-                <q-td key="doctors" :props="props">
-                  {{ props.row.doctors }}
-                </q-td>
-                <q-td key="doctors" :props="props">
+                <q-td key="actions" :props="props">
                   <q-btn
                     flat
                     icon="edit"
@@ -68,51 +63,44 @@
         </div>
       </q-card-section>
     </q-card>
-    <SuperadminHealthCenterNewEntryDialog v-model="isNewEntryDialog" />
-    <SuperadminHealthCenterViewEntryDialog v-model="isViewEntryDialog" />
+    <AdminScheduleNewEntryDialog v-model="isNewEntryDialog" />
+    <AdminScheduleViewEntryDialog v-model="isViewEntryDialog" />
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "AdminHealthCenterPage",
+  name: "AdminSchedulePage",
   components: {},
 });
 </script>
 
 <script setup>
 import { ref } from "vue";
-import SuperadminHealthCenterNewEntryDialog from "components/superadmin/health-centers/NewEntryDialog.vue";
-import SuperadminHealthCenterViewEntryDialog from "components/superadmin/health-centers/ViewEntryDialog.vue";
+import AdminScheduleNewEntryDialog from "components/admin/schedules/NewEntryDialog.vue";
+import AdminScheduleViewEntryDialog from "components/admin/schedules/ViewEntryDialog.vue";
 
 const columns = [
   {
-    name: "image",
-    field: "image",
+    name: "date",
+    field: "date",
     align: "left",
-    label: "Image",
+    label: "Date",
     sortable: false,
   },
   {
-    name: "name",
-    field: "name",
+    name: "time",
+    field: "time",
     align: "left",
-    label: "Name",
+    label: "Time",
     sortable: false,
   },
   {
-    name: "address",
+    name: "patient",
+    field: "patient",
     align: "left",
-    label: "Address",
-    field: "address",
-    sortable: false,
-  },
-  {
-    name: "doctors",
-    align: "left",
-    label: "No. of Doctors",
-    field: "doctors",
+    label: "Patient",
     sortable: false,
   },
   {
@@ -124,14 +112,9 @@ const columns = [
   },
 ];
 const sampleData = {
-  image:
-    "https://pia.gov.ph/uploads/2023/06/ff17733667a781403e5a6d233eef9258-800-1200.jpg",
-  name: "Super Health Center",
-  address: {
-    label: "San Mateo, Bulacan Philippines",
-    link: "https://www.google.com/maps/place/Super+Health+Center+San+Mateo/@14.6935727,121.1198772,17z/data=!3m1!4b1!4m6!3m5!1s0x3397ba3589fff545:0x4160e02915f88362!8m2!3d14.6935675!4d121.1224521!16s%2Fg%2F11bvv5b8__?entry=ttu",
-  },
-  doctors: 3,
+  date: "November 10, 2023",
+  time: "7:00AM - 8:00AM",
+  patient: "John Doe",
 };
 let rows = [sampleData];
 for (let i = 1; i <= 20; i++) {
