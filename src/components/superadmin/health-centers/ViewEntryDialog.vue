@@ -14,8 +14,8 @@
             class="text-capitalize text-black"
           />
           <q-tab
-            name="doctors"
-            label="Doctors"
+            name="users"
+            label="users"
             class="text-capitalize text-black"
           />
           <q-tab
@@ -33,13 +33,8 @@
               row-key="name"
             />
           </q-tab-panel>
-          <q-tab-panel name="doctors">
-            <q-table
-              flat
-              :rows="doctors"
-              :columns="doctorColumns"
-              row-key="name"
-            >
+          <q-tab-panel name="users">
+            <q-table flat :rows="users" :columns="userColumns" row-key="name">
               <template v-slot:body="props">
                 <q-tr :props="props">
                   <q-td key="image" :props="props">
@@ -49,7 +44,7 @@
                     {{ props.row.name }}
                   </q-td>
                   <q-td key="name" :props="props">
-                    {{ props.row.specializations }}
+                    {{ props.row.type }}
                   </q-td>
                 </q-tr>
               </template>
@@ -173,7 +168,7 @@ const schedules = [
   },
 ];
 
-const doctorColumns = [
+const userColumns = [
   {
     name: "image",
     field: "image",
@@ -189,19 +184,19 @@ const doctorColumns = [
     sortable: false,
   },
   {
-    name: "specializations",
-    field: "specializations",
+    name: "type",
+    field: "type",
     align: "left",
-    label: "Specializations",
+    label: "Type",
     sortable: false,
   },
 ];
-const doctors = [
+const users = [
   {
     image:
       "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*",
     name: "Dr. John Doe",
-    specializations: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    type: "Dr or Staff",
   },
 ];
 

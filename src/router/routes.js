@@ -54,18 +54,12 @@ const routes = [
       {
         path: "health-center",
         name: "superadmin-health-centers-page",
-        component: () => import("pages/admin/HealthCenterPage.vue"),
+        component: () => import("pages/superadmin/HealthCenterPage.vue"),
       },
 
       {
         path: "user",
-        name: "superadmin-users-page",
-        component: () => import("pages/admin/UserPage.vue"),
-      },
-
-      {
-        path: "user",
-        name: "admin-user-page",
+        name: "admin-users-page",
         component: () => import("pages/admin/UserPage.vue"),
       },
     ],

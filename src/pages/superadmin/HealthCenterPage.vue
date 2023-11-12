@@ -34,7 +34,7 @@
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td key="image" :props="props">
-                  <q-img :src="props.row.image" />
+                  <q-img :src="props.row.image" width="10rem" />
                 </q-td>
                 <q-td class="text-bold" key="name" :props="props">
                   {{ props.row.name }}

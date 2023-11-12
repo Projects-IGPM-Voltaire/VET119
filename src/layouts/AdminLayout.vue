@@ -63,12 +63,7 @@ const navigations = ref([
   {
     label: "Users",
     icon: "group",
-    to: { name: "superadmin-users-page" },
-  },
-  {
-    label: "Staffs",
-    icon: "group",
-    to: { name: "admin-staffs-page" },
+    to: { name: "admin-users-page" },
   },
   {
     label: "Schedules",
