@@ -8,15 +8,65 @@ const routes = [
         name: "home-page",
         component: () => import("pages/IndexPage.vue"),
       },
+    ],
+  },
+
+  {
+    path: "/login",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
       {
-        path: "login",
+        path: "",
         name: "login-page",
         component: () => import("pages/LoginPage.vue"),
       },
+    ],
+  },
+
+  {
+    path: "/register",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
       {
-        path: "register",
+        path: "",
         name: "register-page",
         component: () => import("pages/RegisterPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/admin",
+    component: () => import("layouts/AdminLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "admin-login-page",
+        component: () => import("pages/admin/Login.vue"),
+      },
+
+      {
+        path: "dashboard",
+        name: "admin-dashboard-page",
+        component: () => import("pages/admin/DashboardPage.vue"),
+      },
+
+      {
+        path: "health-center",
+        name: "superadmin-health-centers-page",
+        component: () => import("pages/admin/HealthCenterPage.vue"),
+      },
+
+      {
+        path: "user",
+        name: "superadmin-users-page",
+        component: () => import("pages/admin/UserPage.vue"),
+      },
+
+      {
+        path: "user",
+        name: "admin-user-page",
+        component: () => import("pages/admin/UserPage.vue"),
       },
     ],
   },

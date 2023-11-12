@@ -49,6 +49,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row q-col-gutter-md">
                 <div class="col-12">
                   <p class="text-subtitle2 text-grey-6">Account Details</p>
