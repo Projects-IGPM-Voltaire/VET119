@@ -42,7 +42,9 @@
                   <q-img
                     :src="toPublicImage(props.row.image.path)"
                     width="10rem"
+                    v-if="objetHasValue(props.row.image)"
                   />
+                  <span class="text-grey-6" v-else>No Image.</span>
                 </q-td>
                 <q-td class="text-bold" key="name" :props="props">
                   {{ props.row.name }}
@@ -68,7 +70,10 @@
         </div>
       </q-card-section>
     </q-card>
-    <SuperadminHealthCenterNewEntryDialog v-model="isNewEntryDialog" />
+    <SuperadminHealthCenterNewEntryDialog
+      v-model="isNewEntryDialog"
+      @onCreateSuccess="getHealthCenters"
+    />
     <SuperadminHealthCenterViewEntryDialog v-model="isViewEntryDialog" />
   </q-page>
 </template>
@@ -88,6 +93,7 @@ import SuperadminHealthCenterViewEntryDialog from 'components/superadmin/health-
 import { useHealthCenterStore } from 'stores/healthCenter';
 import { useQuasar } from 'quasar';
 import { toAddress, toPublicImage } from 'src/extras/misc';
+import { objetHasValue } from 'src/extras/object';
 
 const healthCenterStore = useHealthCenterStore();
 const $q = useQuasar();

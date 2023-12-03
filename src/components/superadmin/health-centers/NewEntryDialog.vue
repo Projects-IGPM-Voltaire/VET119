@@ -7,9 +7,17 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-card-section>
+        <p class="text-subtitle1 text-negative" v-if="!!formError">
+          {{ formError }}
+        </p>
         <div class="row q-col-gutter-md">
           <div class="col-12">
-            <q-input color="primary" outlined label="Name" />
+            <q-input
+              color="primary"
+              outlined
+              label="Name"
+              v-model="form.name"
+            />
           </div>
           <div class="col-12">
             <q-input
@@ -21,6 +29,7 @@
               outlined
               type="file"
               hint="Image"
+              v-model="form.image"
             />
           </div>
 
@@ -32,22 +41,32 @@
                   color="primary"
                   outlined
                   label="House number or building"
+                  v-model="form.house_number"
                 />
               </div>
               <div class="col-8">
-                <q-input color="primary" outlined label="Street" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="Street"
+                  v-model="form.street"
+                />
               </div>
               <div class="col-12">
-                <q-input color="primary" outlined label="Region" />
+                <CustomBarangaySelect
+                  color="primary"
+                  outlined
+                  label="Barangay"
+                  v-model="form.barangay_code"
+                />
               </div>
               <div class="col-12">
-                <q-input color="primary" outlined label="Province" />
-              </div>
-              <div class="col-12">
-                <q-input color="primary" outlined label="Barangay" />
-              </div>
-              <div class="col-12">
-                <q-input color="primary" outlined label="Google Map Link" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="Google Map Link"
+                  v-model="form.map_url"
+                />
               </div>
             </div>
           </div>
@@ -58,6 +77,9 @@
           label="Save"
           color="primary"
           class="full-width text-capitalize"
+          :loading="isFormLoading"
+          :disable="isFormLoading"
+          @click="onCreate"
         />
       </q-card-actions>
     </q-card>
@@ -65,19 +87,39 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "SuperadminHealthCenterNewEntryDialog",
+  name: 'SuperadminHealthCenterNewEntryDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { reactive, ref, watch } from 'vue';
+import CustomBarangaySelect from 'components/CustomBarangaySelect.vue';
+import { useHealthCenterStore } from 'stores/healthCenter';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+const props = defineProps(['modelValue']);
+const emit = defineEmits(['update:modelValue', 'onCreateSuccess']);
+
+const healthCenter = useHealthCenterStore();
+const router = useRouter();
+const $q = useQuasar();
 
 const modelValueLocal = ref(props.modelValue);
+const defaultForm = {
+  name: null,
+  image: null,
+  house_number: null,
+  street: null,
+  city_code: '137504',
+  barangay_code: null,
+  map_url: null,
+};
+let form = reactive(Object.assign(defaultForm));
+const isFormLoading = ref(false);
+const formError = ref(false);
 
 watch(
   () => props.modelValue,
@@ -85,6 +127,24 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
+
+const onCreate = async () => {
+  formError.value = null;
+  isFormLoading.value = true;
+  const { code, message } = await healthCenter.create(form);
+  isFormLoading.value = false;
+  if (code === 200) {
+    $q.notify({
+      message: 'Health center created successfully!',
+      color: 'positive',
+    });
+    modelValueLocal.value = false;
+    emit('onCreateSuccess');
+    form = Object.assign({}, defaultForm);
+    return;
+  }
+  formError.value = message;
+};
 </script>

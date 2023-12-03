@@ -32,4 +32,6 @@ export default boot(({ app }) => {
   });
 });
 
-export { api };
+const toFormData = axios.toFormData;
+
+export { api, toFormData };

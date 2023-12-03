@@ -8,7 +8,7 @@ export const toURLSearchParams = (payload) => {
           queries.push(
             `${key}[${index}]=${encodeURIComponent(value.toString()).replace(
               /%20/g,
-              "+"
+              '+'
             )}`
           )
         );
@@ -16,12 +16,12 @@ export const toURLSearchParams = (payload) => {
     } else {
       if (value) {
         queries.push(
-          `${key}=${encodeURIComponent(value.toString()).replace(/%20/g, "+")}`
+          `${key}=${encodeURIComponent(value.toString()).replace(/%20/g, '+')}`
         );
       }
     }
   });
-  return queries.join("&");
+  return queries.join('&');
 };
 
 export const checkHttpPayload = (payload) => {
