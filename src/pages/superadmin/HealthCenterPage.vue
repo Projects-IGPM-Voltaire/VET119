@@ -35,24 +35,24 @@
               <q-btn icon="sort" flat rounded round dense></q-btn>
             </div>
           </div>
-          <q-table flat :rows="rows" :columns="columns" row-key="name">
+          <q-table flat :rows="healthCenters" :columns="columns" row-key="name">
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td key="image" :props="props">
-                  <q-img :src="props.row.image" width="10rem" />
+                  <q-img
+                    :src="toPublicImage(props.row.image.path)"
+                    width="10rem"
+                  />
                 </q-td>
                 <q-td class="text-bold" key="name" :props="props">
                   {{ props.row.name }}
                 </q-td>
                 <q-td key="address" :props="props">
-                  <a :href="props.row.address.link" target="_blank">{{
-                    props.row.address.label
+                  <a :href="props.row.address.map_url" target="_blank">{{
+                    toAddress(props.row.address)
                   }}</a>
                 </q-td>
-                <q-td key="doctors" :props="props">
-                  {{ props.row.doctors }}
-                </q-td>
-                <q-td key="doctors" :props="props">
+                <q-td key="actions" :props="props">
                   <q-btn
                     flat
                     icon="edit"
@@ -74,69 +74,56 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 export default defineComponent({
-  name: "AdminHealthCenterPage",
+  name: 'AdminHealthCenterPage',
   components: {},
 });
 </script>
 
 <script setup>
-import { ref } from "vue";
-import SuperadminHealthCenterNewEntryDialog from "components/superadmin/health-centers/NewEntryDialog.vue";
-import SuperadminHealthCenterViewEntryDialog from "components/superadmin/health-centers/ViewEntryDialog.vue";
+import { ref } from 'vue';
+import SuperadminHealthCenterNewEntryDialog from 'components/superadmin/health-centers/NewEntryDialog.vue';
+import SuperadminHealthCenterViewEntryDialog from 'components/superadmin/health-centers/ViewEntryDialog.vue';
+import { useHealthCenterStore } from 'stores/healthCenter';
+import { useQuasar } from 'quasar';
+import { toAddress, toPublicImage } from 'src/extras/misc';
+
+const healthCenterStore = useHealthCenterStore();
+const $q = useQuasar();
 
 const columns = [
   {
-    name: "image",
-    field: "image",
-    align: "left",
-    label: "Image",
+    name: 'image',
+    field: 'image',
+    align: 'left',
+    label: 'Image',
     sortable: false,
   },
   {
-    name: "name",
-    field: "name",
-    align: "left",
-    label: "Name",
+    name: 'name',
+    field: 'name',
+    align: 'left',
+    label: 'Name',
     sortable: false,
   },
   {
-    name: "address",
-    align: "left",
-    label: "Address",
-    field: "address",
+    name: 'address',
+    align: 'left',
+    label: 'Address',
+    field: 'address',
     sortable: false,
   },
   {
-    name: "doctors",
-    align: "left",
-    label: "No. of Doctors",
-    field: "doctors",
-    sortable: false,
-  },
-  {
-    name: "actions",
-    align: "left",
-    label: "Actions",
-    field: "actions",
+    name: 'actions',
+    align: 'left',
+    label: 'Actions',
+    field: 'actions',
     sortable: false,
   },
 ];
-const sampleData = {
-  image:
-    "https://pia.gov.ph/uploads/2023/06/ff17733667a781403e5a6d233eef9258-800-1200.jpg",
-  name: "Super Health Center",
-  address: {
-    label: "San Mateo, Bulacan Philippines",
-    link: "https://www.google.com/maps/place/Super+Health+Center+San+Mateo/@14.6935727,121.1198772,17z/data=!3m1!4b1!4m6!3m5!1s0x3397ba3589fff545:0x4160e02915f88362!8m2!3d14.6935675!4d121.1224521!16s%2Fg%2F11bvv5b8__?entry=ttu",
-  },
-  doctors: 3,
-};
-let rows = [sampleData];
-for (let i = 1; i <= 20; i++) {
-  rows = [...rows, sampleData];
-}
+
+const healthCenters = ref([]);
 
 const isNewEntryDialog = ref(false);
 const isViewEntryDialog = ref(false);
@@ -145,4 +132,18 @@ const onOpenNewEntryDialog = () =>
   (isNewEntryDialog.value = !isNewEntryDialog.value);
 const onOpenViewEntryDialog = () =>
   (isViewEntryDialog.value = !isViewEntryDialog.value);
+
+const getHealthCenters = async () => {
+  const { code, data } = await healthCenterStore.list({ search: null });
+  if (code === 200) {
+    healthCenters.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+
+getHealthCenters();
 </script>
