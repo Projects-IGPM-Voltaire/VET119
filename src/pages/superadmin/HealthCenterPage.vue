@@ -66,7 +66,7 @@
                     icon="edit"
                     dense
                     rounded
-                    @click="onOpenViewEntryDialog"
+                    @click="onOpenViewEntryDialog(props.row)"
                   />
                   <q-btn flat icon="delete" dense rounded class="text-red" />
                 </q-td>
@@ -80,7 +80,11 @@
       v-model="isNewEntryDialog"
       @onCreateSuccess="getHealthCenters"
     />
-    <SuperadminHealthCenterViewEntryDialog v-model="isViewEntryDialog" />
+    <SuperadminHealthCenterViewEntryDialog
+      :health-center="healthCenter"
+      v-model="isViewEntryDialog"
+      v-if="objetHasValue(healthCenter)"
+    />
   </q-page>
 </template>
 
@@ -136,15 +140,17 @@ const columns = [
 ];
 
 const healthCenters = ref([]);
-
 const isNewEntryDialog = ref(false);
 const isViewEntryDialog = ref(false);
 const search = ref(null);
+const healthCenter = ref(null);
 
 const onOpenNewEntryDialog = () =>
   (isNewEntryDialog.value = !isNewEntryDialog.value);
-const onOpenViewEntryDialog = () =>
-  (isViewEntryDialog.value = !isViewEntryDialog.value);
+const onOpenViewEntryDialog = (data) => {
+  healthCenter.value = Object.assign(data);
+  isViewEntryDialog.value = !isViewEntryDialog.value;
+};
 
 const getHealthCenters = async () => {
   const { code, data } = await healthCenterStore.list({

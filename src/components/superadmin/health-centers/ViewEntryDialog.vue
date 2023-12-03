@@ -9,8 +9,8 @@
       <q-card-section>
         <q-tabs v-model="tab" dense align="left" class="text-primary">
           <q-tab
-            name="schedules"
-            label="Schedules"
+            name="about"
+            label="About"
             class="text-capitalize text-black"
           />
           <q-tab
@@ -19,41 +19,12 @@
             class="text-capitalize text-black"
           />
           <q-tab
-            name="about"
-            label="About"
+            name="schedules"
+            label="Schedules"
             class="text-capitalize text-black"
           />
         </q-tabs>
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="schedules">
-            <q-table
-              flat
-              :rows="schedules"
-              :columns="scheduleColumns"
-              row-key="name"
-            />
-          </q-tab-panel>
-          <q-tab-panel name="users">
-            <q-table flat :rows="users" :columns="userColumns" row-key="name">
-              <template v-slot:body="props">
-                <q-tr :props="props">
-                  <q-td key="image" :props="props">
-                    <q-img :src="props.row.image" />
-                  </q-td>
-                  <q-td class="text-bold" key="name" :props="props">
-                    {{ props.row.name }}
-                  </q-td>
-                  <q-td key="name" :props="props">
-                    {{ props.row.type }}
-                  </q-td>
-                  <q-td key="actions" :props="props">
-                    <q-btn flat icon="edit" dense rounded />
-                    <q-btn flat icon="delete" dense rounded class="text-red" />
-                  </q-td>
-                </q-tr>
-              </template>
-            </q-table>
-          </q-tab-panel>
           <q-tab-panel name="about">
             <div class="row q-col-gutter-md">
               <div class="col-12 q-mb-md">
@@ -67,7 +38,13 @@
                     />
                   </div>
                   <div class="col-12">
-                    <q-input color="primary" outlined label="Name" />
+                    <q-input
+                      color="primary"
+                      outlined
+                      label="Name"
+                      readonly
+                      v-model="healthCenterLocal.name"
+                    />
                   </div>
 
                   <div class="col-12">
@@ -78,25 +55,34 @@
                           color="primary"
                           outlined
                           label="House number or building"
+                          readonly
+                          v-model="healthCenterLocal.address.house_number"
                         />
                       </div>
                       <div class="col-8">
-                        <q-input color="primary" outlined label="Street" />
+                        <q-input
+                          color="primary"
+                          outlined
+                          label="Street"
+                          readonly
+                          v-model="healthCenterLocal.address.street"
+                        />
                       </div>
                       <div class="col-12">
-                        <q-input color="primary" outlined label="Region" />
-                      </div>
-                      <div class="col-12">
-                        <q-input color="primary" outlined label="Province" />
-                      </div>
-                      <div class="col-12">
-                        <q-input color="primary" outlined label="Barangay" />
+                        <q-input
+                          color="primary"
+                          outlined
+                          readonly
+                          v-model="healthCenterLocal.address.barangay.name"
+                        />
                       </div>
                       <div class="col-12">
                         <q-input
                           color="primary"
                           outlined
                           label="Google Map Link"
+                          readonly
+                          v-model="healthCenterLocal.address.map_url"
                         />
                       </div>
                     </div>
@@ -122,97 +108,184 @@
               </div>
             </div>
           </q-tab-panel>
+          <q-tab-panel name="users">
+            <div class="flex justify-between">
+              <div></div>
+              <div>
+                <q-btn
+                  outline
+                  class="text-capitalize text-black"
+                  @click="onOpenNewUserEntryDialog"
+                >
+                  <q-icon name="add" class="q-mr-xs" /> Add
+                  <span class="q-ml-xs text-lowercase">new entry</span>
+                </q-btn>
+              </div>
+            </div>
+            <q-table flat :rows="users" :columns="userColumns" row-key="name">
+              <template v-slot:body="props">
+                <q-tr :props="props">
+                  <q-td key="image" :props="props">
+                    <q-img
+                      :src="toPublicImage(props.row.image.path)"
+                      width="10rem"
+                      v-if="objetHasValue(props.row.image)"
+                    />
+                    <span class="text-grey-6" v-else>No Image.</span>
+                  </q-td>
+                  <q-td class="text-bold" key="name" :props="props">
+                    {{ props.row.first_name }} {{ props.row.last_name }}
+                  </q-td>
+                  <q-td key="mobile-number" :props="props">
+                    {{ props.row.mobile_number }}
+                  </q-td>
+                  <q-td key="name" class="text-capitalize" :props="props">
+                    {{ props.row.health_center_member.position }}
+                  </q-td>
+                  <!--                  <q-td key="actions" :props="props">
+                    <q-btn flat icon="edit" dense rounded />
+                    <q-btn flat icon="delete" dense rounded class="text-red" />
+                  </q-td>-->
+                </q-tr>
+              </template>
+            </q-table>
+          </q-tab-panel>
+          <q-tab-panel name="schedules">
+            <q-table
+              flat
+              :rows="schedules"
+              :columns="scheduleColumns"
+              row-key="name"
+            />
+          </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
+    <AdminUserNewEntryDialog
+      :healthCenterID="healthCenterLocal.id"
+      @onCreateSuccess="getUsers"
+      v-model="isNewUserEntryDialog"
+    />
+    <AdminUserViewEntryDialog v-model="isViewEntryDialog" />
   </q-dialog>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "SuperadminHealthCenterViewEntryDialog",
+  name: 'SuperadminHealthCenterViewEntryDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { ref, watch } from 'vue';
+import { useUserStore } from 'stores/user';
+import { toPublicImage } from 'src/extras/misc';
+import { objetHasValue } from 'src/extras/object';
+import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
+import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
+import SuperadminHealthCenterNewEntryDialog from 'components/superadmin/health-centers/NewEntryDialog.vue';
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+  healthCenter: {
+    type: Object,
+    required: true,
+  },
+});
+const emit = defineEmits(['update:modelValue']);
+
+const userStore = useUserStore();
 
 const scheduleColumns = [
   {
-    name: "date",
-    field: "date",
-    align: "left",
-    label: "Date",
+    name: 'date',
+    field: 'date',
+    align: 'left',
+    label: 'Date',
     sortable: false,
   },
   {
-    name: "time",
-    field: "time",
-    align: "left",
-    label: "Time",
+    name: 'time',
+    field: 'time',
+    align: 'left',
+    label: 'Time',
     sortable: false,
   },
   {
-    name: "patient",
-    field: "patient",
-    align: "left",
-    label: "Patient",
+    name: 'patient',
+    field: 'patient',
+    align: 'left',
+    label: 'Patient',
     sortable: false,
   },
 ];
 const schedules = [
   {
-    date: "November 10, 2023",
-    time: "6:00AM - 7:00AM",
-    patient: "John Doe",
+    date: 'November 10, 2023',
+    time: '6:00AM - 7:00AM',
+    patient: 'John Doe',
   },
 ];
-
 const userColumns = [
   {
-    name: "image",
-    field: "image",
-    align: "left",
-    label: "Image",
+    name: 'image',
+    field: 'image',
+    align: 'left',
+    label: 'Image',
     sortable: false,
   },
   {
-    name: "name",
-    field: "name",
-    align: "left",
-    label: "Name",
+    name: 'name',
+    field: 'name',
+    align: 'left',
+    label: 'Name',
     sortable: false,
   },
   {
-    name: "type",
-    field: "type",
-    align: "left",
-    label: "Type",
+    name: 'mobile-number',
+    field: 'mobile-number',
+    align: 'left',
+    label: 'Mobile No.',
     sortable: false,
   },
   {
-    name: "actions",
-    align: "left",
-    label: "Actions",
-    field: "actions",
+    name: 'type',
+    field: 'type',
+    align: 'left',
+    label: 'Type',
     sortable: false,
-  },
-];
-const users = [
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*",
-    name: "Dr. John Doe",
-    type: "Dr or Staff",
   },
 ];
 
 const modelValueLocal = ref(props.modelValue);
-const tab = ref("schedules");
+const tab = ref('about');
+const healthCenterLocal = ref(Object.assign(props.healthCenter));
+const users = ref([]);
+const isNewUserEntryDialog = ref(false);
+const isViewUserEntryDialog = ref(false);
+
+const onOpenNewUserEntryDialog = () =>
+  (isNewUserEntryDialog.value = !isNewUserEntryDialog.value);
+const onOpenViewUserEntryDialog = () =>
+  (isViewUserEntryDialog.value = !isViewUserEntryDialog.value);
+const getUsers = async () => {
+  const { code, data } = await userStore.list({
+    healthCenterID: healthCenterLocal.value.id,
+  });
+  if (code === 200) {
+    users.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
 
 watch(
   () => props.modelValue,
@@ -220,6 +293,8 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
+
+getUsers();
 </script>

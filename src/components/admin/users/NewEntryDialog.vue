@@ -7,18 +7,37 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-card-section>
+        <p class="text-subtitle1 text-negative" v-if="!!formError">
+          {{ formError }}
+        </p>
+
         <div class="row q-col-gutter-md">
           <div class="col-12">
             <p class="text-subtitle2 text-grey-6">Personal Information</p>
             <div class="row q-col-gutter-md">
               <div class="col-6">
-                <q-input color="primary" outlined label="First Name" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="First Name"
+                  v-model="form.first_name"
+                />
               </div>
               <div class="col-6">
-                <q-input color="primary" outlined label="Last Name" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="Last Name"
+                  v-model="form.last_name"
+                />
               </div>
               <div class="col-12">
-                <q-input color="primary" outlined label="Birthday" />
+                <BaseInputDatePicker
+                  color="primary"
+                  outlined
+                  label="Birthday"
+                  v-model="form.birthday"
+                />
               </div>
               <div class="col-12">
                 <q-input
@@ -30,24 +49,45 @@
                   outlined
                   type="file"
                   hint="Image"
+                  v-model="form.image"
                 />
               </div>
             </div>
           </div>
           <div class="col-12">
-            <q-select label="User type" outlined></q-select>
+            <q-select
+              label="User type"
+              outlined
+              :options="userTypes"
+              emit-value
+              v-model="form.position"
+            />
           </div>
           <div class="col-12">
             <p class="text-subtitle2 text-grey-6">Login Information</p>
             <div class="row q-col-gutter-md">
               <div class="col-12">
-                <q-input label="Username" outlined></q-input>
+                <q-input
+                  label="Mobile No."
+                  outlined
+                  v-model="form.mobile_number"
+                ></q-input>
               </div>
               <div class="col-12">
-                <q-input label="Password" outlined></q-input>
+                <q-input
+                  label="Password"
+                  outlined
+                  type="password"
+                  v-model="form.password"
+                ></q-input>
               </div>
               <div class="col-12">
-                <q-input label="Password Confirmation" outlined></q-input>
+                <q-input
+                  label="Password Confirmation"
+                  outlined
+                  type="password"
+                  v-model="form.password_confirmation"
+                ></q-input>
               </div>
             </div>
           </div>
@@ -58,6 +98,9 @@
           label="Save"
           color="primary"
           class="full-width text-capitalize"
+          :loading="isFormLoading"
+          :disable="isFormLoading"
+          @click="onCreate"
         />
       </q-card-actions>
     </q-card>
@@ -65,19 +108,81 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "AdminUserNewEntryDialog",
+  name: 'AdminUserNewEntryDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+import { useUserStore } from 'stores/user';
+import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+  healthCenterID: {
+    type: Number,
+    required: false,
+  },
+});
+const emit = defineEmits(['update:modelValue', 'onCreateSuccess']);
+
+const userStore = useUserStore();
+const router = useRouter();
+const $q = useQuasar();
 
 const modelValueLocal = ref(props.modelValue);
+const defaultForm = {
+  first_name: null,
+  last_name: null,
+  birthday: null,
+  mobile_number: null,
+  password: null,
+  password_confirmation: null,
+  position: null,
+  level: 'admin',
+};
+const form = ref(Object.assign(defaultForm));
+const isFormLoading = ref(false);
+const formError = ref(false);
+
+const userTypes = [
+  {
+    label: `Doctor`,
+    value: 'doctor',
+  },
+  {
+    label: `Staff`,
+    value: 'staff',
+  },
+];
+
+const onCreate = async () => {
+  formError.value = null;
+  isFormLoading.value = true;
+  const { code, message } = await userStore.create({
+    ...form.value,
+    healthCenterID: props.healthCenterID,
+  });
+  isFormLoading.value = false;
+  if (code === 200) {
+    $q.notify({
+      message: 'Health center created successfully!',
+      color: 'positive',
+    });
+    modelValueLocal.value = false;
+    emit('onCreateSuccess');
+    form.value = Object.assign(defaultForm);
+    return;
+  }
+  formError.value = message;
+};
 
 watch(
   () => props.modelValue,
@@ -85,6 +190,6 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
 </script>
