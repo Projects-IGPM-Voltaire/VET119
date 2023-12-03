@@ -54,6 +54,13 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    destroySession() {
+      this.user = null;
+      this.accessToken = null;
+      this.isAuthenticated = false;
+      LocalStorage.clear();
+    },
+
     async register({
       first_name,
       last_name,

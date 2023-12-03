@@ -20,6 +20,14 @@
         >
           <q-icon name="account_circle" class="q-mr-xs" />
           <span>{{ user.first_name }}</span>
+
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup @click="onLogout">
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
       <q-toolbar>
@@ -58,8 +66,10 @@ export default defineComponent({
 <script setup>
 import { computed, ref } from 'vue';
 import { useAuthStore } from 'stores/auth';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const navigations = ref([
   {
@@ -108,4 +118,9 @@ const filteredNavigations = computed(() => {
     (navigation) => navigation.level === user.value.level
   );
 });
+
+const onLogout = () => {
+  router.push({ name: 'login-page' });
+  authStore.destroySession();
+};
 </script>
