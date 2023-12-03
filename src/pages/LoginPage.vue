@@ -93,12 +93,20 @@ const onLogin = async () => {
   const { code, message, data } = await authStore.login(form);
   isFormLoading.value = false;
   if (code === 200) {
+    const { user } = data;
+    let routeName = null;
+    if (user.level === 'superadmin') {
+      routeName = 'superadmin-health-centers-page';
+    } else if (user.level === 'admin') {
+      routeName = 'admin-users-page';
+    } else {
+      routeName = 'home-page';
+    }
+    await router.push({ name: routeName });
     $q.notify({
       message: 'Login success!',
       color: 'positive',
     });
-    console.log(data);
-    await router.push({ name: 'login-page' });
     return;
   }
   formError.value = message;

@@ -163,12 +163,12 @@ const onRegister = async () => {
   const { code, message } = await authStore.register(form);
   isFormLoading.value = false;
   if (code === 200) {
+    await router.push({ name: 'login-page' });
     $q.notify({
       message: 'Account registered successfully!',
       caption: 'You will be redirect to the login page...',
       color: 'positive',
     });
-    await router.push({ name: 'login-page' });
     return;
   }
   formError.value = message;
