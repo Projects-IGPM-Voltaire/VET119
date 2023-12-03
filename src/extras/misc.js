@@ -5,3 +5,17 @@ export const toPublicImage = (path) => {
 export const toAddress = ({ house_number, street, barangay }) => {
   return `${house_number} ${street} ${barangay.name}`;
 };
+
+export const debounce = (fn, delay) => {
+  let timeout;
+
+  return (...args) => {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};

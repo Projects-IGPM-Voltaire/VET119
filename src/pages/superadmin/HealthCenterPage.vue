@@ -24,7 +24,13 @@
         <div class="q-py-md">
           <div class="flex justify-between">
             <div>
-              <q-input dense placeholder="Search" outlined clearable>
+              <q-input
+                dense
+                placeholder="Search"
+                outlined
+                clearable
+                v-model="search"
+              >
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
@@ -87,12 +93,12 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import SuperadminHealthCenterNewEntryDialog from 'components/superadmin/health-centers/NewEntryDialog.vue';
 import SuperadminHealthCenterViewEntryDialog from 'components/superadmin/health-centers/ViewEntryDialog.vue';
 import { useHealthCenterStore } from 'stores/healthCenter';
 import { useQuasar } from 'quasar';
-import { toAddress, toPublicImage } from 'src/extras/misc';
+import { debounce, toAddress, toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
 
 const healthCenterStore = useHealthCenterStore();
@@ -133,6 +139,7 @@ const healthCenters = ref([]);
 
 const isNewEntryDialog = ref(false);
 const isViewEntryDialog = ref(false);
+const search = ref(null);
 
 const onOpenNewEntryDialog = () =>
   (isNewEntryDialog.value = !isNewEntryDialog.value);
@@ -140,7 +147,9 @@ const onOpenViewEntryDialog = () =>
   (isViewEntryDialog.value = !isViewEntryDialog.value);
 
 const getHealthCenters = async () => {
-  const { code, data } = await healthCenterStore.list({ search: null });
+  const { code, data } = await healthCenterStore.list({
+    search: search.value || null,
+  });
   if (code === 200) {
     healthCenters.value = data;
     return;
@@ -150,6 +159,11 @@ const getHealthCenters = async () => {
     color: 'negative',
   });
 };
+
+watch(
+  () => search.value,
+  debounce(async () => await getHealthCenters(), 500)
+);
 
 getHealthCenters();
 </script>

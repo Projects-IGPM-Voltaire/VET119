@@ -142,7 +142,7 @@ const onCreate = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign({}, defaultForm);
+    form = Object.assign(defaultForm);
     return;
   }
   formError.value = message;
