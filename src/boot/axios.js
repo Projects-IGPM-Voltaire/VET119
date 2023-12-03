@@ -22,6 +22,8 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 
   api.defaults.headers['Accept'] = 'application/json';
+  api.defaults.headers['ngrok-skip-browser-warning'] = '69420';
+
   api.interceptors.request.use(async (request) => {
     const accessToken = LocalStorage.getItem('access_token');
     if (accessToken) {
