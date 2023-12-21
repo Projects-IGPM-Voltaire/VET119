@@ -1,19 +1,17 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import { toURLSearchParams } from 'src/extras/http';
-import { toFormData } from 'boot/axios';
 
-const route = '/api/user';
+const route = '/api/schedule';
 
-export const useUserStore = defineStore('user', {
+export const useScheduleStore = defineStore('schedule', {
   actions: {
-    async list({ sortBy, search, healthCenterID, position }) {
+    async list({ sortBy, search, healthCenterID }) {
       try {
         const params = toURLSearchParams({
           sortBy,
           search,
           health_center_id: healthCenterID,
-          position,
         });
         const response = await api.get(`${route}?${params}`);
         return response.data;
@@ -28,34 +26,25 @@ export const useUserStore = defineStore('user', {
     },
 
     async create({
-      image,
       first_name,
       last_name,
       birthday,
-      mobile_number,
-      password,
-      password_confirmation,
-      level,
-      position,
+      date,
+      time_from,
+      time_to,
       healthCenterID,
+      userID,
     }) {
       try {
-        const formData = toFormData({
-          image,
+        const response = await api.post(`${route}/`, {
           first_name,
           last_name,
           birthday,
-          mobile_number,
-          password,
-          password_confirmation,
-          level,
-          position,
+          date,
+          time_from,
+          time_to,
           health_center_id: healthCenterID,
-        });
-        const response = await api.post(`${route}/`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          user_id: userID ?? null,
         });
         return response.data;
       } catch (e) {
@@ -68,24 +57,14 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async update({ image, first_name, last_name, birthday, position, userID }) {
+    async update({ date, time_from, time_to, scheduleID }) {
       try {
-        const formData = toFormData({
-          image: image[0],
-          first_name,
-          last_name,
-          birthday,
-          position,
+        const response = await api.put(`${route}/${scheduleID}`, {
+          date,
+          time_from,
+          time_to,
+          scheduleID,
         });
-        const response = await api.post(
-          `${route}/${userID}?_method=PUT`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
         return response.data;
       } catch (e) {
         return {
@@ -97,9 +76,9 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async delete(userID) {
+    async delete(schedule) {
       try {
-        const response = await api.delete(`${route}/${userID}`);
+        const response = await api.delete(`${route}/${schedule}`);
         return response.data;
       } catch (e) {
         return {
