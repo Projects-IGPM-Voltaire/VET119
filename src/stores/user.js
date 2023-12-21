@@ -66,5 +66,48 @@ export const useUserStore = defineStore('user', {
         };
       }
     },
+
+    async update({ image, first_name, last_name, birthday, position, userID }) {
+      try {
+        const formData = toFormData({
+          image: image[0],
+          first_name,
+          last_name,
+          birthday,
+          position,
+        });
+        const response = await api.post(
+          `${route}/${userID}?_method=PUT`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
+
+    async delete(userID) {
+      try {
+        const response = await api.delete(`${route}/${userID}`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });

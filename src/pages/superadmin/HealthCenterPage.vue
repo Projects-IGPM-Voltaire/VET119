@@ -144,6 +144,7 @@ const isNewEntryDialog = ref(false);
 const isViewEntryDialog = ref(false);
 const search = ref(null);
 const healthCenter = ref(null);
+const users = ref([]);
 
 const onOpenNewEntryDialog = () =>
   (isNewEntryDialog.value = !isNewEntryDialog.value);

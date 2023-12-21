@@ -186,6 +186,7 @@ import { objetHasValue } from 'src/extras/object';
 import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
 import SuperadminHealthCenterNewEntryDialog from 'components/superadmin/health-centers/NewEntryDialog.vue';
+import { useQuasar } from 'quasar';
 
 const props = defineProps({
   modelValue: {
@@ -200,6 +201,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const userStore = useUserStore();
+const $q = useQuasar();
 
 const scheduleColumns = [
   {
@@ -264,7 +266,7 @@ const userColumns = [
 
 const modelValueLocal = ref(props.modelValue);
 const tab = ref('about');
-const healthCenterLocal = ref(Object.assign(props.healthCenter));
+const healthCenterLocal = ref(Object.assign({}, props.healthCenter));
 const users = ref([]);
 const isNewUserEntryDialog = ref(false);
 const isViewUserEntryDialog = ref(false);

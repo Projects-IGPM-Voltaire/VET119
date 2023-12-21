@@ -7,18 +7,39 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-card-section>
+        <p class="text-subtitle1 text-negative" v-if="!!formError">
+          {{ formError }}
+        </p>
         <div class="row q-col-gutter-md">
           <div class="col-12">
             <p class="text-subtitle2 text-grey-6">Personal Information</p>
             <div class="row q-col-gutter-md">
-              <div class="col-6">
-                <q-input color="primary" outlined label="First Name" />
+              <div class="col-12 text-center" v-if="imagePreview">
+                <q-img :src="imagePreview" width="20rem" />
               </div>
               <div class="col-6">
-                <q-input color="primary" outlined label="Last Name" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="First Name"
+                  v-model="userLocal.first_name"
+                />
+              </div>
+              <div class="col-6">
+                <q-input
+                  color="primary"
+                  outlined
+                  label="Last Name"
+                  v-model="userLocal.last_name"
+                />
               </div>
               <div class="col-12">
-                <q-input color="primary" outlined label="Birthday" />
+                <q-input
+                  color="primary"
+                  outlined
+                  label="Birthday"
+                  v-model="userLocal.birthday"
+                />
               </div>
               <div class="col-12">
                 <q-input
@@ -29,13 +50,22 @@
                   "
                   outlined
                   type="file"
-                  hint="Image"
+                  hint="New Image"
+                  clearable
+                  @clear="userLocal.image = null"
+                  v-model="userLocal.image"
                 />
               </div>
             </div>
           </div>
           <div class="col-12">
-            <q-select label="User type" outlined></q-select>
+            <q-select
+              label="User type"
+              outlined
+              :options="userTypes"
+              emit-value
+              v-model="userLocal.position"
+            ></q-select>
           </div>
         </div>
       </q-card-section>
@@ -44,6 +74,9 @@
           label="Update"
           color="primary"
           class="full-width text-capitalize"
+          :loading="isFormLoading"
+          :disable="isFormLoading"
+          @click="onUpdate"
         />
       </q-card-actions>
     </q-card>
@@ -51,20 +84,66 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "AdminUserViewEntryDialog",
+  name: 'AdminUserViewEntryDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { computed, ref, watch } from 'vue';
+import { toPublicImage } from 'src/extras/misc';
+import { objetHasValue } from 'src/extras/object';
+import { useUserStore } from 'stores/user';
+import { useQuasar } from 'quasar';
 
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+  user: {
+    type: Object,
+    required: true,
+  },
+});
+
+const userStore = useUserStore();
+const $q = useQuasar();
+
+const emit = defineEmits(['update:modelValue', 'onUpdateSuccess']);
 const modelValueLocal = ref(props.modelValue);
-const tab = ref("schedules");
+const tab = ref('schedules');
+const userLocal = ref(
+  Object.assign(
+    {},
+    {
+      first_name: props.user.first_name,
+      last_name: props.user.last_name,
+      birthday: props.user.birthday,
+      position: props.user.health_center_member.position,
+      image: null,
+    }
+  )
+);
+const isFormLoading = ref(false);
+const formError = ref(false);
+
+const userTypes = [
+  {
+    label: `Doctor`,
+    value: 'doctor',
+  },
+  {
+    label: `Staff`,
+    value: 'staff',
+  },
+];
+
+const imagePreview = computed(() =>
+  props.user.image ? toPublicImage(props.user.image.path) : null
+);
 
 watch(
   () => props.modelValue,
@@ -72,6 +151,26 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
+
+const onUpdate = async () => {
+  formError.value = null;
+  isFormLoading.value = true;
+  const { code, message } = await userStore.update({
+    ...userLocal.value,
+    userID: props.user.id,
+  });
+  isFormLoading.value = false;
+  if (code === 200) {
+    $q.notify({
+      message: 'User updated successfully!',
+      color: 'positive',
+    });
+    modelValueLocal.value = false;
+    emit('onUpdateSuccess');
+    return;
+  }
+  formError.value = message;
+};
 </script>

@@ -117,7 +117,7 @@ const defaultForm = {
   barangay_code: null,
   map_url: null,
 };
-let form = reactive(Object.assign(defaultForm));
+let form = reactive(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 
@@ -142,7 +142,7 @@ const onCreate = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign(defaultForm);
+    form = Object.assign({}, defaultForm);
     return;
   }
   formError.value = message;

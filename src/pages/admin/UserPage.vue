@@ -24,7 +24,13 @@
         <div class="q-py-md">
           <div class="flex justify-between">
             <div>
-              <q-input dense placeholder="Search" outlined clearable>
+              <q-input
+                dense
+                placeholder="Search"
+                outlined
+                clearable
+                v-model="search"
+              >
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
@@ -35,24 +41,25 @@
               <q-btn icon="sort" flat rounded round dense></q-btn>
             </div>
           </div>
-          <q-table flat :rows="rows" :columns="columns" row-key="name">
+          <q-table flat :rows="users" :columns="columns" row-key="name">
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td key="image" :props="props">
                   <q-img
-                    :src="props.row.image"
-                    position="center"
-                    width="5rem"
+                    :src="toPublicImage(props.row.image.path)"
+                    width="10rem"
+                    v-if="objetHasValue(props.row.image)"
                   />
+                  <span class="text-grey-6" v-else>No Image.</span>
                 </q-td>
                 <q-td class="text-bold" key="name" :props="props">
-                  {{ props.row.name }}
+                  {{ props.row.first_name }} {{ props.row.last_name }}
                 </q-td>
-                <q-td key="birthday" :props="props">
-                  {{ props.row.birthday }}
+                <q-td key="mobile-number" :props="props">
+                  {{ props.row.mobile_number }}
                 </q-td>
-                <q-td key="type" :props="props">
-                  {{ props.row.type }}
+                <q-td key="name" class="text-capitalize" :props="props">
+                  {{ props.row.health_center_member.position }}
                 </q-td>
                 <q-td key="actions" :props="props">
                   <q-btn
@@ -60,9 +67,16 @@
                     icon="edit"
                     dense
                     rounded
-                    @click="onOpenViewEntryDialog"
+                    @click="onOpenViewEntryDialog(props.row)"
                   />
-                  <q-btn flat icon="delete" dense rounded class="text-red" />
+                  <q-btn
+                    flat
+                    icon="delete"
+                    dense
+                    rounded
+                    class="text-red"
+                    @click="deleteUser(props.row.id)"
+                  />
                 </q-td>
               </q-tr>
             </template>
@@ -70,78 +84,128 @@
         </div>
       </q-card-section>
     </q-card>
-    <AdminUserNewEntryDialog v-model="isNewEntryDialog" />
-    <AdminUserViewEntryDialog v-model="isViewEntryDialog" />
+    <AdminUserNewEntryDialog
+      :healthCenterID="healthCenterID"
+      @onCreateSuccess="getUsers"
+      v-model="isNewEntryDialog"
+    />
+    <AdminUserViewEntryDialog
+      :user="user"
+      @onUpdateSuccess="getUsers"
+      v-model="isViewEntryDialog"
+      v-if="objetHasValue(user)"
+    />
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 export default defineComponent({
-  name: "AdminUserPage",
+  name: 'AdminUserPage',
   components: {},
 });
 </script>
 
 <script setup>
-import { ref } from "vue";
-import AdminUserNewEntryDialog from "components/admin/users/NewEntryDialog.vue";
-import AdminUserViewEntryDialog from "components/admin/users/ViewEntryDialog.vue";
+import { computed, ref, watch } from 'vue';
+import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
+import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
+import { useQuasar } from 'quasar';
+import { useUserStore } from 'stores/user';
+import { debounce, toPublicImage } from 'src/extras/misc';
+import { objetHasValue } from 'src/extras/object';
+import { useAuthStore } from 'stores/auth';
+
+const userStore = useUserStore();
+const authStore = useAuthStore();
+const $q = useQuasar();
+
+const users = ref([]);
+const user = ref(null);
+const search = ref(null);
 
 const columns = [
   {
-    name: "image",
-    field: "image",
-    align: "left",
-    label: "Image",
+    name: 'image',
+    field: 'image',
+    align: 'left',
+    label: 'Image',
     sortable: false,
   },
   {
-    name: "name",
-    field: "name",
-    align: "left",
-    label: "Name",
+    name: 'name',
+    field: 'name',
+    align: 'left',
+    label: 'Name',
     sortable: false,
   },
   {
-    name: "birthday",
-    field: "birthday",
-    align: "left",
-    label: "Birthday",
+    name: 'mobile-number',
+    field: 'mobile-number',
+    align: 'left',
+    label: 'Mobile No.',
     sortable: false,
   },
   {
-    name: "type",
-    field: "type",
-    align: "left",
-    label: "Type",
+    name: 'type',
+    field: 'type',
+    align: 'left',
+    label: 'Type',
     sortable: false,
   },
   {
-    name: "actions",
-    align: "left",
-    label: "Actions",
-    field: "actions",
+    name: 'actions',
+    align: 'left',
+    label: 'Actions',
+    field: 'actions',
     sortable: false,
   },
 ];
-const sampleData = {
-  image:
-    "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*",
-  name: "John Doe",
-  birthday: "May 21, 2000",
-  type: "Doctor or Staff",
-};
-let rows = [sampleData];
-for (let i = 1; i <= 20; i++) {
-  rows = [...rows, sampleData];
-}
 
 const isNewEntryDialog = ref(false);
 const isViewEntryDialog = ref(false);
 
+const authUser = computed(() => authStore.user);
+const healthCenterID = computed(
+  () => authUser.value.health_center_member.health_center_id
+);
+
+watch(
+  () => search.value,
+  debounce(async () => await getUsers(), 500)
+);
+
 const onOpenNewEntryDialog = () =>
   (isNewEntryDialog.value = !isNewEntryDialog.value);
-const onOpenViewEntryDialog = () =>
-  (isViewEntryDialog.value = !isViewEntryDialog.value);
+const onOpenViewEntryDialog = (data) => {
+  user.value = Object.assign(data);
+  isViewEntryDialog.value = !isViewEntryDialog.value;
+};
+const getUsers = async () => {
+  const { code, data } = await userStore.list({
+    healthCenterID: healthCenterID.value,
+    search: search.value || null,
+  });
+  if (code === 200) {
+    users.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const deleteUser = async (userID) => {
+  const { code } = await userStore.delete(userID);
+  if (code === 200) {
+    await getUsers();
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+
+getUsers();
 </script>

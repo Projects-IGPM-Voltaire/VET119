@@ -116,11 +116,12 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
 import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -148,7 +149,8 @@ const defaultForm = {
   position: null,
   level: 'admin',
 };
-const form = ref(Object.assign(defaultForm));
+
+let form = reactive(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 
@@ -167,18 +169,18 @@ const onCreate = async () => {
   formError.value = null;
   isFormLoading.value = true;
   const { code, message } = await userStore.create({
-    ...form.value,
+    ...form,
     healthCenterID: props.healthCenterID,
   });
   isFormLoading.value = false;
   if (code === 200) {
     $q.notify({
-      message: 'Health center created successfully!',
+      message: 'User created successfully!',
       color: 'positive',
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form.value = Object.assign(defaultForm);
+    form = Object.assign({}, defaultForm);
     return;
   }
   formError.value = message;
