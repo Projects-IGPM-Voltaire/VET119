@@ -12,6 +12,7 @@
           </div>
         </div>
       </q-card-section>
+      <!--
       <q-card-section>
         <q-card>
           <q-card-section>
@@ -71,6 +72,8 @@
           </q-card-actions>
         </q-card>
       </q-card-section>
+
+-->
     </q-card>
   </q-page>
 </template>
