@@ -29,6 +29,24 @@
             </q-list>
           </q-menu>
         </q-btn>
+        <template v-else>
+          <q-btn
+            dense
+            color="primary"
+            unelevated
+            class="q-mr-md text-capitalize"
+            :to="{ name: 'login-page' }"
+            >Login</q-btn
+          >
+          <q-btn
+            dense
+            color="primary"
+            unelevated
+            class="q-mr-md text-capitalize"
+            :to="{ name: 'register-page' }"
+            >Register</q-btn
+          >
+        </template>
       </q-toolbar>
     </q-header>
 

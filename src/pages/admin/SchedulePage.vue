@@ -41,6 +41,9 @@
                 <q-td key="reference_number" :props="props">
                   {{ props.row.reference_number }}
                 </q-td>
+                <q-td key="patient_number" :props="props">
+                  {{ props.row.patient_number }}
+                </q-td>
                 <q-td key="date" :props="props">
                   {{ props.row.date }}
                 </q-td>
@@ -52,13 +55,13 @@
                   {{ props.row.first_name }} {{ props.row.last_name }}
                 </q-td>
                 <q-td key="actions" :props="props">
-                  <q-btn
-                    flat
-                    icon="edit"
-                    dense
-                    rounded
-                    @click="onOpenViewEntryDialog"
-                  />
+                  <!--                  <q-btn-->
+                  <!--                    flat-->
+                  <!--                    icon="edit"-->
+                  <!--                    dense-->
+                  <!--                    rounded-->
+                  <!--                    @click="onOpenViewEntryDialog"-->
+                  <!--                  />-->
                   <q-btn
                     flat
                     icon="delete"
@@ -117,6 +120,13 @@ const columns = [
     field: 'reference_number',
     align: 'left',
     label: 'Reference',
+    sortable: false,
+  },
+  {
+    name: 'patient_number',
+    field: 'patient_number',
+    align: 'left',
+    label: 'Patient',
     sortable: false,
   },
   {

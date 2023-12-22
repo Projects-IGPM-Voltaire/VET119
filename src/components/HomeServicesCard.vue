@@ -1,7 +1,7 @@
 <template>
   <q-card class="bg-white q-pb-md" dark flat>
     <q-card-section>
-      <h6 class="text-h6 q-my-none text-primary">Try our offered services</h6>
+      <h6 class="text-h6 q-my-none">Try our offered services</h6>
     </q-card-section>
     <q-card-section>
       <div class="row q-col-gutter-sm">
@@ -39,7 +39,7 @@
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
                   ><p class="text-subtitle1 text-bold q-mb-none">
-                    <q-icon name="today" class="q-mr-xs"></q-icon>Schedules
+                    <q-icon name="today" class="q-mr-xs"></q-icon>Queues
                   </p>
                   <p class="text-body2">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -67,7 +67,7 @@
                 <q-item-section
                   ><p class="text-subtitle1 text-bold q-mb-none">
                     <q-icon name="event_available" class="q-mr-xs"></q-icon
-                    >Check my Queue
+                    >Check my Schedule
                   </p>
                   <p class="text-body2">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -161,24 +161,24 @@
     </q-card-section>
 
     <ScheduleAppointmentDialog v-model="isAppointmentDialogOpen" />
-    <ScheduleQueueDialog v-model="isQueueDialogOpen" />
-    <QueueTrackerDialog v-model="isTrackerDialogOpen" />
+    <QueueDialog v-model="isQueueDialogOpen" />
+    <ScheduleTrackerDialog v-model="isTrackerDialogOpen" />
   </q-card>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "HomeServicesBanner",
+  name: 'HomeServicesBanner',
 });
 </script>
 
 <script setup>
-import { ref } from "vue";
-import ScheduleAppointmentDialog from "components/ScheduleAppointmentDialog.vue";
-import ScheduleQueueDialog from "components/SchedulesQueueDialog.vue";
-import QueueTrackerDialog from "components/QueueTrackerDialog.vue";
+import { ref } from 'vue';
+import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
+import ScheduleTrackerDialog from 'components/ScheduleTrackerDialog';
+import QueueDialog from 'components/QueueDialog';
 
 const isAppointmentDialogOpen = ref(false);
 const isQueueDialogOpen = ref(false);

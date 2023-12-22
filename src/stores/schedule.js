@@ -89,5 +89,19 @@ export const useScheduleStore = defineStore('schedule', {
         };
       }
     },
+
+    async getByReferenceNumber(referenceNumber) {
+      try {
+        const response = await api.delete(`${route}/${schedule}`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });

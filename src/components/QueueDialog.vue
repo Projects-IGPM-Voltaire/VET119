@@ -55,17 +55,17 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "ScheduleQueueDialog",
+  name: 'QueueDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { ref, watch } from 'vue';
+const props = defineProps(['modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const modelValueLocal = ref(props.modelValue);
 
@@ -75,6 +75,6 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
 </script>
