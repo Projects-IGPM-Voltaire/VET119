@@ -38,7 +38,7 @@ export const useHealthCenterStore = defineStore('health-center', {
       try {
         const formData = toFormData({
           name,
-          image,
+          image: image && image.length > 0 ? image[0] : null,
           house_number,
           street,
           city_code,

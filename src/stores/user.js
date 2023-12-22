@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', {
     }) {
       try {
         const formData = toFormData({
-          image,
+          image: image && image.length > 0 ? image[0] : null,
           first_name,
           last_name,
           birthday,
