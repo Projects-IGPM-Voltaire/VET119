@@ -19,3 +19,27 @@ export const debounce = (fn, delay) => {
     }, delay);
   };
 };
+
+export const convertTo12HourFormat = (time24hr) => {
+  const [hours, minutes] = time24hr.split(':');
+  let period = 'AM';
+
+  let hours12 = parseInt(hours, 10);
+  if (hours12 >= 12) {
+    period = 'PM';
+    if (hours12 > 12) {
+      hours12 -= 12;
+    }
+  }
+
+  return `${hours12}:${minutes} ${period}`;
+};
+
+export const convertToDateReadable = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return 'Invalid Date';
+  }
+  return date.toLocaleDateString('en-US', options);
+};

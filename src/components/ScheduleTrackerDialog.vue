@@ -33,22 +33,28 @@
               </q-card-actions>
             </q-card>
           </div>
-          <div class="col-12">
-            <p class="text-subtitle1 q-mb-sm">
+          <div class="col-12" v-if="objetHasValue(schedule)">
+            <p class="text-subtitle1 q-mb-md">
               <q-icon
                 size="md"
                 name="event_available"
                 class="q-mr-xs text-black"
               />Schedule details
             </p>
-            {{ schedule }}
-            <!--            <ul class="q-mt-none q-gutter-md">-->
-            <!--              <li>Lorem ipsum dolor sit amet.</li>-->
-            <!--              <li>Lorem ipsum dolor sit amet.</li>-->
-            <!--              <li>Lorem ipsum dolor sit amet.</li>-->
-            <!--              <li>Lorem ipsum dolor sit amet.</li>-->
-            <!--              <li>Lorem ipsum dolor sit amet.</li>-->
-            <!--            </ul>-->
+            <div class="text-h6 px-xl">
+              <div class="text-capitalize">
+                Patient No. {{ schedule.patient_number }}
+              </div>
+              <div>{{ schedule.first_name }} {{ schedule.last_name }}</div>
+              <div>
+                {{ convertToDateReadable(schedule.date) }}
+                {{ convertTo12HourFormat(schedule.time_from) }} -
+                {{ convertTo12HourFormat(schedule.time_to) }}
+              </div>
+            </div>
+          </div>
+          <div class="col-12 text-center q-py-xl" v-if="isScheduleNotFound">
+            <p class="text-subtitle1 q-mb-sm">Schedule not found!</p>
           </div>
         </div>
       </q-card-section>
@@ -69,6 +75,8 @@ import { ref, watch } from 'vue';
 import { objetHasValue } from 'src/extras/object';
 import { useScheduleStore } from 'stores/schedule';
 import { useQuasar } from 'quasar';
+import { convertTo12HourFormat, convertToDateReadable } from '../extras/misc';
+
 const props = defineProps(['modelValue']);
 const emit = defineEmits(['update:modelValue']);
 
@@ -80,6 +88,7 @@ const isFormLoading = ref(false);
 const formError = ref(false);
 const referenceNumber = ref(null);
 const schedule = ref(null);
+const isScheduleNotFound = ref(false);
 
 watch(
   () => props.modelValue,
@@ -93,17 +102,25 @@ watch(
 const onSearch = async () => {
   formError.value = null;
   isFormLoading.value = true;
+  const _referenceNumber = referenceNumber.value
+    ? referenceNumber.value.trim()
+    : null;
   const { code, message, data } = await scheduleStore.getByReferenceNumber(
-    referenceNumber.value
+    _referenceNumber
   );
   isFormLoading.value = false;
   if (code === 200) {
-    console.log(data);
+    if (objetHasValue(data)) {
+      isScheduleNotFound.value = false;
+      schedule.value = data;
+    } else {
+      schedule.value = null;
+      isScheduleNotFound.value = true;
+    }
     $q.notify({
       message: 'Schedule details fetched successfully!',
       color: 'positive',
     });
-    referenceNumber.value = null;
     return;
   }
   formError.value = message;

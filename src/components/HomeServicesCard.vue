@@ -177,8 +177,8 @@ export default defineComponent({
 <script setup>
 import { ref } from 'vue';
 import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
-import ScheduleTrackerDialog from 'components/ScheduleTrackerDialog';
-import QueueDialog from 'components/QueueDialog';
+import ScheduleTrackerDialog from 'components/ScheduleTrackerDialog.vue';
+import QueueDialog from 'components/QueueDialog.vue';
 
 const isAppointmentDialogOpen = ref(false);
 const isQueueDialogOpen = ref(false);
