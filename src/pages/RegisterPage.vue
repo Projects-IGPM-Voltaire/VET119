@@ -70,36 +70,47 @@
                       v-model="form.barangay_code"
                     />
                   </div>
+                  <div class="col-12">
+                    <CustomHealthCenterSelect
+                      color="primary"
+                      outlined
+                      label="Health center"
+                      :disabled="form.barangay_code === null"
+                      :barangayCode="form.barangay_code"
+                      v-model="form.health_center_id"
+                    />
+                  </div>
                 </div>
               </div>
-
-              <div class="row q-col-gutter-md">
-                <div class="col-12">
-                  <p class="text-subtitle2 text-grey-6">Account Details</p>
-                  <q-input
-                    color="primary"
-                    outlined
-                    label="Mobile No."
-                    v-model="form.mobile_number"
-                  />
-                </div>
-                <div class="col-12">
-                  <q-input
-                    type="password"
-                    color="primary"
-                    outlined
-                    label="Password"
-                    v-model="form.password"
-                  />
-                </div>
-                <div class="col-12">
-                  <q-input
-                    type="password"
-                    color="primary"
-                    outlined
-                    label="Password Confirmation"
-                    v-model="form.password_confirmation"
-                  />
+              <div class="col-12">
+                <div class="row q-col-gutter-md">
+                  <div class="col-12">
+                    <p class="text-subtitle2 text-grey-6">Account Details</p>
+                    <q-input
+                      color="primary"
+                      outlined
+                      label="Mobile No."
+                      v-model="form.mobile_number"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <q-input
+                      type="password"
+                      color="primary"
+                      outlined
+                      label="Password"
+                      v-model="form.password"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <q-input
+                      type="password"
+                      color="primary"
+                      outlined
+                      label="Password Confirmation"
+                      v-model="form.password_confirmation"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="col-12">
@@ -136,6 +147,7 @@ import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
 import { useAuthStore } from 'stores/auth';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import CustomHealthCenterSelect from 'components/CustomHealthCenterSelect.vue';
 
 const authStore = useAuthStore();
 const $q = useQuasar();
@@ -153,6 +165,7 @@ const form = reactive({
   barangay_code: null,
   house_number: null,
   street: null,
+  health_center_id: null,
 });
 const isFormLoading = ref(false);
 const formError = ref(false);

@@ -38,7 +38,7 @@ $lg-breakpoint: 1919.99px;
   }
   */
   .container-lg {
-    max-width: $sm-breakpoint;
+    max-width: $md-breakpoint;
   }
 }
 
@@ -53,6 +53,6 @@ $lg-breakpoint: 1919.99px;
   }
   */
   .container-xl {
-    max-width: $sm-breakpoint;
+    max-width: $md-breakpoint;
   }
 }

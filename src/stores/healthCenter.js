@@ -7,9 +7,13 @@ const route = '/api/health-center';
 
 export const useHealthCenterStore = defineStore('health-center', {
   actions: {
-    async list({ sortBy, search }) {
+    async list({ sortBy, search, barangayCode }) {
       try {
-        const params = toURLSearchParams({ sortBy, search });
+        const params = toURLSearchParams({
+          sortBy,
+          search,
+          barangay_code: barangayCode,
+        });
         const response = await api.get(`${route}?${params}`);
         return response.data;
       } catch (e) {

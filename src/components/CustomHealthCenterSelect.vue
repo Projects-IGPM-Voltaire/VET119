@@ -4,25 +4,21 @@
     :color="color"
     :outlined="outlined"
     :label="label"
-    use-input
-    fill-input
-    hide-selected
+    :options="options"
     emit-value
     map-options
-    @filter="fetchOptions"
-    :options="options"
   />
 </template>
 
 <script>
 export default {
-  name: 'CustomBarangaySelect',
+  name: 'CustomHealthCenterSelect',
 };
 </script>
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useReferenceStore } from 'stores/reference';
+import { useHealthCenterStore } from 'stores/healthCenter';
 
 const props = defineProps({
   modelValue: {
@@ -40,32 +36,32 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  disabled: {
+    type: Boolean,
+    required: false,
+  },
+  barangayCode: {
+    type: String,
+    required: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const referenceStore = useReferenceStore();
+const healthCenterStore = useHealthCenterStore();
 
 const model = ref(null);
 const modelValueLocal = ref(props.modelValue);
 const options = ref([]);
 
-const fetchOptions = (val, update, abort) => {
-  if (val.length < 2) {
-    abort();
-    return;
-  }
-
-  referenceStore
-    .getBarangays({ page: 1, perPage: 10, search: val })
+const getOptions = () => {
+  healthCenterStore
+    .list({ barangayCode: props.barangayCode })
     .then(({ data }) => {
-      const barangays = data.data;
-      update(() => {
-        options.value = barangays.map((barangay) => ({
-          label: `${barangay.name} (${barangay.city.name})`,
-          value: barangay.code,
-        }));
-      });
+      options.value = data.map((healthCenter) => ({
+        label: healthCenter.name,
+        value: healthCenter.id,
+      }));
     })
     .catch((err) => {
       options.value = [];
@@ -84,4 +80,16 @@ watch(
     emit('update:modelValue', value);
   }
 );
+watch(
+  () => props.disabled,
+  (value) => {
+    if (!value) {
+      getOptions();
+    }
+  }
+);
+
+if (!props.disabled) {
+  getOptions();
+}
 </script>

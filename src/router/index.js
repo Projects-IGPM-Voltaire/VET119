@@ -51,8 +51,6 @@ export default route(function (/* { store, ssrContext } */) {
           next({ name: 'superadmin-health-centers-page' });
         } else if (user.level === 'admin') {
           next({ name: 'admin-users-page' });
-        } else {
-          next({ name: 'home-page' });
         }
       }
     }

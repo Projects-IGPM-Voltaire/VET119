@@ -46,16 +46,21 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "HomeLandingBanner",
+  name: 'HomeLandingBanner',
 });
 </script>
 
 <script setup>
-import DoctorWithPatientImage from "../assets/doctor-with-patient.jpg";
-import { ref } from "vue";
+import DoctorWithPatientImage from '../assets/doctor-with-patient.jpg';
+import { computed, ref } from 'vue';
+import { useAuthStore } from 'stores/auth';
+
+const authStore = useAuthStore();
 
 const slide = ref(1);
+
+const isAuth = computed(() => authStore.isAuthenticated);
 </script>

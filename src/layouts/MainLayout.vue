@@ -5,21 +5,30 @@
         <q-toolbar-title>
           <router-link
             style="text-decoration: none"
-            :to="{ name: 'home-page' }"
+            :to="{ name: 'login-page' }"
             class="text-white text-bold"
             >MediQueue</router-link
           >
         </q-toolbar-title>
         <q-space></q-space>
-        <q-btn :to="{ name: 'home-page' }" class="text-capitalize q-mr-sm" flat
-          >Home</q-btn
+        <q-btn
+          dense
+          color="primary"
+          unelevated
+          class="q-mr-md text-capitalize"
+          v-if="isAuthenticated"
         >
-        <q-btn :to="{ name: 'login-page' }" class="text-capitalize q-mr-sm" flat
-          >Login</q-btn
-        >
-        <q-btn :to="{ name: 'register-page' }" class="text-capitalize" flat
-          >Register</q-btn
-        >
+          <q-icon name="account_circle" class="q-mr-xs" />
+          <span>{{ user.first_name }}</span>
+
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup @click="onLogout">
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -30,11 +39,30 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "MainLayout",
+  name: 'MainLayout',
 });
 </script>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from 'stores/auth';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+const isAuthenticated = computed(() => {
+  return authStore.isAuthenticated;
+});
+const user = computed(() => {
+  return authStore.user;
+});
+
+const onLogout = () => {
+  router.push({ name: 'login-page' });
+  authStore.destroySession();
+};
+</script>

@@ -73,6 +73,7 @@ export const useAuthStore = defineStore('auth', {
       barangay_code,
       house_number,
       street,
+      health_center_id,
     }) {
       try {
         const response = await api.post(`${route}/register`, {
@@ -87,6 +88,7 @@ export const useAuthStore = defineStore('auth', {
           barangay_code,
           house_number,
           street,
+          health_center_id: health_center_id || null,
         });
         return response.data;
       } catch (e) {
