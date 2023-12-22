@@ -6,12 +6,13 @@ const route = '/api/schedule';
 
 export const useScheduleStore = defineStore('schedule', {
   actions: {
-    async list({ sortBy, search, healthCenterID }) {
+    async list({ sortBy, search, healthCenterID, conditions }) {
       try {
         const params = toURLSearchParams({
           sortBy,
           search,
           health_center_id: healthCenterID,
+          conditions,
         });
         const response = await api.get(`${route}?${params}`);
         return response.data;

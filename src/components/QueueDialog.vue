@@ -14,12 +14,15 @@
               Please Wait...
             </h5>
             <div class="row q-col-gutter-lg">
-              <template v-for="n in 8" :key="n">
+              <template
+                v-for="(sched, index) in tomorrowSchedules"
+                :key="index"
+              >
                 <div class="col-6">
                   <p
                     class="inline-block text-black text-h5 text-center text-bold"
                   >
-                    071{{ n }}
+                    {{ sched.patient_number }}
                   </p>
                 </div>
               </template>
@@ -32,12 +35,15 @@
               Upcoming...
             </h5>
             <div class="row q-col-gutter-lg">
-              <template v-for="n in 8" :key="n">
+              <template
+                v-for="(sched, index) in upcomingSchedules"
+                :key="index"
+              >
                 <div class="col-6">
                   <p
                     class="inline-block text-primary text-h5 text-center text-bold"
                   >
-                    071{{ n }}
+                    {{ sched.patient_number }}
                   </p>
                 </div>
               </template>
@@ -46,9 +52,7 @@
         </div>
       </q-card-section>
       <q-card-actions class="bg-primary text-white justify-center">
-        <span class="text-bold">
-          You're viewing Super Health Center @ 1120 Super address here
-        </span>
+        <span class="text-bold"> You're viewing {{ healthCenter.name }} </span>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -63,11 +67,25 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useAuthStore } from 'stores/auth';
+import { useScheduleStore } from 'stores/schedule';
 const props = defineProps(['modelValue']);
 const emit = defineEmits(['update:modelValue']);
 
+const authStore = useAuthStore();
+const scheduleStore = useScheduleStore();
+
 const modelValueLocal = ref(props.modelValue);
+
+const authUser = computed(() => authStore.user);
+const healthCenterID = computed(
+  () => authUser.value.health_center_member.health_center_id
+);
+const healthCenter = computed(() => authUser.value.health_center_member.center);
+
+const upcomingSchedules = ref([]);
+const tomorrowSchedules = ref([]);
 
 watch(
   () => props.modelValue,
@@ -77,4 +95,36 @@ watch(
   () => modelValueLocal.value,
   (val) => emit('update:modelValue', val)
 );
+
+const getUpcomingSchedules = async () => {
+  const { code, data } = await scheduleStore.list({
+    healthCenterID: healthCenterID.value,
+    conditions: ['today'],
+  });
+  if (code === 200) {
+    upcomingSchedules.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const getTomorrowSchedules = async () => {
+  const { code, data } = await scheduleStore.list({
+    healthCenterID: healthCenterID.value,
+    conditions: ['tomorrow'],
+  });
+  if (code === 200) {
+    tomorrowSchedules.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+
+getUpcomingSchedules();
+getTomorrowSchedules();
 </script>

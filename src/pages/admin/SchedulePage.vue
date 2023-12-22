@@ -81,6 +81,7 @@
       :healthCenterID="healthCenterID"
       @onCreateSuccess="getSchedules"
       v-model="isNewEntryDialog"
+      v-if="isNewEntryDialog"
     />
     <AdminScheduleViewEntryDialog v-model="isViewEntryDialog" />
   </q-page>

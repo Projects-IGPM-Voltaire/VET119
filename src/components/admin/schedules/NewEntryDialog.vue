@@ -206,14 +206,18 @@ const generateTimeRanges = () => {
         : (currentHour + 1) % 24
     }:00 ${period}`;
 
+    const addLeadingZero = (number) => {
+      return number < 10 ? `0${number}` : `${number}`;
+    };
+
     timeRanges.push({
       label,
       value: i, // You can use a unique identifier if needed
       available: true,
-      time_from: `${currentHour}:00:00`,
-      time_to: `${
+      time_from: `${addLeadingZero(currentHour)}:00:00`,
+      time_to: `${addLeadingZero(
         (currentHour + 1) % 24 === 0 ? 0 : (currentHour + 1) % 24
-      }:00:00`,
+      )}:00:00`,
     });
   }
 
@@ -252,7 +256,7 @@ const onCreate = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign({}, defaultForm);
+    selectedTime.value = null;
     return;
   }
   formError.value = message;
