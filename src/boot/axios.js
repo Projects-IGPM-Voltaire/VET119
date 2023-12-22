@@ -21,6 +21,8 @@ export default boot(({ app }) => {
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 
+  api.defaults.headers['Access-Control-Allow-Origin'] = true;
+  api.defaults.headers['Access-Control-Allow-Origin'] = '*';
   api.defaults.headers['Accept'] = 'application/json';
   api.defaults.headers['ngrok-skip-browser-warning'] = '69420';
 
