@@ -89,23 +89,24 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12">
-                <p class="text-subtitle2 text-grey-6">Services</p>
-                <div class="row q-col-gutter-md">
-                  <template v-for="n in 6" :key="n">
-                    <div class="col-4">
-                      <q-card>
-                        <q-card-section>
-                          <p class="text-subtitle1 text-bold q-mb-none">
-                            Service {{ n }}
-                          </p>
-                          <div class="text-body2">lorem5</div>
-                        </q-card-section>
-                      </q-card>
-                    </div>
-                  </template>
-                </div>
-              </div>
+              <!--              <div class="col-12">-->
+              <!--                <p class="text-subtitle2 text-grey-6">Services</p>-->
+              <!--                <div class="row q-col-gutter-md">-->
+              <!--                  <template v-for="n in 6" :key="n">-->
+              <!--                    <div class="col-4">-->
+              <!--                      <q-card>-->
+              <!--                        <q-card-section>-->
+              <!--                          <p class="text-subtitle1 text-bold q-mb-none">-->
+              <!--                            Service {{ n }}-->
+              <!--                          </p>-->
+              <!--                          <div class="text-body2">lorem5</div>-->
+              <!--                        </q-card-section>-->
+              <!--                      </q-card>-->
+              <!--                    </div>-->
+              <!--                  </template>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              -->
             </div>
           </q-tab-panel>
           <q-tab-panel name="users">
@@ -166,7 +167,10 @@
       @onCreateSuccess="getUsers"
       v-model="isNewUserEntryDialog"
     />
-    <AdminUserViewEntryDialog v-model="isViewEntryDialog" />
+    <AdminUserViewEntryDialog
+      v-model="isViewUserEntryDialog"
+      v-if="isViewUserEntryDialog"
+    />
   </q-dialog>
 </template>
 
@@ -185,7 +189,6 @@ import { toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
 import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
-import SuperadminHealthCenterNewEntryDialog from 'components/superadmin/health-centers/NewEntryDialog.vue';
 import { useQuasar } from 'quasar';
 
 const props = defineProps({

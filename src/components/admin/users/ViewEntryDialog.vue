@@ -168,6 +168,7 @@ const onUpdate = async () => {
       color: 'positive',
     });
     modelValueLocal.value = false;
+    userLocal.value.image = null;
     emit('onUpdateSuccess');
     return;
   }

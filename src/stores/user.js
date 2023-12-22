@@ -71,7 +71,7 @@ export const useUserStore = defineStore('user', {
     async update({ image, first_name, last_name, birthday, position, userID }) {
       try {
         const formData = toFormData({
-          image: image[0],
+          image: image && image.length > 0 ? image[0] : null,
           first_name,
           last_name,
           birthday,
@@ -88,6 +88,7 @@ export const useUserStore = defineStore('user', {
         );
         return response.data;
       } catch (e) {
+        console.log(e);
         return {
           message: e.response.data.message,
           code: e.response.data.code,
