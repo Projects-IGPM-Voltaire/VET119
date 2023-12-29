@@ -6,93 +6,97 @@
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
-      <q-card-section>
-        <p class="text-subtitle1 text-negative" v-if="!!formError">
-          {{ formError }}
-        </p>
-        <div class="row q-col-gutter-md">
-          <div class="col-12">
-            <p class="text-subtitle2 text-grey-6">Personal Information</p>
-            <div class="row q-col-gutter-md">
-              <div class="col-6">
-                <q-input
-                  color="primary"
-                  outlined
-                  label="First Name"
-                  v-model="form.first_name"
-                />
-              </div>
-              <div class="col-6">
-                <q-input
-                  color="primary"
-                  outlined
-                  label="Last Name"
-                  v-model="form.last_name"
-                />
-              </div>
-              <div class="col-12">
-                <BaseInputDatePicker
-                  color="primary"
-                  outlined
-                  label="Birthday"
-                  v-model="form.birthday"
-                />
-              </div>
-              <div class="col-12">
-                <div class="row q-col-gutter-md">
-                  <div class="col-12">
-                    <p class="text-subtitle2 text-grey-6">
-                      Choose preferred date
-                    </p>
-                    <q-date
-                      mask="YYYY-MM-DD"
-                      color="primary"
-                      style="width: 100%"
-                      v-model="form.date"
-                    />
-                  </div>
-                  <div class="col-12">
-                    <p class="text-subtitle2 text-grey-6">
-                      Choose preferred time
-                    </p>
-                    <q-select
-                      v-model="selectedTime"
-                      :options="timeRanges"
-                      outlined
-                    />
-                  </div>
-                  <div class="col-12">
-                    <p class="text-subtitle2 text-grey-6">Available Doctors</p>
-                    <div class="row col-gutter-md">
-                      <div class="col-6">
-                        <q-card class="my-card" flat bordered>
-                          <template
-                            v-for="(doctor, index) in doctors"
-                            :key="index"
-                          >
-                            <q-item>
-                              <!--                              <q-item-section avatar>
-                                <q-avatar>
-                                  <img
-                                    src="https://cdn.quasar.dev/img/boy-avatar.png"
-                                    alt="Sample"
-                                  />
-                                </q-avatar>
-                              </q-item-section>-->
+      <template v-if="booted">
+        <q-card-section>
+          <p class="text-subtitle1 text-negative" v-if="!!formError">
+            {{ formError }}
+          </p>
+          <div class="row q-col-gutter-md">
+            <div class="col-12">
+              <p class="text-subtitle2 text-grey-6">Personal Information</p>
+              <div class="row q-col-gutter-md">
+                <div class="col-6">
+                  <q-input
+                    color="primary"
+                    outlined
+                    label="First Name"
+                    v-model="form.first_name"
+                  />
+                </div>
+                <div class="col-6">
+                  <q-input
+                    color="primary"
+                    outlined
+                    label="Last Name"
+                    v-model="form.last_name"
+                  />
+                </div>
+                <div class="col-12">
+                  <BaseInputDatePicker
+                    color="primary"
+                    outlined
+                    label="Birthday"
+                    v-model="form.birthday"
+                  />
+                </div>
+                <div class="col-12">
+                  <div class="row q-col-gutter-md">
+                    <div class="col-12">
+                      <p class="text-subtitle2 text-grey-6">
+                        Choose preferred date
+                      </p>
+                      <q-date
+                        mask="YYYY-MM-DD"
+                        color="primary"
+                        style="width: 100%"
+                        v-model="form.date"
+                      />
+                    </div>
+                    <div class="col-12">
+                      <p class="text-subtitle2 text-grey-6">
+                        Choose preferred time
+                      </p>
+                      <q-select
+                        v-model="selectedTime"
+                        :options="timeRanges"
+                        outlined
+                      />
+                    </div>
+                    <div class="col-12">
+                      <p class="text-subtitle2 text-grey-6">
+                        Available Doctors
+                      </p>
+                      <div class="row col-gutter-md">
+                        <div class="col-6">
+                          <q-card class="my-card" flat bordered>
+                            <template
+                              v-for="(doctor, index) in doctors"
+                              :key="index"
+                            >
+                              <q-item>
+                                <!--                              <q-item-section avatar>
+                                  <q-avatar>
+                                    <img
+                                      src="https://cdn.quasar.dev/img/boy-avatar.png"
+                                      alt="Sample"
+                                    />
+                                  </q-avatar>
+                                </q-item-section>-->
 
-                              <q-item-section>
-                                <q-item-label
-                                  >Dr. {{ doctor.first_name }}
-                                  {{ doctor.last_name }}</q-item-label
-                                >
-                                <!--
-                                <q-item-label caption> Physician </q-item-label>
+                                <q-item-section>
+                                  <q-item-label
+                                    >Dr. {{ doctor.first_name }}
+                                    {{ doctor.last_name }}</q-item-label
+                                  >
+                                  <!--
+                                  <q-item-label caption> Physician </q-item-label>
 
--->
-                              </q-item-section>
-                            </q-item>
-                          </template>
-                        </q-card>
+  -->
+                                </q-item-section>
+                              </q-item>
+                            </template>
+                          </q-card>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -100,19 +104,22 @@
               </div>
             </div>
           </div>
-        </div>
-      </q-card-section>
+        </q-card-section>
 
-      <q-card-actions>
-        <q-btn
-          label="Save"
-          color="primary"
-          class="full-width text-capitalize"
-          :loading="isFormLoading"
-          :disable="isFormLoading"
-          @click="onCreate"
-        />
-      </q-card-actions>
+        <q-card-actions>
+          <q-btn
+            label="Save"
+            color="primary"
+            class="full-width text-capitalize"
+            :loading="isFormLoading"
+            :disable="isFormLoading"
+            @click="onCreate"
+          />
+        </q-card-actions>
+      </template>
+      <div class="q-py-xl" v-else>
+        <p class="text-center text-grey">Loading... Please wait...</p>
+      </div>
     </q-card>
   </q-dialog>
 </template>
@@ -133,6 +140,7 @@ import { useUserStore } from 'stores/user';
 import { useAuthStore } from 'stores/auth';
 import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
 import { objetHasValue } from 'src/extras/object';
+import { useHealthCenterStore } from 'stores/healthCenter';
 
 const props = defineProps({
   modelValue: {
@@ -151,6 +159,7 @@ const userStore = useUserStore();
 const scheduleStore = useScheduleStore();
 const authStore = useAuthStore();
 const $q = useQuasar();
+const healthCenterStore = useHealthCenterStore();
 
 const modelValueLocal = ref(props.modelValue);
 const illnesses = ref([]);
@@ -186,42 +195,51 @@ let form = reactive(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 const doctors = ref([]);
+const booted = ref(false);
+const operationHour = ref(null);
 
 const generateTimeRanges = () => {
-  const timeRanges = [];
-  const startHour = 6; // 6:00 AM
-  const endHour = 20; // 8:00 PM
+  if (objetHasValue(operationHour.value)) {
+    const timeRanges = [];
+    const { time_from, time_to } = operationHour.value;
+    const startHour = time_from; // 6:00 AM
+    const endHour = time_to; // 8:00 PM
 
-  for (let i = startHour; i < endHour; i++) {
-    const currentHour = i % 24;
-    const period = i < 12 ? 'AM' : 'PM';
+    for (let i = startHour; i < endHour; i++) {
+      const currentHour = i % 24;
+      const period = i < 12 ? 'AM' : 'PM';
 
-    const label = `${
-      currentHour === 0 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour
-    }:00 ${period} - ${
-      (currentHour + 1) % 24 === 0
-        ? 12
-        : (currentHour + 1) % 24 > 12
-        ? (currentHour + 1) % 12
-        : (currentHour + 1) % 24
-    }:00 ${period}`;
+      const label = `${
+        currentHour === 0
+          ? 12
+          : currentHour > 12
+          ? currentHour - 12
+          : currentHour
+      }:00 ${period} - ${
+        (currentHour + 1) % 24 === 0
+          ? 12
+          : (currentHour + 1) % 24 > 12
+          ? (currentHour + 1) % 12
+          : (currentHour + 1) % 24
+      }:00 ${period}`;
 
-    const addLeadingZero = (number) => {
-      return number < 10 ? `0${number}` : `${number}`;
-    };
+      const addLeadingZero = (number) => {
+        return number < 10 ? `0${number}` : `${number}`;
+      };
 
-    timeRanges.push({
-      label,
-      value: i, // You can use a unique identifier if needed
-      available: true,
-      time_from: `${addLeadingZero(currentHour)}:00:00`,
-      time_to: `${addLeadingZero(
-        (currentHour + 1) % 24 === 0 ? 0 : (currentHour + 1) % 24
-      )}:00:00`,
-    });
+      timeRanges.push({
+        label,
+        value: i, // You can use a unique identifier if needed
+        available: true,
+        time_from: `${addLeadingZero(currentHour)}:00:00`,
+        time_to: `${addLeadingZero(
+          (currentHour + 1) % 24 === 0 ? 0 : (currentHour + 1) % 24
+        )}:00:00`,
+      });
+    }
+
+    return timeRanges;
   }
-
-  return timeRanges;
 };
 
 const authUser = computed(() => authStore.user);
@@ -275,10 +293,24 @@ const getDoctors = async () => {
     color: 'negative',
   });
 };
+const getOperationHour = async () => {
+  const { code, data } = await healthCenterStore.getOperationHour({
+    healthCenterID: props.healthCenterID,
+  });
+  if (code === 200) {
+    operationHour.value = Object.assign({}, data);
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
 
-onMounted(() => {
+onMounted(async () => {
+  await getDoctors();
+  await getOperationHour();
   timeRanges.value = generateTimeRanges();
+  booted.value = true;
 });
-
-getDoctors();
 </script>
