@@ -52,7 +52,7 @@ export const useUserStore = defineStore('user', {
           position,
           health_center_id: healthCenterID,
         });
-        const response = await api.post(`${route}/`, formData, {
+        const response = await api.post(`${route}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

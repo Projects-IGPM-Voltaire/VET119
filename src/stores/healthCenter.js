@@ -45,7 +45,7 @@ export const useHealthCenterStore = defineStore('health-center', {
           barangay_code,
           map_url,
         });
-        const response = await api.post(`${route}/`, formData, {
+        const response = await api.post(`${route}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

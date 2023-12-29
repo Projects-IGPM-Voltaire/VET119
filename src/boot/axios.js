@@ -24,7 +24,6 @@ export default boot(({ app }) => {
   api.defaults.headers['Access-Control-Allow-Origin'] = true;
   api.defaults.headers['Access-Control-Allow-Origin'] = '*';
   api.defaults.headers['Accept'] = 'application/json';
-  api.defaults.headers['ngrok-skip-browser-warning'] = '69420';
 
   api.interceptors.request.use(async (request) => {
     const accessToken = LocalStorage.getItem('access_token');

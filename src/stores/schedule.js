@@ -37,7 +37,7 @@ export const useScheduleStore = defineStore('schedule', {
       userID,
     }) {
       try {
-        const response = await api.post(`${route}/`, {
+        const response = await api.post(`${route}`, {
           first_name,
           last_name,
           birthday,
