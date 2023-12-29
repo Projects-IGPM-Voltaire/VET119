@@ -60,5 +60,21 @@ export const useHealthCenterStore = defineStore('health-center', {
         };
       }
     },
+
+    async getOperationHour({ healthCenterID }) {
+      try {
+        const response = await api.get(
+          `${route}/operation-hour/${healthCenterID}`
+        );
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });
