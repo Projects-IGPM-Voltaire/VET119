@@ -60,6 +60,7 @@
                       <q-select
                         v-model="selectedTime"
                         :options="timeRanges"
+                        :disable="!form.date"
                         outlined
                       />
                     </div>
@@ -183,54 +184,6 @@ const doctors = ref([]);
 const booted = ref(false);
 const operationHour = ref(null);
 
-const generateTimeRanges = () => {
-  if (objetHasValue(operationHour.value)) {
-    const timeRanges = [];
-    const { time_from, time_to } = operationHour.value;
-
-    const startHour = parseInt(time_from.split(':')[0]);
-    const endHour = parseInt(time_to.split(':')[0]);
-    const currentHour = new Date().getHours();
-
-    for (let i = startHour; i < endHour; i++) {
-      if (i <= currentHour) {
-        continue;
-      }
-      const startHourStr = new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
-        'en-US',
-        { hour: '2-digit', minute: '2-digit', hour12: true }
-      );
-      const endHourStr = new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
-        'en-US',
-        { hour: '2-digit', minute: '2-digit', hour12: true }
-      );
-
-      timeRanges.push({
-        label: `${startHourStr} - ${endHourStr}`,
-        value: i,
-        time_from: `${new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
-          'en-US',
-          {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }
-        )}:00`,
-        time_to: `${new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
-          'en-US',
-          {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }
-        )}:00`,
-      });
-    }
-
-    return timeRanges;
-  }
-};
-
 watch(
   () => props.modelValue,
   (val) => (modelValueLocal.value = val)
@@ -238,6 +191,12 @@ watch(
 watch(
   () => modelValueLocal.value,
   (val) => emit('update:modelValue', val)
+);
+watch(
+  () => form.date,
+  (value) => {
+    timeRanges.value = generateTimeRanges();
+  }
 );
 
 const onCreate = async () => {
@@ -299,11 +258,59 @@ const disablePastDates = (timestamp) => {
 
   return date >= now || date.setHours(0, 0, 0, 0) === now.setHours(0, 0, 0, 0);
 };
+const generateTimeRanges = () => {
+  if (objetHasValue(operationHour.value)) {
+    const timeRanges = [];
+    const { time_from, time_to } = operationHour.value;
+    const startHour = parseInt(time_from.split(':')[0]);
+    const endHour = parseInt(time_to.split(':')[0]);
+    const currentHour = new Date().getHours();
+    const isToday =
+      new Date().setHours(0, 0, 0, 0) ===
+      new Date(form.date).setHours(0, 0, 0, 0);
+
+    for (let i = startHour; i < endHour; i++) {
+      if (i <= currentHour && isToday) {
+        continue;
+      }
+      const startHourStr = new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
+        'en-US',
+        { hour: '2-digit', minute: '2-digit', hour12: true }
+      );
+      const endHourStr = new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
+        'en-US',
+        { hour: '2-digit', minute: '2-digit', hour12: true }
+      );
+
+      timeRanges.push({
+        label: `${startHourStr} - ${endHourStr}`,
+        value: i,
+        time_from: `${new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
+          'en-US',
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          }
+        )}:00`,
+        time_to: `${new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
+          'en-US',
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          }
+        )}:00`,
+      });
+    }
+
+    return timeRanges;
+  }
+};
 
 onMounted(async () => {
   await getDoctors();
   await getOperationHour();
-  timeRanges.value = generateTimeRanges();
   booted.value = true;
 });
 </script>

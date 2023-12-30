@@ -40,6 +40,7 @@
                         </p>
                         <q-select
                           v-model="selectedTime"
+                          :disable="!form.date"
                           :options="timeRanges"
                           outlined
                         />
@@ -241,9 +242,12 @@ const generateTimeRanges = () => {
     const startHour = parseInt(time_from.split(':')[0]);
     const endHour = parseInt(time_to.split(':')[0]);
     const currentHour = new Date().getHours();
+    const isToday =
+      new Date().setHours(0, 0, 0, 0) ===
+      new Date(form.date).setHours(0, 0, 0, 0);
 
     for (let i = startHour; i < endHour; i++) {
-      if (i <= currentHour) {
+      if (i <= currentHour && isToday) {
         continue;
       }
       const startHourStr = new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
@@ -293,6 +297,12 @@ watch(
 watch(
   () => modelValueLocal.value,
   (val) => emit('update:modelValue', val)
+);
+watch(
+  () => form.date,
+  (value) => {
+    timeRanges.value = generateTimeRanges();
+  }
 );
 
 const onCreate = async () => {
@@ -373,7 +383,6 @@ const onBookAgain = async () => {
 onMounted(async () => {
   await getDoctors();
   await getOperationHour();
-  timeRanges.value = generateTimeRanges();
   booted.value = true;
 });
 </script>
