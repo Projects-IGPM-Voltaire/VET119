@@ -49,6 +49,7 @@
                         mask="YYYY-MM-DD"
                         color="primary"
                         style="width: 100%"
+                        :options="disablePastDates"
                         v-model="form.date"
                       />
                     </div>
@@ -311,6 +312,12 @@ const getOperationHour = async () => {
     message: 'Something went wrong to the server.',
     color: 'negative',
   });
+};
+const disablePastDates = (timestamp) => {
+  const date = new Date(timestamp);
+  const now = new Date();
+
+  return date >= now || date.setHours(0, 0, 0, 0) === now.setHours(0, 0, 0, 0);
 };
 
 onMounted(async () => {
