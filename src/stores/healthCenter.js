@@ -76,5 +76,22 @@ export const useHealthCenterStore = defineStore('health-center', {
         };
       }
     },
+
+    async updateOperationHour({ healthCenterID, timeTo, timeFrom }) {
+      try {
+        const response = await api.put(
+          `${route}/operation-hour/${healthCenterID}`,
+          { time_from: timeFrom, time_to: timeTo }
+        );
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });
