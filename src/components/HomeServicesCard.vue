@@ -161,7 +161,7 @@
     </q-card-section>
 
     <ScheduleAppointmentDialog v-model="isAppointmentDialogOpen" />
-    <QueueDialog v-model="isQueueDialogOpen" />
+    <QueueDialog v-model="isQueueDialogOpen" v-if="isQueueDialogOpen" />
     <ScheduleTrackerDialog v-model="isTrackerDialogOpen" />
   </q-card>
 </template>
@@ -190,4 +190,5 @@ const onOpenQueueAction = () =>
   (isQueueDialogOpen.value = !isQueueDialogOpen.value);
 const onOpenTrackerAction = () =>
   (isTrackerDialogOpen.value = !isTrackerDialogOpen.value);
+const onBookAppointmentSuccess = () => {};
 </script>

@@ -39,6 +39,7 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
+      /*
       {
         path: 'dashboard',
         name: 'admin-dashboard-page',
@@ -48,6 +49,7 @@ const routes = [
           level: 'admin',
         },
       },
+*/
 
       {
         path: 'health-center',

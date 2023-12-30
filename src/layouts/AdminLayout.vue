@@ -72,12 +72,14 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const navigations = ref([
+  /*
   {
     label: 'Dashboard',
     icon: 'dashboard',
     to: { name: 'admin-dashboard-page' },
     level: 'admin',
   },
+*/
   {
     label: 'Health Centers',
     icon: 'local_hospital',
