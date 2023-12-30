@@ -2,7 +2,7 @@
   <q-dialog persistent v-model="modelValueLocal">
     <q-card style="min-width: 600px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Add new Appointment</div>
+        <div class="text-h6">Book an Appointment</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -136,7 +136,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useScheduleStore } from 'stores/schedule';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -165,24 +165,6 @@ const $q = useQuasar();
 const healthCenterStore = useHealthCenterStore();
 
 const modelValueLocal = ref(props.modelValue);
-const illnesses = ref([]);
-const commonIllnesses = ref([
-  'Common Cold',
-  'Influenza (Flu)',
-  'Allergies',
-  'Hypertension (High Blood Pressure)',
-  'Type 2 Diabetes',
-  'Asthma',
-  'Bronchitis',
-  'Gastroenteritis',
-  'Urinary Tract Infection (UTI)',
-  'Migraine',
-  'Arthritis',
-  'Acid Reflux',
-  'Sinusitis',
-  'Pneumonia',
-  'Eczema',
-]);
 const timeRanges = ref([]);
 const selectedTime = ref(null);
 const defaultForm = {
@@ -249,8 +231,6 @@ const generateTimeRanges = () => {
   }
 };
 
-const authUser = computed(() => authStore.user);
-
 watch(
   () => props.modelValue,
   (val) => (modelValueLocal.value = val)
@@ -276,7 +256,7 @@ const onCreate = async () => {
   isFormLoading.value = false;
   if (code === 200) {
     $q.notify({
-      message: 'Schedule created successfully!',
+      message: 'Schedule booked successfully!',
       color: 'positive',
     });
     modelValueLocal.value = false;

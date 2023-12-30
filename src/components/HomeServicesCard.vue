@@ -67,7 +67,7 @@
                 <q-item-section
                   ><p class="text-subtitle1 text-bold q-mb-none">
                     <q-icon name="event_available" class="q-mr-xs"></q-icon
-                    >Check my Schedule
+                    >Check my Queue
                   </p>
                   <p class="text-body2">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
