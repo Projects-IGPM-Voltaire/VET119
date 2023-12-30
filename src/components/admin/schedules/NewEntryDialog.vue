@@ -62,43 +62,45 @@
                         outlined
                       />
                     </div>
-                    <div class="col-12">
-                      <p class="text-subtitle2 text-grey-6">
-                        Available Doctors
-                      </p>
-                      <div class="row col-gutter-md">
-                        <div class="col-6">
-                          <q-card class="my-card" flat bordered>
-                            <template
-                              v-for="(doctor, index) in doctors"
-                              :key="index"
-                            >
-                              <q-item>
-                                <!--                              <q-item-section avatar>
-                                  <q-avatar>
-                                    <img
-                                      src="https://cdn.quasar.dev/img/boy-avatar.png"
-                                      alt="Sample"
-                                    />
-                                  </q-avatar>
-                                </q-item-section>-->
+                    <template v-if="doctors.length > 0">
+                      <div class="col-12">
+                        <p class="text-subtitle2 text-grey-6">
+                          Available Doctors
+                        </p>
+                        <div class="row col-gutter-md">
+                          <div class="col-6">
+                            <q-card class="my-card" flat bordered>
+                              <template
+                                v-for="(doctor, index) in doctors"
+                                :key="index"
+                              >
+                                <q-item>
+                                  <!--                              <q-item-section avatar>
+                                      <q-avatar>
+                                        <img
+                                          src="https://cdn.quasar.dev/img/boy-avatar.png"
+                                          alt="Sample"
+                                        />
+                                      </q-avatar>
+                                    </q-item-section>-->
 
-                                <q-item-section>
-                                  <q-item-label
-                                    >Dr. {{ doctor.first_name }}
-                                    {{ doctor.last_name }}</q-item-label
-                                  >
-                                  <!--
-                                  <q-item-label caption> Physician </q-item-label>
+                                  <q-item-section>
+                                    <q-item-label
+                                      >Dr. {{ doctor.first_name }}
+                                      {{ doctor.last_name }}</q-item-label
+                                    >
+                                    <!--
+                                      <q-item-label caption> Physician </q-item-label>
 
-  -->
-                                </q-item-section>
-                              </q-item>
-                            </template>
-                          </q-card>
+      -->
+                                  </q-item-section>
+                                </q-item>
+                              </template>
+                            </q-card>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -202,39 +204,43 @@ const generateTimeRanges = () => {
   if (objetHasValue(operationHour.value)) {
     const timeRanges = [];
     const { time_from, time_to } = operationHour.value;
-    const startHour = time_from; // 6:00 AM
-    const endHour = time_to; // 8:00 PM
+
+    const startHour = parseInt(time_from.split(':')[0]);
+    const endHour = parseInt(time_to.split(':')[0]);
+    const currentHour = new Date().getHours();
 
     for (let i = startHour; i < endHour; i++) {
-      const currentHour = i % 24;
-      const period = i < 12 ? 'AM' : 'PM';
-
-      const label = `${
-        currentHour === 0
-          ? 12
-          : currentHour > 12
-          ? currentHour - 12
-          : currentHour
-      }:00 ${period} - ${
-        (currentHour + 1) % 24 === 0
-          ? 12
-          : (currentHour + 1) % 24 > 12
-          ? (currentHour + 1) % 12
-          : (currentHour + 1) % 24
-      }:00 ${period}`;
-
-      const addLeadingZero = (number) => {
-        return number < 10 ? `0${number}` : `${number}`;
-      };
+      if (i <= currentHour) {
+        continue;
+      }
+      const startHourStr = new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
+        'en-US',
+        { hour: '2-digit', minute: '2-digit', hour12: true }
+      );
+      const endHourStr = new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
+        'en-US',
+        { hour: '2-digit', minute: '2-digit', hour12: true }
+      );
 
       timeRanges.push({
-        label,
-        value: i, // You can use a unique identifier if needed
-        available: true,
-        time_from: `${addLeadingZero(currentHour)}:00:00`,
-        time_to: `${addLeadingZero(
-          (currentHour + 1) % 24 === 0 ? 0 : (currentHour + 1) % 24
-        )}:00:00`,
+        label: `${startHourStr} - ${endHourStr}`,
+        value: i,
+        time_from: `${new Date(1970, 0, 1, i, 0, 0).toLocaleTimeString(
+          'en-US',
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          }
+        )}:00`,
+        time_to: `${new Date(1970, 0, 1, i + 1, 0, 0).toLocaleTimeString(
+          'en-US',
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          }
+        )}:00`,
       });
     }
 
