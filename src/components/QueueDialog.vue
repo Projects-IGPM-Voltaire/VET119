@@ -82,16 +82,15 @@ const authStore = useAuthStore();
 const scheduleStore = useScheduleStore();
 
 const modelValueLocal = ref(props.modelValue);
+const upcomingSchedules = ref([]);
+const tomorrowSchedules = ref([]);
+const booted = ref(false);
 
 const authUser = computed(() => authStore.user);
 const healthCenterID = computed(
   () => authUser.value.health_center_member.health_center_id
 );
 const healthCenter = computed(() => authUser.value.health_center_member.center);
-
-const upcomingSchedules = ref([]);
-const tomorrowSchedules = ref([]);
-const booted = ref(false);
 
 watch(
   () => props.modelValue,

@@ -105,7 +105,12 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="primary" outline class="text-capitalize" unelevated
+              <q-btn
+                color="primary"
+                outline
+                class="text-capitalize"
+                unelevated
+                @click="onOpenHealthCenterAction"
                 >Find</q-btn
               >
             </q-card-actions>
@@ -163,6 +168,7 @@
     <ScheduleAppointmentDialog v-model="isAppointmentDialogOpen" />
     <QueueDialog v-model="isQueueDialogOpen" v-if="isQueueDialogOpen" />
     <ScheduleTrackerDialog v-model="isTrackerDialogOpen" />
+    <HealthCentersDialog v-model="isHealthCentersDialog" />
   </q-card>
 </template>
 
@@ -179,10 +185,12 @@ import { ref } from 'vue';
 import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 import ScheduleTrackerDialog from 'components/ScheduleTrackerDialog.vue';
 import QueueDialog from 'components/QueueDialog.vue';
+import HealthCentersDialog from 'components/HealthCentersDialog.vue';
 
 const isAppointmentDialogOpen = ref(false);
 const isQueueDialogOpen = ref(false);
 const isTrackerDialogOpen = ref(false);
+const isHealthCentersDialog = ref(false);
 
 const onBookScheduleAction = () =>
   (isAppointmentDialogOpen.value = !isAppointmentDialogOpen.value);
@@ -190,5 +198,6 @@ const onOpenQueueAction = () =>
   (isQueueDialogOpen.value = !isQueueDialogOpen.value);
 const onOpenTrackerAction = () =>
   (isTrackerDialogOpen.value = !isTrackerDialogOpen.value);
-const onBookAppointmentSuccess = () => {};
+const onOpenHealthCenterAction = () =>
+  (isHealthCentersDialog.value = !isHealthCentersDialog.value);
 </script>
