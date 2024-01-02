@@ -1,12 +1,9 @@
 <template>
-  <q-page padding>
+  <q-page>
     <template v-if="isAuthenticated">
       <h3 class="text-primary q-mb-none">
         Hi, {{ user.first_name }} {{ user.last_name }}
       </h3>
-    </template>
-    <template v-else>
-      <div>fdf</div>
     </template>
     <HomeLandingBanner v-if="!isAuthenticated" />
     <HomeServicesBanner v-if="isAuthenticated" />
@@ -27,6 +24,7 @@ export default defineComponent({
 <script setup>
 import { useAuthStore } from 'stores/auth';
 import { computed, onMounted, ref } from 'vue';
+import AboutUsWindow from 'components/AboutUsWindow.vue';
 
 const authStore = useAuthStore();
 
