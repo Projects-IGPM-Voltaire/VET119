@@ -8,11 +8,11 @@
       <template v-if="booted">
         <q-card-section>
           <div class="row q-col-gutter-lg">
-            <div class="col-4">
+            <div class="col-6">
               <h5
                 class="text-h5 text-bold bg-black text-white inline-block q-pa-sm q-mt-none"
               >
-                Tommorow
+                Upcoming
               </h5>
               <div class="row q-col-gutter-lg">
                 <template
@@ -33,7 +33,7 @@
               <h5
                 class="text-h5 text-bold bg-primary text-white inline-block q-pa-sm q-mt-none"
               >
-                Upcoming...
+                Ongoing...
               </h5>
               <div class="row q-col-gutter-lg">
                 <template
@@ -101,10 +101,10 @@ watch(
   (val) => emit('update:modelValue', val)
 );
 
-const getUpcomingSchedules = async () => {
+const getOngoingSchedules = async () => {
   const { code, data } = await scheduleStore.list({
     healthCenterID: healthCenterID.value,
-    conditions: ['today'],
+    conditions: ['ongoing'],
   });
   if (code === 200) {
     upcomingSchedules.value = data;
@@ -115,10 +115,10 @@ const getUpcomingSchedules = async () => {
     color: 'negative',
   });
 };
-const getTomorrowSchedules = async () => {
+const getUpcomingSchedules = async () => {
   const { code, data } = await scheduleStore.list({
     healthCenterID: healthCenterID.value,
-    conditions: ['tomorrow'],
+    conditions: ['upcoming'],
   });
   if (code === 200) {
     tomorrowSchedules.value = data;
@@ -131,8 +131,8 @@ const getTomorrowSchedules = async () => {
 };
 
 onMounted(async () => {
+  await getOngoingSchedules();
   await getUpcomingSchedules();
-  await getTomorrowSchedules();
   booted.value = true;
 });
 </script>
