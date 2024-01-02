@@ -17,7 +17,7 @@
               <div class="col-12">
                 <p class="text-subtitle2 text-grey-6">Personal Information</p>
                 <div class="row q-col-gutter-md">
-                  <div class="col-6">
+                  <div class="col-12 col-md-6">
                     <q-input
                       color="primary"
                       outlined
@@ -25,7 +25,7 @@
                       v-model="form.first_name"
                     />
                   </div>
-                  <div class="col-6">
+                  <div class="col-12 col-md-6">
                     <q-input
                       color="primary"
                       outlined
@@ -46,7 +46,7 @@
               <div class="col-12">
                 <p class="text-subtitle2 text-grey-6">Address</p>
                 <div class="row q-col-gutter-md">
-                  <div class="col-4">
+                  <div class="col-12 col-md-4">
                     <q-input
                       color="primary"
                       outlined
@@ -54,7 +54,7 @@
                       v-model="form.house_number"
                     />
                   </div>
-                  <div class="col-8">
+                  <div class="col col-md-8">
                     <q-input
                       color="primary"
                       outlined

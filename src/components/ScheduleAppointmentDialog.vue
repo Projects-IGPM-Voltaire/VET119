@@ -51,36 +51,33 @@
                             Available Doctors
                           </p>
                           <div class="row col-gutter-md">
-                            <div class="col-6">
-                              <q-card class="my-card" flat bordered>
-                                <template
-                                  v-for="(doctor, index) in doctors"
-                                  :key="index"
-                                >
-                                  <q-item>
-                                    <!--                              <q-item-section avatar>
-                                          <q-avatar>
-                                            <img
-                                              src="https://cdn.quasar.dev/img/boy-avatar.png"
-                                              alt="Sample"
-                                            />
-                                          </q-avatar>
-                                        </q-item-section>-->
-
-                                    <q-item-section>
-                                      <q-item-label
-                                        >Dr. {{ doctor.first_name }}
-                                        {{ doctor.last_name }}</q-item-label
-                                      >
-                                      <!--
-                                          <q-item-label caption> Physician </q-item-label>
-
-          -->
+                            <template
+                              v-for="(doctor, index) in doctors"
+                              :key="index"
+                            >
+                              <div class="col-12 col-lg-6">
+                                <div>
+                                  <q-item clickable v-ripple>
+                                    <q-item-section
+                                      avatar
+                                      v-if="objetHasValue(doctor.image)"
+                                    >
+                                      <q-avatar>
+                                        <img
+                                          :src="
+                                            toPublicImage(doctor.image.path)
+                                          "
+                                        />
+                                      </q-avatar>
                                     </q-item-section>
+                                    <q-item-section
+                                      >{{ doctor.first_name }}
+                                      {{ doctor.last_name }}</q-item-section
+                                    >
                                   </q-item>
-                                </template>
-                              </q-card>
-                            </div>
+                                </div>
+                              </div>
+                            </template>
                           </div>
                         </div>
                       </template>
@@ -210,6 +207,7 @@ import { useAuthStore } from 'stores/auth';
 import { objetHasValue } from 'src/extras/object';
 import { useHealthCenterStore } from 'stores/healthCenter';
 import { copyToClipboard } from 'quasar';
+import { toPublicImage } from 'src/extras/misc';
 
 const props = defineProps({
   modelValue: {

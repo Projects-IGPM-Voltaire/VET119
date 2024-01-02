@@ -44,26 +44,22 @@
                       v-if="member.position === 'doctor'"
                     >
                       <div>
-                        <q-card class="my-card">
-                          <q-img
-                            :src="toPublicImage(member.user.image.path)"
+                        <q-item clickable v-ripple>
+                          <q-item-section
+                            avatar
                             v-if="objetHasValue(member.user.image)"
                           >
-                            <div
-                              class="absolute-bottom text-subtitle2 text-center"
-                            >
-                              {{ member.user.first_name }}
-                              {{ member.user.last_name }}
-                            </div>
-                          </q-img>
-                          <div
-                            class="absolute-bottom text-subtitle2 text-center"
-                            v-else
+                            <q-avatar>
+                              <img
+                                :src="toPublicImage(member.user.image.path)"
+                              />
+                            </q-avatar>
+                          </q-item-section>
+                          <q-item-section
+                            >{{ member.user.first_name }}
+                            {{ member.user.last_name }}</q-item-section
                           >
-                            {{ member.user.first_name }}
-                            {{ member.user.last_name }}
-                          </div>
-                        </q-card>
+                        </q-item>
                       </div>
                     </div>
                   </template>
@@ -86,17 +82,10 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { objetHasValue } from 'src/extras/object';
-import { useScheduleStore } from 'stores/schedule';
 import { useQuasar } from 'quasar';
-import {
-  convertTo12HourFormat,
-  convertToDateReadable,
-  debounce,
-  toAddress,
-  toPublicImage,
-} from '../extras/misc';
+import { toAddress, toPublicImage } from '../extras/misc';
 import { useHealthCenterStore } from 'stores/healthCenter';
 import { useAuthStore } from 'stores/auth';
 
@@ -109,8 +98,6 @@ const authStore = useAuthStore();
 
 const modelValueLocal = ref(props.modelValue);
 const healthCenters = ref([]);
-
-const authUser = computed(() => authStore.user);
 
 watch(
   () => props.modelValue,
@@ -127,7 +114,6 @@ const getHealthCenters = async () => {
     barangayCode: null,
   });
   if (code === 200) {
-    console.log(data);
     healthCenters.value = data;
     return;
   }

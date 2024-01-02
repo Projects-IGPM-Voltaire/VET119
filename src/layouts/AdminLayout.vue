@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="bg-primary container">
+    <q-header class="bg-primary">
       <q-toolbar>
         <q-toolbar-title>
           <router-link

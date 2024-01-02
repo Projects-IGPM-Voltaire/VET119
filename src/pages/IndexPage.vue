@@ -5,6 +5,9 @@
         Hi, {{ user.first_name }} {{ user.last_name }}
       </h3>
     </template>
+    <template v-else>
+      <div>fdf</div>
+    </template>
     <HomeLandingBanner v-if="!isAuthenticated" />
     <HomeServicesBanner v-if="isAuthenticated" />
   </q-page>

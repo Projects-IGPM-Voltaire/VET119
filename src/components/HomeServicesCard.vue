@@ -5,7 +5,7 @@
     </q-card-section>
     <q-card-section>
       <div class="row q-col-gutter-sm">
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
@@ -33,7 +33,7 @@
             </q-card-actions>
           </q-card>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
@@ -60,7 +60,7 @@
             </q-card-actions>
           </q-card>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
@@ -88,14 +88,14 @@
             </q-card-actions>
           </q-card>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-7">
           <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
                   ><p class="text-subtitle1 text-bold q-mb-none">
                     <q-icon name="medical_information" class="q-mr-xs"></q-icon
-                    >Health Centers
+                    >Health Centers using Mediqueue
                   </p>
                   <p class="text-body2">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -116,30 +116,7 @@
             </q-card-actions>
           </q-card>
         </div>
-        <div class="col-4">
-          <q-card class="text-black">
-            <q-card-section>
-              <q-item class="q-px-none q-pt-none">
-                <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
-                    <q-icon name="medical_services" class="q-mr-xs"></q-icon
-                    >Doctors
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
-                  </p>
-                </q-item-section>
-              </q-item>
-            </q-card-section>
-            <q-card-actions class="justify-end">
-              <q-btn color="primary" outline class="text-capitalize" unelevated
-                >Find</q-btn
-              >
-            </q-card-actions>
-          </q-card>
-        </div>
-        <div class="col-4">
+        <div class="col-12 col-md-5">
           <q-card class="text-black">
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
@@ -156,7 +133,12 @@
               </q-item>
             </q-card-section>
             <q-card-actions class="justify-end">
-              <q-btn color="primary" outline class="text-capitalize" unelevated
+              <q-btn
+                color="primary"
+                outline
+                class="text-capitalize"
+                unelevated
+                @click="onOpenHelpCenterAction"
                 >View</q-btn
               >
             </q-card-actions>
@@ -168,7 +150,8 @@
     <ScheduleAppointmentDialog v-model="isAppointmentDialogOpen" />
     <QueueDialog v-model="isQueueDialogOpen" v-if="isQueueDialogOpen" />
     <ScheduleTrackerDialog v-model="isTrackerDialogOpen" />
-    <HealthCentersDialog v-model="isHealthCentersDialog" />
+    <HealthCentersDialog v-model="isHealthCentersDialogOpen" />
+    <HelpCenterDialog v-model="isHelpCentersDialogOpen" />
   </q-card>
 </template>
 
@@ -186,11 +169,13 @@ import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue'
 import ScheduleTrackerDialog from 'components/ScheduleTrackerDialog.vue';
 import QueueDialog from 'components/QueueDialog.vue';
 import HealthCentersDialog from 'components/HealthCentersDialog.vue';
+import HelpCenterDialog from 'components/HelpCenterDialog.vue';
 
 const isAppointmentDialogOpen = ref(false);
 const isQueueDialogOpen = ref(false);
 const isTrackerDialogOpen = ref(false);
-const isHealthCentersDialog = ref(false);
+const isHealthCentersDialogOpen = ref(false);
+const isHelpCentersDialogOpen = ref(false);
 
 const onBookScheduleAction = () =>
   (isAppointmentDialogOpen.value = !isAppointmentDialogOpen.value);
@@ -199,5 +184,7 @@ const onOpenQueueAction = () =>
 const onOpenTrackerAction = () =>
   (isTrackerDialogOpen.value = !isTrackerDialogOpen.value);
 const onOpenHealthCenterAction = () =>
-  (isHealthCentersDialog.value = !isHealthCentersDialog.value);
+  (isHealthCentersDialogOpen.value = !isHealthCentersDialogOpen.value);
+const onOpenHelpCenterAction = () =>
+  (isHelpCentersDialogOpen.value = !isHelpCentersDialogOpen.value);
 </script>
