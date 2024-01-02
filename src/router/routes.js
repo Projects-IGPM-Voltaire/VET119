@@ -36,6 +36,18 @@ const routes = [
   },
 
   {
+    path: '/about-us',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'about-us-page',
+        component: () => import('pages/AboutUs.vue'),
+      },
+    ],
+  },
+
+  {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [

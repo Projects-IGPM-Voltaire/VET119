@@ -1,5 +1,5 @@
 <template>
-  <q-card class="bg-white q-pb-md" dark flat>
+  <q-card class="bg-white q-pb-md q-pa-sm" dark flat>
     <q-card-section>
       <h6 class="text-h6 q-my-none">Try our offered services</h6>
     </q-card-section>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container q-mb-xl">
+    <div class="container q-mb-xl q-pa-sm">
       <div class="row q-col-gutter-md">
         <div class="col-12 col-md-6">
           <div>
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-primary" style="padding: 5rem 0">
+    <div class="bg-primary q-pa-sm" style="padding: 5rem 0">
       <div class="container text-white">
         <div class="row q-col-gutter">
           <template v-for="(feature, index) in features" :key="index">
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="container q-mb-xl">
+    <div class="container q-mb-xl q-pa-sm">
       <div class="row q-col-gutter-md">
         <div class="col-12 col-md-6">
           <div>

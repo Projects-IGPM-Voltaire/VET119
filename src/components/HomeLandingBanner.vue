@@ -47,7 +47,7 @@
     </div>
 
 -->
-    <AboutUsWindow />
+    <div>What is Mediuqyue</div>
   </div>
 </template>
 
