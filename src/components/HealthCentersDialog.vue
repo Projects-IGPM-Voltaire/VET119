@@ -43,26 +43,28 @@
                       class="col-12 col-lg-4"
                       v-if="member.position === 'doctor'"
                     >
-                      <q-card class="my-card">
-                        <q-img
-                          :src="toPublicImage(member.user.image.path)"
-                          v-if="objetHasValue(member.user.image)"
-                        >
+                      <div>
+                        <q-card class="my-card">
+                          <q-img
+                            :src="toPublicImage(member.user.image.path)"
+                            v-if="objetHasValue(member.user.image)"
+                          >
+                            <div
+                              class="absolute-bottom text-subtitle2 text-center"
+                            >
+                              {{ member.user.first_name }}
+                              {{ member.user.last_name }}
+                            </div>
+                          </q-img>
                           <div
                             class="absolute-bottom text-subtitle2 text-center"
+                            v-else
                           >
                             {{ member.user.first_name }}
                             {{ member.user.last_name }}
                           </div>
-                        </q-img>
-                        <div
-                          class="absolute-bottom text-subtitle2 text-center"
-                          v-else
-                        >
-                          {{ member.user.first_name }}
-                          {{ member.user.last_name }}
-                        </div>
-                      </q-card>
+                        </q-card>
+                      </div>
                     </div>
                   </template>
                 </div>
