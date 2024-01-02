@@ -142,11 +142,20 @@
                 <q-icon
                   size="md"
                   name="report"
-                  class="q-mr-xs text-black"
+                  class="q-mr-xs text-bold"
                 />Reminders for Appointment!
               </p>
               <ul class="q-mt-none q-gutter-md">
-                <li>Reference Number: {{ schedule.reference_number }}</li>
+                <li>
+                  Reference Number:
+                  <span
+                    style="text-decoration: underline; cursor: pointer"
+                    class="text-primary text-bold"
+                    @click="copyReferenceNumber"
+                    >{{ schedule.reference_number }}
+                    <q-icon name="content_copy"
+                  /></span>
+                </li>
                 <li>
                   Save your reference number beforehand to your notes app or as
                   a picture for easy access during your booking day.
@@ -368,6 +377,14 @@ const copyPatientNumber = async () => {
   await copyToClipboard(schedule.value.patient_number);
   $q.notify({
     message: 'Patient number copied to clipboard.',
+    color: 'positive',
+    icon: 'done',
+  });
+};
+const copyReferenceNumber = async () => {
+  await copyToClipboard(schedule.value.reference_number);
+  $q.notify({
+    message: 'Reference number copied to clipboard.',
     color: 'positive',
     icon: 'done',
   });

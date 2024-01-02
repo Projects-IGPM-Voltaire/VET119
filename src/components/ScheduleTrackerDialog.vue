@@ -113,14 +113,14 @@ const onSearch = async () => {
     if (objetHasValue(data)) {
       isScheduleNotFound.value = false;
       schedule.value = data;
+      $q.notify({
+        message: 'Schedule details fetched successfully!',
+        color: 'positive',
+      });
     } else {
       schedule.value = null;
       isScheduleNotFound.value = true;
     }
-    $q.notify({
-      message: 'Schedule details fetched successfully!',
-      color: 'positive',
-    });
     return;
   }
   formError.value = message;
