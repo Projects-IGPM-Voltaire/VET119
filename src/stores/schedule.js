@@ -106,5 +106,19 @@ export const useScheduleStore = defineStore('schedule', {
         };
       }
     },
+
+    async check() {
+      try {
+        const response = await api.get(`${route}/check`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });

@@ -178,12 +178,14 @@
             </div>
           </div>
 
+          <!--
           <q-btn
             label="Book Again"
             color="primary"
             class="full-width text-capitalize q-mt-lg"
             @click="onBookAgain"
           />
+-->
         </q-step>
       </q-stepper>
     </q-card>
@@ -394,10 +396,26 @@ const onBookAgain = async () => {
   step.value = 1;
   modelValueLocal.value = true;
 };
+const checkHasSchedule = async () => {
+  const { code, data } = await scheduleStore.check();
+  if (code === 200) {
+    const { has_schedule } = data;
+    if (has_schedule) {
+      schedule.value = Object.assign({}, data.schedule);
+      step.value = 2;
+    }
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
 
 onMounted(async () => {
   await getDoctors();
   await getOperationHour();
+  await checkHasSchedule();
   booted.value = true;
 });
 </script>
