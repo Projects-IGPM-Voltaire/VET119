@@ -15,7 +15,12 @@
             <p class="text-subtitle2 text-grey-6">Personal Information</p>
             <div class="row q-col-gutter-md">
               <div class="col-12 text-center" v-if="imagePreview">
-                <q-img :src="imagePreview" width="20rem" />
+                <q-img
+                  :src="imagePreview"
+                  width="10rem"
+                  height="10rem"
+                  position="center"
+                />
               </div>
               <div class="col-6">
                 <q-input

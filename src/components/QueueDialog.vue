@@ -6,7 +6,10 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <template v-if="booted">
-        <q-card-section>
+        <div class="q-py-xl" v-if="noSchedules">
+          <p class="text-center text-grey">No appointments today.</p>
+        </div>
+        <q-card-section v-else>
           <div class="row q-col-gutter-lg">
             <div class="col-6">
               <h5
@@ -33,7 +36,7 @@
               <h5
                 class="text-h5 text-bold bg-primary text-white inline-block q-pa-sm q-mt-none"
               >
-                Ongoing...
+                Ongoing
               </h5>
               <div class="row q-col-gutter-lg">
                 <template
@@ -91,6 +94,10 @@ const healthCenterID = computed(
   () => authUser.value.health_center_member.health_center_id
 );
 const healthCenter = computed(() => authUser.value.health_center_member.center);
+const noSchedules = computed(
+  () =>
+    upcomingSchedules.value.length === 0 && tomorrowSchedules.value.length === 0
+);
 
 watch(
   () => props.modelValue,

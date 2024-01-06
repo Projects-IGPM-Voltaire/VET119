@@ -10,13 +10,9 @@
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
+                  ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="calendar_month" class="q-mr-xs"></q-icon>Book
                     an Appointment
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
                   </p>
                 </q-item-section>
               </q-item>
@@ -38,12 +34,8 @@
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
+                  ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="today" class="q-mr-xs"></q-icon>Queues
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
                   </p>
                 </q-item-section>
               </q-item>
@@ -65,13 +57,9 @@
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
+                  ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="event_available" class="q-mr-xs"></q-icon
                     >Check my Queue
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
                   </p>
                 </q-item-section>
               </q-item>
@@ -93,13 +81,9 @@
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
+                  ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="medical_information" class="q-mr-xs"></q-icon
                     >Health Centers using Mediqueue
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
                   </p>
                 </q-item-section>
               </q-item>
@@ -121,13 +105,9 @@
             <q-card-section>
               <q-item class="q-px-none q-pt-none">
                 <q-item-section
-                  ><p class="text-subtitle1 text-bold q-mb-none">
+                  ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="help_center" class="q-mr-xs"></q-icon>Help
                     Center
-                  </p>
-                  <p class="text-body2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    At, nihil.
                   </p>
                 </q-item-section>
               </q-item>

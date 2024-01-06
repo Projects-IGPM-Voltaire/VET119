@@ -48,6 +48,8 @@
                   <q-img
                     :src="toPublicImage(props.row.image.path)"
                     width="10rem"
+                    height="10rem"
+                    position="center"
                     v-if="objetHasValue(props.row.image)"
                   />
                   <span class="text-grey-6" v-else>No Image.</span>
