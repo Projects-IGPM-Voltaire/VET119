@@ -67,73 +67,71 @@
     </q-page-container>
 
     <q-footer
-      class="bg-primary q-py-lg q-pa-sm"
+      class="bg-primary q-py-lg q-px-lg"
       style="position: absolute !important"
     >
-      <div class="container">
-        <div class="row q-col-gutter">
-          <div class="col-12 col-md-4">
-            <div>
+      <div class="row q-col-gutter">
+        <div class="col-12 col-md-4">
+          <div>
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'home-page' }"
+            >
+              <q-avatar> <img :src="LogoSmall" /> </q-avatar>
+              <span class="text-weight-bold text-h6 text-white"
+                >MediQueue</span
+              ></router-link
+            >
+          </div>
+          <div class="row q-col-gutter">
+            <div class="col-4">
               <router-link
                 style="text-decoration: none"
                 :to="{ name: 'home-page' }"
               >
-                <q-avatar> <img :src="LogoSmall" /> </q-avatar>
-                <span class="text-weight-bold text-h6 text-white"
-                  >MediQueue</span
+                <span class="text-weight-bold text-white"
+                  >Home</span
                 ></router-link
               >
             </div>
-            <div class="row q-col-gutter">
-              <div class="col-4">
-                <router-link
-                  style="text-decoration: none"
-                  :to="{ name: 'home-page' }"
-                >
-                  <span class="text-weight-bold text-white"
-                    >Home</span
-                  ></router-link
-                >
-              </div>
-              <div class="col-4">
-                <router-link
-                  style="text-decoration: none"
-                  :to="{ name: 'login-page' }"
-                >
-                  <span class="text-weight-bold text-white"
-                    >Login</span
-                  ></router-link
-                >
-              </div>
-              <div class="col-4">
-                <router-link
-                  style="text-decoration: none"
-                  :to="{ name: 'register-page' }"
-                >
-                  <span class="text-weight-bold text-white"
-                    >Register</span
-                  ></router-link
-                >
-              </div>
+            <div class="col-4">
+              <router-link
+                style="text-decoration: none"
+                :to="{ name: 'login-page' }"
+              >
+                <span class="text-weight-bold text-white"
+                  >Login</span
+                ></router-link
+              >
             </div>
-            <div class="q-py-lg text-body2">
-              <div class="q-mb-sm">
-                EMAIL:
-                <span class="text-weight-bold">mediqueue.pr2@gmail.com</span>
-              </div>
-              <div>
-                TELEPHONE:
-                <div class="text-weight-bold">0927-134-1205 (Isaac Melgar)</div>
-              </div>
+            <div class="col-4">
+              <router-link
+                style="text-decoration: none"
+                :to="{ name: 'register-page' }"
+              >
+                <span class="text-weight-bold text-white"
+                  >Register</span
+                ></router-link
+              >
             </div>
           </div>
-          <div class="col-12 col-md-8"></div>
+          <div class="q-py-lg text-body2">
+            <div class="q-mb-sm">
+              EMAIL:
+              <span class="text-weight-bold">mediqueue.pr2@gmail.com</span>
+            </div>
+            <div>
+              TELEPHONE:
+              <div class="text-weight-bold">0927-134-1205 (Isaac Melgar)</div>
+            </div>
+          </div>
         </div>
-        <div class="text-center">
-          <p class="q-my-none text-white">
-            @2024 MediQueue. All rights reserved.
-          </p>
-        </div>
+        <div class="col-12 col-md-8"></div>
+      </div>
+      <div class="text-center">
+        <p class="q-my-none text-white">
+          @2024 MediQueue. All rights reserved.
+        </p>
       </div>
     </q-footer>
   </q-layout>
