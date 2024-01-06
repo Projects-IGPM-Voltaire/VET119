@@ -35,15 +35,18 @@
       <div class="container text-white">
         <div class="row q-col-gutter">
           <template v-for="(feature, index) in features" :key="index">
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 q-pa-md">
               <div class="text-center">
                 <q-icon
                   :name="feature.icon"
                   size="5rem"
                   class="q-mb-md"
                 ></q-icon>
+                <div class="text-center text-h6 q-mb-md text-weight-bold">
+                  {{ feature.title }}
+                </div>
                 <div class="text-center text-subtitle1 q-mb-none">
-                  {{ feature.name }}
+                  {{ feature.description }}
                 </div>
               </div>
             </div>
@@ -125,19 +128,27 @@ import MeImage from 'assets/me.jpg';
 const features = [
   {
     icon: 'event',
-    name: 'Effortless Scheduling: Take control of your time with our intuitive appointment system. Your schedule, your way.',
+    title: 'Effortless Scheduling',
+    description:
+      'Take control of your time with our intuitive appointment system. Your schedule, your way.',
   },
   {
     icon: 'update',
-    name: 'Stay on Top: Our Schedule Tracker keeps you in the loop, ensuring you never miss a beat. Real-time updates, always at your fingertips.',
+    title: 'Stay on Top',
+    description:
+      'Our Schedule Tracker keeps you in the loop, ensuring you never miss a beat. Real-time updates, always at your fingertips.',
   },
   {
     icon: 'account_circle',
-    name: 'Manage with Ease: Simplify your life with our comprehensive Account Management tools. Your details, your preferences—perfectly organized.',
+    title: 'Manage with Ease',
+    description:
+      'Simplify your life with our comprehensive Account Management tools. Your details, your preferences—perfectly organized.',
   },
   {
     icon: 'mobile_friendly',
-    name: "Go Where You Go: Experience ultimate flexibility with our mobile-friendly design. Access anytime, anywhere, because your world doesn't stand still.",
+    title: 'Go Where You Go',
+    description:
+      "Experience ultimate flexibility with our mobile-friendly design. Access anytime, anywhere, because your world doesn't stand still.",
   },
 ];
 
