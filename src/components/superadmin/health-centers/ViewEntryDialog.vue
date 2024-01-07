@@ -29,12 +29,12 @@
             <div class="row q-col-gutter-md">
               <div class="col-12 q-mb-md">
                 <div class="row q-col-gutter-md">
-                  <div class="col-12 flex justify-center">
+                  <div class="col-12 text-center" v-if="imagePreview">
                     <q-img
-                      src="https://pia.gov.ph/uploads/2023/06/ff17733667a781403e5a6d233eef9258-800-1200.jpg"
-                      width="50%"
-                      height="auto"
-                      class="q-mx-auto"
+                      :src="imagePreview"
+                      width="10rem"
+                      height="10rem"
+                      position="center"
                     />
                   </div>
                   <div class="col-12">
@@ -183,7 +183,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useUserStore } from 'stores/user';
 import { toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
@@ -273,6 +273,10 @@ const healthCenterLocal = ref(Object.assign({}, props.healthCenter));
 const users = ref([]);
 const isNewUserEntryDialog = ref(false);
 const isViewUserEntryDialog = ref(false);
+
+const imagePreview = computed(() =>
+  props.healthCenter.image ? toPublicImage(props.healthCenter.image.path) : null
+);
 
 const onOpenNewUserEntryDialog = () =>
   (isNewUserEntryDialog.value = !isNewUserEntryDialog.value);

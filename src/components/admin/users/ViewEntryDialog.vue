@@ -2,7 +2,7 @@
   <q-dialog persistent v-model="modelValueLocal">
     <q-card style="min-width: 600px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">View John Doe Details</div>
+        <div class="text-h6">View {{ userLocal.first_name }} Details</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>

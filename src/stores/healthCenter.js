@@ -93,5 +93,19 @@ export const useHealthCenterStore = defineStore('health-center', {
         };
       }
     },
+
+    async delete(userID) {
+      try {
+        const response = await api.delete(`${route}/${userID}`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });

@@ -70,7 +70,14 @@
                     rounded
                     @click="onOpenViewEntryDialog(props.row)"
                   />
-                  <q-btn flat icon="delete" dense rounded class="text-red" />
+                  <q-btn
+                    flat
+                    icon="delete"
+                    dense
+                    rounded
+                    class="text-red"
+                    @click="onOpenDeleteAlertDialog(props.row)"
+                  />
                 </q-td>
               </q-tr>
             </template>
@@ -79,12 +86,20 @@
       </q-card-section>
     </q-card>
     <SuperadminHealthCenterNewEntryDialog
-      v-model="isNewEntryDialog"
+      v-model="isNewEntryDialogOpen"
       @onCreateSuccess="getHealthCenters"
     />
     <SuperadminHealthCenterViewEntryDialog
       :health-center="healthCenter"
-      v-model="isViewEntryDialog"
+      v-model="isViewEntryDialogOpen"
+      v-if="objetHasValue(healthCenter)"
+    />
+    <BaseAlertDialog
+      :title="`Delete ${healthCenter.name}?`"
+      action-label="Delete"
+      action-color="#f44336"
+      @onProceed="deleteHealthCenter"
+      v-model="isDeleteAlertDialogOpen"
       v-if="objetHasValue(healthCenter)"
     />
   </q-page>
@@ -106,6 +121,7 @@ import { useHealthCenterStore } from 'stores/healthCenter';
 import { useQuasar } from 'quasar';
 import { debounce, toAddress, toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
+import BaseAlertDialog from 'components/BaseAlertDialog.vue';
 
 const healthCenterStore = useHealthCenterStore();
 const $q = useQuasar();
@@ -142,17 +158,22 @@ const columns = [
 ];
 
 const healthCenters = ref([]);
-const isNewEntryDialog = ref(false);
-const isViewEntryDialog = ref(false);
+const isNewEntryDialogOpen = ref(false);
+const isViewEntryDialogOpen = ref(false);
+const isDeleteAlertDialogOpen = ref(false);
 const search = ref(null);
 const healthCenter = ref(null);
 const users = ref([]);
 
 const onOpenNewEntryDialog = () =>
-  (isNewEntryDialog.value = !isNewEntryDialog.value);
+  (isNewEntryDialogOpen.value = !isNewEntryDialogOpen.value);
 const onOpenViewEntryDialog = (data) => {
   healthCenter.value = Object.assign(data);
-  isViewEntryDialog.value = !isViewEntryDialog.value;
+  isViewEntryDialogOpen.value = !isViewEntryDialogOpen.value;
+};
+const onOpenDeleteAlertDialog = (data) => {
+  healthCenter.value = Object.assign({}, data);
+  isDeleteAlertDialogOpen.value = !isDeleteAlertDialogOpen.value;
 };
 
 const getHealthCenters = async () => {
@@ -161,6 +182,18 @@ const getHealthCenters = async () => {
   });
   if (code === 200) {
     healthCenters.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const deleteHealthCenter = async () => {
+  const { code } = await healthCenterStore.delete(healthCenter.value.id);
+  if (code === 200) {
+    await getHealthCenters();
+    isDeleteAlertDialogOpen.value = false;
     return;
   }
   $q.notify({
