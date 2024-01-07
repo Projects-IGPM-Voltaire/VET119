@@ -73,6 +73,13 @@
                   />
                   <q-btn
                     flat
+                    icon="lock_reset"
+                    dense
+                    rounded
+                    @click="onOpenResetPasswordDialog(props.row)"
+                  />
+                  <q-btn
+                    flat
                     icon="delete"
                     dense
                     rounded
@@ -89,12 +96,18 @@
     <AdminUserNewEntryDialog
       :healthCenterID="healthCenterID"
       @onCreateSuccess="getUsers"
-      v-model="isNewEntryDialog"
+      v-model="isNewEntryDialogOpen"
+    />
+    <AdminUserResetPasswordDialog
+      :user="user"
+      @onCreateSuccess="getUsers"
+      v-model="isResetPasswordDialogOpen"
+      v-if="objetHasValue(user)"
     />
     <AdminUserViewEntryDialog
       :user="user"
       @onUpdateSuccess="getUsers"
-      v-model="isViewEntryDialog"
+      v-model="isViewEntryDialogOpen"
       v-if="objetHasValue(user)"
     />
   </q-page>
@@ -117,6 +130,7 @@ import { useUserStore } from 'stores/user';
 import { debounce, toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
 import { useAuthStore } from 'stores/auth';
+import AdminUserResetPasswordDialog from 'components/admin/users/ResetPasswordDialog.vue';
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -164,8 +178,9 @@ const columns = [
   },
 ];
 
-const isNewEntryDialog = ref(false);
-const isViewEntryDialog = ref(false);
+const isNewEntryDialogOpen = ref(false);
+const isViewEntryDialogOpen = ref(false);
+const isResetPasswordDialogOpen = ref(false);
 
 const authUser = computed(() => authStore.user);
 const healthCenterID = computed(
@@ -178,10 +193,14 @@ watch(
 );
 
 const onOpenNewEntryDialog = () =>
-  (isNewEntryDialog.value = !isNewEntryDialog.value);
+  (isNewEntryDialogOpen.value = !isNewEntryDialogOpen.value);
 const onOpenViewEntryDialog = (data) => {
   user.value = Object.assign(data);
-  isViewEntryDialog.value = !isViewEntryDialog.value;
+  isViewEntryDialogOpen.value = !isViewEntryDialogOpen.value;
+};
+const onOpenResetPasswordDialog = (data) => {
+  user.value = Object.assign(data);
+  isResetPasswordDialogOpen.value = !isResetPasswordDialogOpen.value;
 };
 const getUsers = async () => {
   const { code, data } = await userStore.list({
@@ -208,6 +227,5 @@ const deleteUser = async (userID) => {
     color: 'negative',
   });
 };
-
 getUsers();
 </script>

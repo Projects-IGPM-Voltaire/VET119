@@ -111,5 +111,22 @@ export const useUserStore = defineStore('user', {
         };
       }
     },
+
+    async resetPassword({ userID, password, passwordConfirmation }) {
+      try {
+        const response = await api.post(`${route}/reset-password/${userID}`, {
+          password,
+          password_confirmation: passwordConfirmation,
+        });
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
   },
 });

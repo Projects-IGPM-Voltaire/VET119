@@ -23,8 +23,7 @@
                 />
               </div>
               <div class="col-12">
-                <q-input
-                  type="password"
+                <CustomPasswordInput
                   color="primary"
                   outlined
                   label="Password"
@@ -75,6 +74,7 @@ import { reactive, ref } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import CustomPasswordInput from 'components/CustomPasswordInput.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();

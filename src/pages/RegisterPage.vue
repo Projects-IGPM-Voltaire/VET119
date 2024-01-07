@@ -94,8 +94,7 @@
                     />
                   </div>
                   <div class="col-12">
-                    <q-input
-                      type="password"
+                    <CustomPasswordInput
                       color="primary"
                       outlined
                       label="Password"
@@ -103,8 +102,7 @@
                     />
                   </div>
                   <div class="col-12">
-                    <q-input
-                      type="password"
+                    <CustomPasswordInput
                       color="primary"
                       outlined
                       label="Password Confirmation"
@@ -148,6 +146,7 @@ import { useAuthStore } from 'stores/auth';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import CustomHealthCenterSelect from 'components/CustomHealthCenterSelect.vue';
+import CustomPasswordInput from 'components/CustomPasswordInput.vue';
 
 const authStore = useAuthStore();
 const $q = useQuasar();
