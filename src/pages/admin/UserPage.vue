@@ -36,10 +36,10 @@
                 </template>
               </q-input>
             </div>
-            <div>
+            <!--            <div>
               <q-btn icon="filter_alt" flat rounded round dense></q-btn>
               <q-btn icon="sort" flat rounded round dense></q-btn>
-            </div>
+            </div>-->
           </div>
           <q-table flat :rows="users" :columns="columns" row-key="name">
             <template v-slot:body="props">

@@ -120,8 +120,10 @@
                 </q-input>
               </div>
               <div>
+                <!--
                 <q-btn icon="filter_alt" flat rounded round dense></q-btn>
                 <q-btn icon="sort" flat rounded round dense></q-btn>
+-->
               </div>
             </div>
             <q-table flat :rows="users" :columns="userColumns" row-key="name">
@@ -190,10 +192,10 @@
             </div>
             <div class="flex justify-between q-mt-lg">
               <div></div>
-              <div>
+              <!--              <div>
                 <q-btn icon="filter_alt" flat rounded round dense></q-btn>
                 <q-btn icon="sort" flat rounded round dense></q-btn>
-              </div>
+              </div>-->
             </div>
             <div class="q-py-md">
               <q-table
