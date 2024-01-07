@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 800px">
+    <q-card style="min-width: 1200px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Super Health Center</div>
         <q-space />
@@ -130,6 +130,8 @@
                     <q-img
                       :src="toPublicImage(props.row.image.path)"
                       width="10rem"
+                      height="10rem"
+                      position="center"
                       v-if="objetHasValue(props.row.image)"
                     />
                     <span class="text-grey-6" v-else>No Image.</span>
@@ -143,10 +145,30 @@
                   <q-td key="name" class="text-capitalize" :props="props">
                     {{ props.row.health_center_member.position }}
                   </q-td>
-                  <!--                  <q-td key="actions" :props="props">
-                    <q-btn flat icon="edit" dense rounded />
-                    <q-btn flat icon="delete" dense rounded class="text-red" />
-                  </q-td>-->
+                  <q-td key="actions" :props="props">
+                    <q-btn
+                      flat
+                      icon="edit"
+                      dense
+                      rounded
+                      @click="onOpenViewUserEntryDialog(props.row)"
+                    />
+                    <q-btn
+                      flat
+                      icon="lock_reset"
+                      dense
+                      rounded
+                      @click="onOpenResetUserPasswordDialog(props.row)"
+                    />
+                    <q-btn
+                      flat
+                      icon="delete"
+                      dense
+                      rounded
+                      class="text-red"
+                      @click="deleteUser(props.row.id)"
+                    />
+                  </q-td>
                 </q-tr>
               </template>
             </q-table>
@@ -165,11 +187,19 @@
     <AdminUserNewEntryDialog
       :healthCenterID="healthCenterLocal.id"
       @onCreateSuccess="getUsers"
-      v-model="isNewUserEntryDialog"
+      v-model="isNewUserEntryDialogOpen"
+    />
+    <AdminUserResetPasswordDialog
+      :user="userLocal"
+      @onCreateSuccess="getUsers"
+      v-model="isResetUserPasswordDialogOpen"
+      v-if="objetHasValue(userLocal)"
     />
     <AdminUserViewEntryDialog
-      v-model="isViewUserEntryDialog"
-      v-if="isViewUserEntryDialog"
+      :user="userLocal"
+      @onUpdateSuccess="getUsers"
+      v-model="isViewUserEntryDialogOpen"
+      v-if="objetHasValue(userLocal)"
     />
   </q-dialog>
 </template>
@@ -190,6 +220,7 @@ import { objetHasValue } from 'src/extras/object';
 import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
 import { useQuasar } from 'quasar';
+import AdminUserResetPasswordDialog from 'components/admin/users/ResetPasswordDialog.vue';
 
 const props = defineProps({
   modelValue: {
@@ -265,23 +296,38 @@ const userColumns = [
     label: 'Type',
     sortable: false,
   },
+  {
+    name: 'actions',
+    align: 'left',
+    label: 'Actions',
+    field: 'actions',
+    sortable: false,
+  },
 ];
 
 const modelValueLocal = ref(props.modelValue);
 const tab = ref('about');
 const healthCenterLocal = ref(Object.assign({}, props.healthCenter));
 const users = ref([]);
-const isNewUserEntryDialog = ref(false);
-const isViewUserEntryDialog = ref(false);
+const userLocal = ref(null);
+const isNewUserEntryDialogOpen = ref(false);
+const isViewUserEntryDialogOpen = ref(false);
+const isResetUserPasswordDialogOpen = ref(false);
 
 const imagePreview = computed(() =>
   props.healthCenter.image ? toPublicImage(props.healthCenter.image.path) : null
 );
 
 const onOpenNewUserEntryDialog = () =>
-  (isNewUserEntryDialog.value = !isNewUserEntryDialog.value);
-const onOpenViewUserEntryDialog = () =>
-  (isViewUserEntryDialog.value = !isViewUserEntryDialog.value);
+  (isNewUserEntryDialogOpen.value = !isNewUserEntryDialogOpen.value);
+const onOpenViewUserEntryDialog = (data) => {
+  userLocal.value = Object.assign({}, data);
+  isViewUserEntryDialogOpen.value = !isViewUserEntryDialogOpen.value;
+};
+const onOpenResetUserPasswordDialog = (data) => {
+  userLocal.value = Object.assign({}, data);
+  isResetUserPasswordDialogOpen.value = !isResetUserPasswordDialogOpen.value;
+};
 const getUsers = async () => {
   const { code, data } = await userStore.list({
     healthCenterID: healthCenterLocal.value.id,
@@ -295,6 +341,18 @@ const getUsers = async () => {
     color: 'negative',
   });
 };
+const deleteUser = async (userID) => {
+  const { code } = await userStore.delete(userID);
+  if (code === 200) {
+    await getUsers();
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+getUsers();
 
 watch(
   () => props.modelValue,

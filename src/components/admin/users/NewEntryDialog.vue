@@ -74,20 +74,18 @@
                 ></q-input>
               </div>
               <div class="col-12">
-                <q-input
+                <CustomPasswordInput
                   label="Password"
                   outlined
-                  type="password"
                   v-model="form.password"
-                ></q-input>
+                />
               </div>
               <div class="col-12">
-                <q-input
+                <CustomPasswordInput
                   label="Password Confirmation"
                   outlined
-                  type="password"
                   v-model="form.password_confirmation"
-                ></q-input>
+                />
               </div>
             </div>
           </div>
@@ -121,6 +119,7 @@ import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
 import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
+import CustomPasswordInput from 'components/CustomPasswordInput.vue';
 
 const props = defineProps({
   modelValue: {
