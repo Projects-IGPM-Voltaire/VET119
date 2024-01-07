@@ -92,7 +92,7 @@
     <SuperadminHealthCenterViewEntryDialog
       :health-center="healthCenter"
       v-model="isViewEntryDialogOpen"
-      v-if="objetHasValue(healthCenter)"
+      v-if="objetHasValue(healthCenter) && isViewEntryDialogOpen"
     />
     <BaseAlertDialog
       :title="`Delete ${healthCenter.name}?`"

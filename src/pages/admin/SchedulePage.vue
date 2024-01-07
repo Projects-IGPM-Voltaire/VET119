@@ -23,13 +23,7 @@
         </div>
         <div class="q-py-md">
           <div class="flex justify-between">
-            <div>
-              <!--              <q-input dense placeholder="Search" outlined clearable>
-                <template v-slot:prepend>
-                  <q-icon name="search" />
-                </template>
-              </q-input>-->
-            </div>
+            <div></div>
             <div>
               <q-btn icon="filter_alt" flat rounded round dense></q-btn>
               <q-btn icon="sort" flat rounded round dense></q-btn>
@@ -106,7 +100,6 @@ import { debounce } from 'src/extras/misc';
 import { useScheduleStore } from 'stores/schedule';
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
 
-const userStore = useUserStore();
 const authStore = useAuthStore();
 const scheduleStore = useScheduleStore();
 const $q = useQuasar();

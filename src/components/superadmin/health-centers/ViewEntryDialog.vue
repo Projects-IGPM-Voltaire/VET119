@@ -89,24 +89,6 @@
                   </div>
                 </div>
               </div>
-              <!--              <div class="col-12">-->
-              <!--                <p class="text-subtitle2 text-grey-6">Services</p>-->
-              <!--                <div class="row q-col-gutter-md">-->
-              <!--                  <template v-for="n in 6" :key="n">-->
-              <!--                    <div class="col-4">-->
-              <!--                      <q-card>-->
-              <!--                        <q-card-section>-->
-              <!--                          <p class="text-subtitle1 text-bold q-mb-none">-->
-              <!--                            Service {{ n }}-->
-              <!--                          </p>-->
-              <!--                          <div class="text-body2">lorem5</div>-->
-              <!--                        </q-card-section>-->
-              <!--                      </q-card>-->
-              <!--                    </div>-->
-              <!--                  </template>-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              -->
             </div>
           </q-tab-panel>
           <q-tab-panel name="users">
@@ -123,14 +105,33 @@
                 </q-btn>
               </div>
             </div>
+            <div class="flex justify-between q-mt-lg">
+              <div>
+                <q-input
+                  dense
+                  placeholder="Search"
+                  outlined
+                  clearable
+                  v-model="search"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </div>
+              <div>
+                <q-btn icon="filter_alt" flat rounded round dense></q-btn>
+                <q-btn icon="sort" flat rounded round dense></q-btn>
+              </div>
+            </div>
             <q-table flat :rows="users" :columns="userColumns" row-key="name">
               <template v-slot:body="props">
                 <q-tr :props="props">
                   <q-td key="image" :props="props">
                     <q-img
                       :src="toPublicImage(props.row.image.path)"
-                      width="10rem"
-                      height="10rem"
+                      width="5rem"
+                      height="5rem"
                       position="center"
                       v-if="objetHasValue(props.row.image)"
                     />
@@ -174,12 +175,84 @@
             </q-table>
           </q-tab-panel>
           <q-tab-panel name="schedules">
-            <q-table
-              flat
-              :rows="schedules"
-              :columns="scheduleColumns"
-              row-key="name"
-            />
+            <div class="flex justify-between">
+              <div></div>
+              <div>
+                <q-btn
+                  outline
+                  class="text-capitalize text-black"
+                  @click="onOpenNewScheduleEntryDialog"
+                >
+                  <q-icon name="add" class="q-mr-xs" /> Add
+                  <span class="q-ml-xs text-lowercase">new entry</span>
+                </q-btn>
+              </div>
+            </div>
+            <div class="flex justify-between q-mt-lg">
+              <div>
+                <q-input
+                  dense
+                  placeholder="Search"
+                  outlined
+                  clearable
+                  v-model="search"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </div>
+              <div>
+                <q-btn icon="filter_alt" flat rounded round dense></q-btn>
+                <q-btn icon="sort" flat rounded round dense></q-btn>
+              </div>
+            </div>
+            <div class="q-py-md">
+              <q-table
+                flat
+                :rows="schedules"
+                :columns="scheduleColumns"
+                row-key="name"
+              >
+                <template v-slot:body="props">
+                  <q-tr :props="props">
+                    <q-td key="reference_number" :props="props">
+                      {{ props.row.reference_number }}
+                    </q-td>
+                    <q-td key="patient_number" :props="props">
+                      {{ props.row.patient_number }}
+                    </q-td>
+                    <q-td key="date" :props="props">
+                      {{ props.row.date }}
+                    </q-td>
+                    <q-td key="time" :props="props">
+                      {{ convertTo12HourFormat(props.row.time_from) }} -
+                      {{ convertTo12HourFormat(props.row.time_to) }}
+                    </q-td>
+                    <q-td key="patient" :props="props">
+                      {{ props.row.first_name }} {{ props.row.last_name }}
+                    </q-td>
+                    <q-td key="actions" :props="props">
+                      <!--                  <q-btn-->
+                      <!--                    flat-->
+                      <!--                    icon="edit"-->
+                      <!--                    dense-->
+                      <!--                    rounded-->
+                      <!--                    @click="onOpenViewEntryDialog"-->
+                      <!--                  />-->
+                      <q-btn
+                        flat
+                        icon="delete"
+                        dense
+                        rounded
+                        class="text-red"
+                        @click="deleteSchedule(props.row.id)"
+                      />
+                    </q-td>
+                  </q-tr>
+                </template>
+              </q-table>
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -201,6 +274,13 @@
       v-model="isViewUserEntryDialogOpen"
       v-if="objetHasValue(userLocal)"
     />
+    <AdminScheduleNewEntryDialog
+      :healthCenterID="healthCenterLocal.id"
+      @onCreateSuccess="getSchedules"
+      v-model="isNewScheduleEntryDialogOpen"
+      v-if="isNewScheduleEntryDialogOpen"
+    />
+    <AdminScheduleViewEntryDialog v-model="isViewScheduleEntryDialogOpen" />
   </q-dialog>
 </template>
 
@@ -221,6 +301,9 @@ import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
 import { useQuasar } from 'quasar';
 import AdminUserResetPasswordDialog from 'components/admin/users/ResetPasswordDialog.vue';
+import { useScheduleStore } from 'stores/schedule';
+import AdminScheduleViewEntryDialog from 'components/admin/schedules/ViewEntryDialog.vue';
+import AdminScheduleNewEntryDialog from 'components/admin/schedules/NewEntryDialog.vue';
 
 const props = defineProps({
   modelValue: {
@@ -235,9 +318,24 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const userStore = useUserStore();
+const scheduleStore = useScheduleStore();
 const $q = useQuasar();
 
 const scheduleColumns = [
+  {
+    name: 'reference_number',
+    field: 'reference_number',
+    align: 'left',
+    label: 'Reference',
+    sortable: false,
+  },
+  {
+    name: 'patient_number',
+    field: 'patient_number',
+    align: 'left',
+    label: 'Patient',
+    sortable: false,
+  },
   {
     name: 'date',
     field: 'date',
@@ -259,12 +357,12 @@ const scheduleColumns = [
     label: 'Patient',
     sortable: false,
   },
-];
-const schedules = [
   {
-    date: 'November 10, 2023',
-    time: '6:00AM - 7:00AM',
-    patient: 'John Doe',
+    name: 'actions',
+    align: 'left',
+    label: 'Actions',
+    field: 'actions',
+    sortable: false,
   },
 ];
 const userColumns = [
@@ -313,6 +411,9 @@ const userLocal = ref(null);
 const isNewUserEntryDialogOpen = ref(false);
 const isViewUserEntryDialogOpen = ref(false);
 const isResetUserPasswordDialogOpen = ref(false);
+const schedules = ref([]);
+const isNewScheduleEntryDialogOpen = ref(false);
+const isViewScheduleEntryDialogOpen = ref(false);
 
 const imagePreview = computed(() =>
   props.healthCenter.image ? toPublicImage(props.healthCenter.image.path) : null
@@ -328,6 +429,10 @@ const onOpenResetUserPasswordDialog = (data) => {
   userLocal.value = Object.assign({}, data);
   isResetUserPasswordDialogOpen.value = !isResetUserPasswordDialogOpen.value;
 };
+const onOpenNewScheduleEntryDialog = () =>
+  (isNewScheduleEntryDialogOpen.value = !isNewScheduleEntryDialogOpen.value);
+const onOpenViewScheduleEntryDialog = () =>
+  (isViewScheduleEntryDialogOpen.value = !isViewScheduleEntryDialogOpen.value);
 const getUsers = async () => {
   const { code, data } = await userStore.list({
     healthCenterID: healthCenterLocal.value.id,
@@ -352,7 +457,47 @@ const deleteUser = async (userID) => {
     color: 'negative',
   });
 };
+const getSchedules = async () => {
+  const { code, data } = await scheduleStore.list({
+    healthCenterID: healthCenterLocal.value.id,
+  });
+  if (code === 200) {
+    schedules.value = data;
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const deleteSchedule = async (scheduleID) => {
+  const { code } = await scheduleStore.delete(scheduleID);
+  if (code === 200) {
+    await getSchedules();
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const convertTo12HourFormat = (time24hr) => {
+  const [hours, minutes] = time24hr.split(':');
+  let period = 'AM';
+
+  let hours12 = parseInt(hours, 10);
+  if (hours12 >= 12) {
+    period = 'PM';
+    if (hours12 > 12) {
+      hours12 -= 12;
+    }
+  }
+
+  return `${hours12}:${minutes} ${period}`;
+};
+
 getUsers();
+getSchedules();
 
 watch(
   () => props.modelValue,
