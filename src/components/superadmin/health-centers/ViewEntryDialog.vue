@@ -112,7 +112,7 @@
                   placeholder="Search"
                   outlined
                   clearable
-                  v-model="search"
+                  v-model="searchUser"
                 >
                   <template v-slot:prepend>
                     <q-icon name="search" />
@@ -189,19 +189,7 @@
               </div>
             </div>
             <div class="flex justify-between q-mt-lg">
-              <div>
-                <q-input
-                  dense
-                  placeholder="Search"
-                  outlined
-                  clearable
-                  v-model="search"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="search" />
-                  </template>
-                </q-input>
-              </div>
+              <div></div>
               <div>
                 <q-btn icon="filter_alt" flat rounded round dense></q-btn>
                 <q-btn icon="sort" flat rounded round dense></q-btn>
@@ -295,7 +283,7 @@ export default defineComponent({
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useUserStore } from 'stores/user';
-import { toPublicImage } from 'src/extras/misc';
+import { debounce, toPublicImage } from 'src/extras/misc';
 import { objetHasValue } from 'src/extras/object';
 import AdminUserViewEntryDialog from 'components/admin/users/ViewEntryDialog.vue';
 import AdminUserNewEntryDialog from 'components/admin/users/NewEntryDialog.vue';
@@ -414,6 +402,7 @@ const isResetUserPasswordDialogOpen = ref(false);
 const schedules = ref([]);
 const isNewScheduleEntryDialogOpen = ref(false);
 const isViewScheduleEntryDialogOpen = ref(false);
+const searchUser = ref(null);
 
 const imagePreview = computed(() =>
   props.healthCenter.image ? toPublicImage(props.healthCenter.image.path) : null
@@ -436,6 +425,7 @@ const onOpenViewScheduleEntryDialog = () =>
 const getUsers = async () => {
   const { code, data } = await userStore.list({
     healthCenterID: healthCenterLocal.value.id,
+    search: searchUser.value || null,
   });
   if (code === 200) {
     users.value = data;
@@ -496,8 +486,10 @@ const convertTo12HourFormat = (time24hr) => {
   return `${hours12}:${minutes} ${period}`;
 };
 
-getUsers();
-getSchedules();
+watch(
+  () => searchUser.value,
+  debounce(async () => await getUsers(), 500)
+);
 
 watch(
   () => props.modelValue,
@@ -509,4 +501,5 @@ watch(
 );
 
 getUsers();
+getSchedules();
 </script>
