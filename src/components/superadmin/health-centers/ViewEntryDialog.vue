@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="width: 1200px">
+    <q-card style="width: 1200px; max-width: 1200px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">{{ healthCenterLocal.name }}</div>
         <q-space />
@@ -28,10 +28,21 @@
           <q-tab-panel name="about">
             <div class="row q-col-gutter-md">
               <div class="col-12 q-mb-md">
+                <div class="col-12">
+                  <p
+                    class="text-subtitle1 text-negative"
+                    v-if="!!healthCenterFormError"
+                  >
+                    {{ healthCenterFormError }}
+                  </p>
+                </div>
                 <div class="row q-col-gutter-md">
-                  <div class="col-12 text-center" v-if="imagePreview">
+                  <div
+                    class="col-12 text-center"
+                    v-if="healthCenterImagePreview"
+                  >
                     <q-img
-                      :src="imagePreview"
+                      :src="healthCenterImagePreview"
                       width="10rem"
                       height="10rem"
                       position="center"
@@ -42,11 +53,26 @@
                       color="primary"
                       outlined
                       label="Name"
-                      readonly
-                      v-model="healthCenterLocal.name"
+                      v-model="healthCenterForm.name"
                     />
                   </div>
-
+                  <div class="col-12">
+                    <div class="col-12">
+                      <q-input
+                        @update:model-value="
+                          (val) => {
+                            file = val[0];
+                          }
+                        "
+                        outlined
+                        type="file"
+                        hint="New Image"
+                        clearable
+                        @clear="healthCenterForm.image = null"
+                        v-model="healthCenterForm.image"
+                      />
+                    </div>
+                  </div>
                   <div class="col-12">
                     <p class="text-subtitle2 text-grey-6">Address</p>
                     <div class="row q-col-gutter-md">
@@ -55,8 +81,7 @@
                           color="primary"
                           outlined
                           label="House number or building"
-                          readonly
-                          v-model="healthCenterLocal.address.house_number"
+                          v-model="healthCenterForm.house_number"
                         />
                       </div>
                       <div class="col-8">
@@ -64,28 +89,35 @@
                           color="primary"
                           outlined
                           label="Street"
-                          readonly
-                          v-model="healthCenterLocal.address.street"
+                          v-model="healthCenterForm.street"
                         />
                       </div>
-                      <div class="col-12">
-                        <q-input
+                      <!--                      <div class="col-12">
+                        <CustomBarangaySelect
                           color="primary"
                           outlined
-                          readonly
-                          v-model="healthCenterLocal.address.barangay.name"
+                          v-model="healthCenterForm.barangay_code"
                         />
-                      </div>
+                      </div>-->
                       <div class="col-12">
                         <q-input
                           color="primary"
                           outlined
                           label="Google Map Link"
-                          readonly
-                          v-model="healthCenterLocal.address.map_url"
+                          v-model="healthCenterForm.map_url"
                         />
                       </div>
                     </div>
+                  </div>
+                  <div class="col-12">
+                    <q-btn
+                      label="Update"
+                      color="primary"
+                      class="full-width text-capitalize"
+                      :loading="isHealthCenterFormLoading"
+                      :disable="isHealthCenterFormLoading"
+                      @click="onUpdateHealthCenter"
+                    />
                   </div>
                 </div>
               </div>
@@ -294,6 +326,8 @@ import AdminUserResetPasswordDialog from 'components/admin/users/ResetPasswordDi
 import { useScheduleStore } from 'stores/schedule';
 import AdminScheduleViewEntryDialog from 'components/admin/schedules/ViewEntryDialog.vue';
 import AdminScheduleNewEntryDialog from 'components/admin/schedules/NewEntryDialog.vue';
+import { useHealthCenterStore } from 'stores/healthCenter';
+import CustomBarangaySelect from 'components/CustomBarangaySelect.vue';
 
 const props = defineProps({
   modelValue: {
@@ -305,11 +339,12 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'onUpdateHealthCenterSuccess']);
 
 const userStore = useUserStore();
 const scheduleStore = useScheduleStore();
 const $q = useQuasar();
+const healthCenterStore = useHealthCenterStore();
 
 const scheduleColumns = [
   {
@@ -405,8 +440,20 @@ const schedules = ref([]);
 const isNewScheduleEntryDialogOpen = ref(false);
 const isViewScheduleEntryDialogOpen = ref(false);
 const searchUser = ref(null);
+const isHealthCenterFormLoading = ref(false);
+const healthCenterFormError = ref(false);
+const defaultHealthCenterForm = {
+  name: props.healthCenter.name,
+  image: null,
+  house_number: props.healthCenter.address.house_number,
+  street: props.healthCenter.address.street,
+  city_code: '137504',
+  barangay_code: props.healthCenter.address.barangay_code,
+  map_url: props.healthCenter.address.map_url,
+};
+const healthCenterForm = ref(Object.assign({}, defaultHealthCenterForm));
 
-const imagePreview = computed(() =>
+const healthCenterImagePreview = computed(() =>
   props.healthCenter.image ? toPublicImage(props.healthCenter.image.path) : null
 );
 
@@ -486,6 +533,26 @@ const convertTo12HourFormat = (time24hr) => {
   }
 
   return `${hours12}:${minutes} ${period}`;
+};
+const onUpdateHealthCenter = async () => {
+  healthCenterFormError.value = null;
+  isHealthCenterFormLoading.value = true;
+  const { code, message } = await healthCenterStore.update({
+    healthCenterID: healthCenterLocal.value.id,
+    ...healthCenterForm.value,
+  });
+  isHealthCenterFormLoading.value = false;
+  if (code === 200) {
+    $q.notify({
+      message: 'Health center updated successfully!',
+      color: 'positive',
+    });
+    modelValueLocal.value = false;
+    healthCenterForm.value.image = null;
+    emit('onUpdateHealthCenterSuccess');
+    return;
+  }
+  healthCenterFormError.value = message;
 };
 
 watch(

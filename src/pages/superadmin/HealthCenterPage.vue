@@ -92,6 +92,7 @@
       @onCreateSuccess="getHealthCenters"
     />
     <SuperadminHealthCenterViewEntryDialog
+      @onUpdateHealthCenterSuccess="getHealthCenters"
       :health-center="healthCenter"
       v-model="isViewEntryDialogOpen"
       v-if="objetHasValue(healthCenter) && isViewEntryDialogOpen"

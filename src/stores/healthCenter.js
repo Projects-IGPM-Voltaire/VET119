@@ -61,6 +61,57 @@ export const useHealthCenterStore = defineStore('health-center', {
       }
     },
 
+    async update({
+      healthCenterID,
+      name,
+      image,
+      house_number,
+      street,
+      city_code,
+      barangay_code,
+      map_url,
+    }) {
+      console.log({
+        healthCenterID,
+        name,
+        image,
+        house_number,
+        street,
+        city_code,
+        barangay_code,
+        map_url,
+      });
+      try {
+        const formData = toFormData({
+          name,
+          image: image && image.length > 0 ? image[0] : null,
+          house_number,
+          street,
+          city_code,
+          barangay_code,
+          map_url,
+          _method: 'PUT',
+        });
+        const response = await api.post(
+          `${route}/${healthCenterID}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
+
     async getOperationHour({ healthCenterID }) {
       try {
         const response = await api.get(

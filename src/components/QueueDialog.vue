@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="width: 800px">
+    <q-card style="width: 800px; max-width: 800px">
       <q-card-section class="row items-center q-pb-none">
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -11,7 +11,7 @@
         </div>
         <q-card-section v-else>
           <div class="row q-col-gutter-lg">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <h5
                 class="text-h5 text-bold bg-black text-white inline-block q-pa-sm q-mt-none"
               >
@@ -32,7 +32,7 @@
                 </template>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-6">
               <h5
                 class="text-h5 text-bold bg-primary text-white inline-block q-pa-sm q-mt-none"
               >

@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="width: 600px">
+    <q-card style="width: 800px; max-width: 800px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Book an Appointment</div>
         <q-space />

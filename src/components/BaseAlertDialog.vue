@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="width: 30rem">
+    <q-card style="width: 30rem; max-width: 30rem">
       <q-card-section class="row items-center">
         <div class="text-h6">{{ title }}</div>
         <q-space />
