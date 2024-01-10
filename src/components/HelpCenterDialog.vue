@@ -3,14 +3,14 @@
     <q-card style="width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div>
-          <div class="text-h6">Help Center</div>
+          <div class="text-h6">Help</div>
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <div>
         <q-card-section>
-          <h5>Getting Started:</h5>
+          <h6 class="text-h6 q-my-md">Getting Started:</h6>
           <p>
             MediQueue is a queueing management system that allows patients to
             book an appointment online beforehand without visiting the actual
@@ -20,72 +20,59 @@
             works for them and decrease their waiting time.
           </p>
         </q-card-section>
-
         <q-card-section>
-          <h5>User Guide:</h5>
-          <ol>
-            <li>
-              Choose - Browse from our offered services and choose one that
-              suits your needs.
-            </li>
-            <li>
-              Register - Let us know about you. Fill up and complete the
-              required registration details.
-            </li>
-            <li>
-              Book - Book your appointment and choose the schedule that works
-              for you.
-            </li>
-          </ol>
-        </q-card-section>
-
-        <q-card-section>
-          <h5>Features:</h5>
-          <ol>
-            <li>
-              <h6>Home Page (Poster of Seasonal Projects):</h6>
-              <p>
-                Display seasonal projects on the home page to keep users
-                informed about ongoing initiatives.
-              </p>
-            </li>
-            <!-- Add other features here... -->
-          </ol>
-        </q-card-section>
-
-        <q-card-section>
-          <h5>Troubleshooting:</h5>
-          <ul>
-            <li>Check your data or wifi connection and reload the website.</li>
-            <li>
-              If still not in work, contact information for customer support by
-              sending an email to mediqueue.pr2@gmail.com.
-            </li>
-          </ul>
-        </q-card-section>
-
-        <q-card-section>
-          <h5>Security and Privacy:</h5>
+          <h6 class="text-h6 q-my-md">To successfully book an appointment:</h6>
           <p>
-            This website, created by Valenzuela City School of Mathematics and
+            <span class="text-weight-bold">Step 1</span>: Book an Appointment
+            Choose your preferred appointment date and time. Take note of your
+            Reference Number. Be guided with the reminders provided for the day
+            of your appointment.
+          </p>
+          <p>
+            <span class="text-weight-bold">Step 2</span>: Check your Booking To
+            confirm the details of your appointment, go to Check my Schedule and
+            enter your Reference Number. The details of your appointment should
+            appear.
+          </p>
+          <p>
+            <span class="text-weight-bold">Step 3</span>: Appointment Check your
+            queue in Queues with your Patient Number as your reference. You will
+            know if you are next in line for the appointment.
+          </p>
+          <p>
+            <span class="text-weight-bold">Step 3</span>: Appointment Check your
+            queue in Queues with your Patient Number as your reference. You will
+            know if you are next in line for the appointment.
+          </p>
+        </q-card-section>
+        <q-card-section>
+          <h6 class="text-h6 q-my-md">Troubleshooting:</h6>
+          <p>
+            <span class="text-weight-bold">1.</span> Check your data or wifi
+            connection and reload the website.
+          </p>
+          <p>
+            <span class="text-weight-bold">2.</span> If errors still persist,
+            contact us via email (<span class="text-weight-bold"
+              >mediqueue.pr2@gmail.com</span
+            >) for customer support.
+          </p>
+        </q-card-section>
+        <q-card-section>
+          <h6 class="text-h6 q-my-md">Security and Privacy:</h6>
+          <p>
+            MediQueue, created by Valenzuela City School of Mathematics and
             Science Grade 12 students in compliance with their Practical II
             Research Subject, prioritizes the security and privacy of user
             information. All data collected from this website will be treated
             with utmost confidentiality and used solely for healthcare purposes.
-          </p>
-          <!-- Add more details about security and privacy... -->
-        </q-card-section>
-
-        <q-card-section>
-          <h5>Updates and Release Notes:</h5>
-          <p>
-            For more updates please visit our page: MediQueue (or link)*
-            assuming fb page ito
+            In strict adherence to the Republic Act 10173 – Data Privacy Act of
+            2012, the collected data will not be disclosed to the public in any
+            manner that could identify the patients.
           </p>
         </q-card-section>
-
         <q-card-section>
-          <h5>Terms of Service:</h5>
+          <h6 class="text-h6 q-my-md">Terms of Service:</h6>
           <p>
             The use of MediQueue website or sending an email to
             mediqueue.pr2@gmail.com means that you are allowing us to
@@ -94,35 +81,6 @@
             clarification, you agree that our communication and the information
             we provided satisfy any legal requirements that such communications
             be in writing.
-          </p>
-        </q-card-section>
-
-        <q-card-section>
-          <h5>Feedback:</h5>
-          <p>
-            We value your feedback as it plays a crucial role in enhancing and
-            refining the user experience of the MediQueue website. Your insights
-            and suggestions help us identify areas for improvement and ensure
-            that we continue to meet your expectations.
-          </p>
-          <p>
-            To provide feedback on the system, please follow these instructions:
-          </p>
-          <ol>
-            <li>Navigate to the [link].</li>
-            <li>
-              Fill out the feedback form with your thoughts, suggestions, or any
-              issues you may have encountered.
-            </li>
-            <li>
-              Submit the form to contribute to the ongoing improvement of our
-              services.
-            </li>
-          </ol>
-          <p>
-            Thank you for taking the time to share your feedback with us. Your
-            input is invaluable in our commitment to providing a seamless and
-            efficient healthcare appointment management experience.
           </p>
         </q-card-section>
       </div>
