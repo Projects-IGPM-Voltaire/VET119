@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 800px">
+    <q-card style="width: 800px">
       <q-card-section class="row items-center q-pb-none">
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />

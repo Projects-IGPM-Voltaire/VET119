@@ -25,7 +25,7 @@
           <span>{{ user.first_name }}</span>
 
           <q-menu>
-            <q-list style="min-width: 100px">
+            <q-list style="width: 100px">
               <q-item clickable v-close-popup @click="onLogout">
                 <q-item-section>Logout</q-item-section>
               </q-item>

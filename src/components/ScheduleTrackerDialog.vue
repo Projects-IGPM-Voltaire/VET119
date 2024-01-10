@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 600px">
+    <q-card style="width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Check my Queue</div>
         <q-space />

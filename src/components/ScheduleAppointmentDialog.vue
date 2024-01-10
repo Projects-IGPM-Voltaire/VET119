@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 600px">
+    <q-card style="width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Book an Appointment</div>
         <q-space />
@@ -113,10 +113,10 @@
                   <q-item>
                     <q-item-section>
                       <q-item-label class="text-subtitle2 q-mb-none">
-                        Patient Number
+                        Reference Number
                       </q-item-label>
                       <q-item-label class="text-h6 q-my-none text-bold">
-                        #{{ schedule.patient_number }}
+                        #{{ schedule.reference_number }}
                       </q-item-label>
                     </q-item-section>
 
@@ -127,7 +127,7 @@
                         round
                         rounded
                         unelevated
-                        @click="copyPatientNumber"
+                        @click="copyReferenceNumber"
                       ></q-btn>
                     </q-item-section>
                   </q-item>
@@ -135,22 +135,18 @@
               </q-card>
             </div>
             <div class="col-12">
-              <p class="text-subtitle1 q-mb-sm">
-                <q-icon
-                  size="md"
-                  name="report"
-                  class="q-mr-xs text-bold"
-                />Reminders for Appointment!
+              <p class="text-subtitle1 q-mb-sm text-weight-bold">
+                <q-icon size="md" name="report" class="q-mr-xs" />Reminders for
+                Appointment!
               </p>
               <ul class="q-mt-none q-gutter-md">
                 <li>
-                  Reference Number:
+                  Patient Number:
                   <span
                     style="text-decoration: underline; cursor: pointer"
                     class="text-primary text-bold"
-                    @click="copyReferenceNumber"
-                    >{{ schedule.reference_number }}
-                    <q-icon name="content_copy"
+                    @click="copyPatientNumber"
+                    >{{ schedule.patient_number }} <q-icon name="content_copy"
                   /></span>
                 </li>
                 <li>

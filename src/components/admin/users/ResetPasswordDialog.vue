@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 300px">
+    <q-card style="width: 300px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
           Reset {{ user.first_name }} Password

@@ -59,7 +59,7 @@
                 <q-item-section
                   ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="event_available" class="q-mr-xs"></q-icon
-                    >Check my Queue
+                    >Check my Schedule
                   </p>
                 </q-item-section>
               </q-item>
@@ -107,7 +107,6 @@
                 <q-item-section
                   ><p class="text-h6 text-bold q-mb-none">
                     <q-icon name="help_center" class="q-mr-xs"></q-icon>Help
-                    Center
                   </p>
                 </q-item-section>
               </q-item>

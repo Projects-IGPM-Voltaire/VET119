@@ -51,18 +51,6 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
-      /*
-      {
-        path: 'dashboard',
-        name: 'admin-dashboard-page',
-        component: () => import('pages/admin/DashboardPage.vue'),
-        meta: {
-          requiresAuth: true,
-          level: 'admin',
-        },
-      },
-*/
-
       {
         path: 'health-center',
         name: 'superadmin-health-centers-page',

@@ -41,7 +41,7 @@
               <q-btn icon="sort" flat rounded round dense></q-btn>
             </div>-->
           </div>
-          <q-table flat :rows="users" :columns="columns" row-key="name">
+          <q-table flat :rows="filteredUsers" :columns="columns" row-key="name">
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td key="image" :props="props">
@@ -185,6 +185,9 @@ const isResetPasswordDialogOpen = ref(false);
 const authUser = computed(() => authStore.user);
 const healthCenterID = computed(
   () => authUser.value.health_center_member.health_center_id
+);
+const filteredUsers = computed(() =>
+  users.value.filter((user) => user.id !== authStore.user.id)
 );
 
 watch(

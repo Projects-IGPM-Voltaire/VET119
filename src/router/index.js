@@ -52,6 +52,12 @@ export default route(function (/* { store, ssrContext } */) {
         } else if (user.level === 'admin') {
           next({ name: 'admin-users-page' });
         }
+        if (to.name === 'login-page') {
+          next({ name: 'home-page' });
+        }
+        if (to.name === 'register-page') {
+          next({ name: 'home-page' });
+        }
       }
     }
     next();

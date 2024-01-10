@@ -1,8 +1,8 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 1200px">
+    <q-card style="width: 1200px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Super Health Center</div>
+        <div class="text-h6">{{ healthCenterLocal.name }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>

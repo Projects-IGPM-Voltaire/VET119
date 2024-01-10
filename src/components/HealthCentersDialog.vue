@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 800px">
+    <q-card style="width: 800px">
       <q-card-section class="row items-center q-pb-none">
         <div>
           <div class="text-h6">Health centers using Mediqueue</div>
@@ -22,8 +22,15 @@
                 <div class="text-h6 text-bold">
                   {{ center.name }}
                 </div>
-                <div class="text-subtitle2">
-                  {{ toAddress(center.address) }}
+                <div>
+                  <a
+                    :href="center.address.map_url"
+                    class="text-subtitle2"
+                    target="_blank"
+                  >
+                    <q-icon name="map" class="q-mr-xs" />
+                    {{ toAddress(center.address) }}
+                  </a>
                 </div>
               </q-item-section>
             </template>
@@ -32,7 +39,13 @@
               <q-card-section>
                 <q-img width="100%" :src="toPublicImage(center.image.path)" />
               </q-card-section>
-              <q-card-section>
+              <q-card-section
+                v-if="
+                  center.members.filter(
+                    (member, _) => member.position === 'doctor'
+                  ).length > 0
+                "
+              >
                 <div class="text-subtitle2 q-mb-md">Doctors</div>
                 <div class="row">
                   <template

@@ -1,6 +1,6 @@
 <template>
   <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="min-width: 600px">
+    <q-card style="width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">View John Doe Appointment</div>
         <q-space />
@@ -81,20 +81,20 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "AdminScheduleViewEntryDialog",
+  name: 'AdminScheduleViewEntryDialog',
 });
 </script>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
+import { ref, watch } from 'vue';
+const props = defineProps(['modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const modelValueLocal = ref(props.modelValue);
-const tab = ref("schedules");
+const tab = ref('schedules');
 
 watch(
   () => props.modelValue,
@@ -102,6 +102,6 @@ watch(
 );
 watch(
   () => modelValueLocal.value,
-  (val) => emit("update:modelValue", val)
+  (val) => emit('update:modelValue', val)
 );
 </script>
