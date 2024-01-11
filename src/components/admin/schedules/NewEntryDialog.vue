@@ -8,6 +8,12 @@
       </q-card-section>
       <template v-if="booted">
         <q-card-section>
+          <p
+            class="text-subtitle1 text-negative"
+            v-if="noAvailableTimeslotsError"
+          >
+            No timeslots available. Please try again tomorrow.
+          </p>
           <p class="text-subtitle1 text-negative" v-if="!!formError">
             {{ formError }}
           </p>
@@ -137,7 +143,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useScheduleStore } from 'stores/schedule';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -183,6 +189,10 @@ const formError = ref(false);
 const doctors = ref([]);
 const booted = ref(false);
 const operationHour = ref(null);
+
+const noAvailableTimeslotsError = computed(
+  () => !!form.date && timeRanges.value.length === 0
+);
 
 watch(
   () => props.modelValue,

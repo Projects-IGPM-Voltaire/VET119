@@ -14,7 +14,13 @@
           :done="step > 1"
         >
           <template v-if="booted">
-            <p class="text-subtitle1 text-negative" v-if="!!formError">
+            <p
+              class="text-subtitle1 text-negative"
+              v-if="noAvailableTimeslotsError"
+            >
+              No timeslots available. Please try again tomorrow.
+            </p>
+            <p class="text-subtitle1 text-negative" v-else-if="!!formError">
               {{ formError }}
             </p>
             <div class="row q-col-gutter-md">
@@ -293,6 +299,9 @@ const generateTimeRanges = () => {
 const authUser = computed(() => authStore.user);
 const healthCenterID = computed(
   () => authUser.value.health_center_member.center.id
+);
+const noAvailableTimeslotsError = computed(
+  () => !!form.date && timeRanges.value.length === 0
 );
 
 watch(

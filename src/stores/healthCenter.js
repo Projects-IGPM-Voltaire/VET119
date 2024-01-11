@@ -64,6 +64,7 @@ export const useHealthCenterStore = defineStore('health-center', {
     async update({
       healthCenterID,
       name,
+      limit,
       image,
       house_number,
       street,
@@ -71,19 +72,10 @@ export const useHealthCenterStore = defineStore('health-center', {
       barangay_code,
       map_url,
     }) {
-      console.log({
-        healthCenterID,
-        name,
-        image,
-        house_number,
-        street,
-        city_code,
-        barangay_code,
-        map_url,
-      });
       try {
         const formData = toFormData({
           name,
+          limit,
           image: image && image.length > 0 ? image[0] : null,
           house_number,
           street,

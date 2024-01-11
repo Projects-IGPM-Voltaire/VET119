@@ -57,6 +57,15 @@
                     />
                   </div>
                   <div class="col-12">
+                    <q-input
+                      color="primary"
+                      outlined
+                      label="Appointment limit"
+                      type="number"
+                      v-model="healthCenterForm.limit"
+                    />
+                  </div>
+                  <div class="col-12">
                     <div class="col-12">
                       <q-input
                         @update:model-value="
@@ -76,6 +85,15 @@
                   <div class="col-12">
                     <p class="text-subtitle2 text-grey-6">Address</p>
                     <div class="row q-col-gutter-md">
+                      <div class="col-12">
+                        <q-input
+                          color="primary"
+                          outlined
+                          readonly
+                          label="Barangay"
+                          v-model="healthCenterLocal.address.barangay.name"
+                        />
+                      </div>
                       <div class="col-4">
                         <q-input
                           color="primary"
@@ -92,13 +110,6 @@
                           v-model="healthCenterForm.street"
                         />
                       </div>
-                      <!--                      <div class="col-12">
-                        <CustomBarangaySelect
-                          color="primary"
-                          outlined
-                          v-model="healthCenterForm.barangay_code"
-                        />
-                      </div>-->
                       <div class="col-12">
                         <q-input
                           color="primary"
@@ -445,6 +456,7 @@ const healthCenterFormError = ref(false);
 const defaultHealthCenterForm = {
   name: props.healthCenter.name,
   image: null,
+  limit: props.healthCenter.limit,
   house_number: props.healthCenter.address.house_number,
   street: props.healthCenter.address.street,
   city_code: '137504',
