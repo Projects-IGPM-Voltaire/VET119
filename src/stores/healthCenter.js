@@ -104,6 +104,20 @@ export const useHealthCenterStore = defineStore('health-center', {
       }
     },
 
+    async get({ healthCenterID }) {
+      try {
+        const response = await api.get(`${route}/${healthCenterID}`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
+
     async getOperationHour({ healthCenterID }) {
       try {
         const response = await api.get(
