@@ -15,13 +15,13 @@
       <template v-if="booted">
         <q-card-section>
           <q-card>
-            <p
-              class="text-subtitle1 text-negative"
-              v-if="!!healthCenterFormError"
-            >
-              {{ healthCenterFormError }}
-            </p>
             <q-card-section>
+              <p
+                class="text-subtitle1 text-negative"
+                v-if="!!healthCenterFormError"
+              >
+                {{ healthCenterFormError }}
+              </p>
               <p class="subtitle-1">Profile</p>
               <div class="row q-col-gutter-md">
                 <div class="col-12 text-center" v-if="healthCenterImagePreview">
