@@ -140,7 +140,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import BaseInputDatePicker from 'components/BaseInputDatePicker.vue';
 import { useAuthStore } from 'stores/auth';
 import { useQuasar } from 'quasar';
@@ -152,7 +152,7 @@ const authStore = useAuthStore();
 const $q = useQuasar();
 const router = useRouter();
 
-const form = reactive({
+const form = ref({
   first_name: null,
   last_name: null,
   birthday: null,
@@ -172,7 +172,7 @@ const formError = ref(false);
 const onRegister = async () => {
   formError.value = null;
   isFormLoading.value = true;
-  const { code, message } = await authStore.register(form);
+  const { code, message } = await authStore.register(form.value);
   isFormLoading.value = false;
   if (code === 200) {
     await router.push({ name: 'login-page' });

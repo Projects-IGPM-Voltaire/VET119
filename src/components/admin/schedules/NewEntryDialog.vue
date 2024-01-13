@@ -143,7 +143,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useScheduleStore } from 'stores/schedule';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -183,7 +183,7 @@ const defaultForm = {
   time_from: null,
   time_to: null,
 };
-let form = reactive(Object.assign({}, defaultForm));
+let form = ref(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 const doctors = ref([]);
@@ -191,7 +191,7 @@ const booted = ref(false);
 const operationHour = ref(null);
 
 const noAvailableTimeslotsError = computed(
-  () => !!form.date && timeRanges.value.length === 0
+  () => !!form.value.date && timeRanges.value.length === 0
 );
 
 watch(
@@ -203,7 +203,7 @@ watch(
   (val) => emit('update:modelValue', val)
 );
 watch(
-  () => form.date,
+  () => form.value.date,
   (value) => {
     timeRanges.value = generateTimeRanges();
   }
@@ -213,7 +213,7 @@ const onCreate = async () => {
   formError.value = null;
   isFormLoading.value = true;
   const { code, message } = await scheduleStore.create({
-    ...form,
+    ...form.value,
     time_from: objetHasValue(selectedTime.value)
       ? selectedTime.value.time_from
       : null,
@@ -277,7 +277,7 @@ const generateTimeRanges = () => {
     const currentHour = new Date().getHours();
     const isToday =
       new Date().setHours(0, 0, 0, 0) ===
-      new Date(form.date).setHours(0, 0, 0, 0);
+      new Date(form.value.date).setHours(0, 0, 0, 0);
 
     for (let i = startHour; i < endHour; i++) {
       if (i <= currentHour && isToday) {

@@ -53,7 +53,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -81,7 +81,7 @@ const defaultForm = {
   password_confirmation: null,
 };
 
-let form = reactive(Object.assign({}, defaultForm));
+let form = ref(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 
@@ -90,8 +90,8 @@ const onResetPassword = async () => {
   isFormLoading.value = true;
   const { code, message } = await userStore.resetPassword({
     userID: props.user.id,
-    password: form.password,
-    passwordConfirmation: form.password_confirmation,
+    password: form.value.password,
+    passwordConfirmation: form.value.password_confirmation,
   });
   isFormLoading.value = false;
   if (code === 200) {
@@ -101,7 +101,7 @@ const onResetPassword = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign({}, defaultForm);
+    form.value = Object.assign({}, defaultForm);
     return;
   }
   formError.value = message;
@@ -116,7 +116,7 @@ watch(
   (val) => {
     emit('update:modelValue', val);
     if (!val) {
-      form = Object.assign({}, defaultForm);
+      form.value = Object.assign({}, defaultForm);
       formError.value = null;
     }
   }

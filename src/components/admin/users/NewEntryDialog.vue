@@ -114,7 +114,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -149,7 +149,7 @@ const defaultForm = {
   level: 'admin',
 };
 
-let form = reactive(Object.assign({}, defaultForm));
+let form = ref(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 
@@ -168,7 +168,7 @@ const onCreate = async () => {
   formError.value = null;
   isFormLoading.value = true;
   const { code, message } = await userStore.create({
-    ...form,
+    ...form.value,
     healthCenterID: props.healthCenterID,
   });
   isFormLoading.value = false;
@@ -179,7 +179,7 @@ const onCreate = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign({}, defaultForm);
+    form.value = Object.assign({}, defaultForm);
     return;
   }
   formError.value = message;

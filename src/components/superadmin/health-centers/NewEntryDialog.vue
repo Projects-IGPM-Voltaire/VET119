@@ -95,7 +95,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import CustomBarangaySelect from 'components/CustomBarangaySelect.vue';
 import { useHealthCenterStore } from 'stores/healthCenter';
 import { useRouter } from 'vue-router';
@@ -117,7 +117,7 @@ const defaultForm = {
   barangay_code: null,
   map_url: null,
 };
-let form = reactive(Object.assign({}, defaultForm));
+let form = ref(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
 
@@ -133,7 +133,7 @@ watch(
 const onCreate = async () => {
   formError.value = null;
   isFormLoading.value = true;
-  const { code, message } = await healthCenter.create(form);
+  const { code, message } = await healthCenter.create(form.value);
   isFormLoading.value = false;
   if (code === 200) {
     $q.notify({
@@ -142,7 +142,7 @@ const onCreate = async () => {
     });
     modelValueLocal.value = false;
     emit('onCreateSuccess');
-    form = Object.assign({}, defaultForm);
+    form.value = Object.assign({}, defaultForm);
     return;
   }
   formError.value = message;

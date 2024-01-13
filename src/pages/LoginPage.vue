@@ -70,7 +70,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
@@ -80,7 +80,7 @@ const authStore = useAuthStore();
 const router = useRouter();
 const $q = useQuasar();
 
-const form = reactive({
+const form = ref({
   username: null,
   password: null,
 });
@@ -90,7 +90,7 @@ const isFormLoading = ref(false);
 const onLogin = async () => {
   formError.value = null;
   isFormLoading.value = true;
-  const { code, message, data } = await authStore.login(form);
+  const { code, message, data } = await authStore.login(form.value);
   isFormLoading.value = false;
   if (code === 200) {
     const { user } = data;
