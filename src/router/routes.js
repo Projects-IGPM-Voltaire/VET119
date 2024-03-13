@@ -46,7 +46,17 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: '/user',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard-page',
+        component: () => import('pages/UserDashboardPage.vue'),
+      },
+    ]
+  },
   {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
