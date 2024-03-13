@@ -1,54 +1,59 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="bg-primary">
-      <q-toolbar>
-        <q-toolbar-title>
-          <router-link
-            style="text-decoration: none"
+    <q-header class="row justify-start bg-primary-50">
+      <q-toolbar class="row items-center">
+        <div class="row items-center">
+          <q-toolbar-title class="row inline">
+            <router-link
+              class="row inline"
+              style="text-decoration: none"
+              :to="{ name: 'home-page' }"
+            >
+              <q-avatar class="q-avatar-right q-mr-md" square size="3rem"
+                ><q-img
+                  :fit="scale - down"
+                  style="max-width: 3rem; height: 3rem; width: 2.5rem"
+                  :src="LogoSmall"
+              /></q-avatar>
+              <span class="text-weight-bolder text-h4 text-primary"
+                >VET 119</span
+              >
+            </router-link>
+          </q-toolbar-title>
+          <q-btn
+            dense
+            color="primary-50"
+            unelevated
+            class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
             :to="{ name: 'home-page' }"
+            >Dashboard</q-btn
           >
-            <q-avatar> <img :src="LogoSmall" /> </q-avatar>
-            <span class="text-weight-bold text-white"
-              >MediQueue</span
-            ></router-link
+          <q-btn
+            dense
+            color="primary-50"
+            unelevated
+            class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
+            :to="{ name: 'home-page' }"
+            >History</q-btn
           >
-        </q-toolbar-title>
+          <q-btn
+            dense
+            color="primary-50"
+            unelevated
+            class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
+            :to="{ name: 'home-page' }"
+            >Edit</q-btn
+          >
+        </div>
         <q-space></q-space>
         <q-btn
           dense
-          color="primary"
+          color="light"
           unelevated
-          class="q-mr-md text-capitalize"
-          v-if="isAuthenticated"
+          class="q-mr-md q-pa-sm text-capitalize"
         >
-          <q-icon name="account_circle" class="q-mr-xs" />
-          <span>{{ user.first_name }}</span>
-
-          <q-menu>
-            <q-list style="width: 100px">
-              <q-item clickable v-close-popup @click="onLogout">
-                <q-item-section>Logout</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
+          <q-icon name="person" class="text-h1" color="base" size="2rem" />
         </q-btn>
-      </q-toolbar>
-      <q-toolbar>
-        <template
-          v-for="(navigation, index) in filteredNavigations"
-          :key="index"
-        >
-          <q-btn
-            dense
-            color="primary"
-            unelevated
-            class="q-mr-md text-capitalize"
-            :to="navigation.to"
-          >
-            <q-icon :name="navigation.icon" class="q-mr-xs" />
-            <span>{{ navigation.label }}</span>
-          </q-btn>
-        </template>
       </q-toolbar>
     </q-header>
 
@@ -60,69 +65,114 @@
       class="bg-primary q-py-lg q-px-lg"
       style="position: absolute !important"
     >
-      <div class="row q-col-gutter">
-        <div class="col-12 col-md-4">
-          <div>
+      <div
+        class="row justify-around items-start content-stretch q-gutter-lg q-py-lg"
+      >
+        <div class="q-col-gutter-lg column flex-center">
+          <router-link
+            class="column flex-center"
+            style="text-decoration: none"
+            :to="{ name: 'home-page' }"
+          >
+            <q-img :src="LogoSmall" :fit="scale - down" />
+            <span class="text-weight-bolder text-h4 text-white"> VET 119 </span>
+          </router-link>
+        </div>
+        <div class="q-col-gutter-xl column">
+          <div class="q-col-gutter-md column">
             <router-link
               style="text-decoration: none"
               :to="{ name: 'home-page' }"
             >
-              <q-avatar> <img :src="LogoSmall" /> </q-avatar>
-              <span class="text-weight-bold text-h6 text-white"
-                >MediQueue</span
-              ></router-link
+              <span class="text-weight-bold text-subtitle2 text-white">
+                Dashboard
+              </span>
+            </router-link>
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'home-page' }"
             >
+              <span class="text-weight-bold text-subtitle2 text-white">
+                Services
+              </span>
+            </router-link>
           </div>
-          <div class="row q-col-gutter">
-            <div class="col-4">
-              <router-link
-                style="text-decoration: none"
-                :to="{ name: 'home-page' }"
-              >
-                <span class="text-weight-bold text-white"
-                  >Home</span
-                ></router-link
-              >
-            </div>
-            <div class="col-4">
-              <router-link
-                style="text-decoration: none"
-                :to="{ name: 'login-page' }"
-              >
-                <span class="text-weight-bold text-white"
-                  >Login</span
-                ></router-link
-              >
-            </div>
-            <div class="col-4">
-              <router-link
-                style="text-decoration: none"
-                :to="{ name: 'register-page' }"
-              >
-                <span class="text-weight-bold text-white"
-                  >Register</span
-                ></router-link
-              >
-            </div>
-          </div>
-          <div class="q-py-lg text-body2">
-            <div class="q-mb-sm">
-              EMAIL:
-              <span class="text-weight-bold">mediqueue.pr2@gmail.com</span>
-            </div>
-            <div>
-              TELEPHONE:
-              <div class="text-weight-bold">0927-134-1205 (Isaac Melgar)</div>
-            </div>
+          <div class="q-col-gutter-md column">
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'home-page' }"
+            >
+              <span class="text-weight-bold text-subtitle2 text-white">
+                About Us
+              </span>
+            </router-link>
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'home-page' }"
+            >
+              <span class="text-weight-bold text-subtitle2 text-white">
+                Profile
+              </span>
+            </router-link>
           </div>
         </div>
-        <div class="col-12 col-md-8"></div>
+        <div class="q-col-gutter-lg column">
+          <router-link
+            style="text-decoration: none"
+            :to="{ name: 'home-page' }"
+          >
+            <span class="text-weight-bold text-subtitle2 text-white">
+              Proponents
+            </span>
+          </router-link>
+          <router-link
+            style="text-decoration: none"
+            :to="{ name: 'home-page' }"
+          >
+            <span class="text-weight-bold text-subtitle2 text-white">
+              Developers
+            </span>
+          </router-link>
+        </div>
+        <div class="q-col-gutter-lg column col-2">
+          <span class="text-weight-bold text-h5 text-white">
+            Contact Developers
+          </span>
+          <div class="column">
+            <span
+              class="text-weight-bold text-subtitle2 text-white text-italic"
+            >
+              Isaac Melgar
+            </span>
+            <span class="text-subtitle2 text-white text-italic">
+              +63 XXX XXX XXXX
+            </span>
+            <span class="text-subtitle2 text-white text-italic">
+              xxxxxxxxxxxx@gmail.com
+            </span>
+          </div>
+          <div class="column">
+            <span
+              class="text-weight-bold text-subtitle2 text-white text-italic"
+            >
+              Danni Gallardo
+            </span>
+            <span class="text-subtitle2 text-white text-italic">
+              +63 901 234 5678
+            </span>
+            <span class="text-subtitle2 text-white text-italic">
+              marchiusdanielle@gmail.com
+            </span>
+          </div>
+        </div>
       </div>
-      <div class="text-center">
+      <!--
+      <div class="q-mt-md text-center">
         <p class="q-my-none text-white">
-          @2024 MediQueue. All rights reserved.
+          @2024 VET 119. All rights reserved.
         </p>
       </div>
+      -->
     </q-footer>
   </q-layout>
 </template>
@@ -139,26 +189,39 @@ export default defineComponent({
 import { computed, ref } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { useRouter } from 'vue-router';
-import LogoSmall from 'assets/mediqueue-small-logo.png';
+import LogoSmall from 'assets/vet119-logo-medium.png';
 
 const authStore = useAuthStore();
 const router = useRouter();
 
 const navigations = ref([
-  /*
   {
     label: 'Dashboard',
     icon: 'dashboard',
     to: { name: 'admin-dashboard-page' },
     level: 'admin',
   },
-*/
   {
-    label: 'Health Centers',
-    icon: 'local_hospital',
-    to: { name: 'superadmin-health-centers-page' },
-    level: 'superadmin',
+    label: 'Our Services',
+    to: { name: 'our-services-page' },
+    level: 'user',
   },
+  {
+    label: 'About Us',
+    to: { name: 'about-us-page' },
+    level: 'user',
+  },
+  {
+    label: 'History',
+    to: { name: 'history-page' },
+    level: 'admin',
+  },
+  {
+    label: 'Edit',
+    to: { name: 'edit-page' },
+    level: 'admin',
+  },
+  /*
   {
     label: 'Users',
     icon: 'group',
@@ -177,6 +240,7 @@ const navigations = ref([
     to: { name: 'admin-system-page' },
     level: 'admin',
   },
+  */
 ]);
 
 const isAuthenticated = computed(() => {
