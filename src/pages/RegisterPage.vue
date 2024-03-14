@@ -4,18 +4,17 @@
       <div class="col-12 col-md-10 col-lg-8 col-lg-6">
         <q-card flat>
           <q-card-section>
-            <div class="text-center">
-              <h6 class="text-h6 q-mt-none q-mb-lg">
-                Create your
-                <span class="text-primary text-bold">MediQueue</span> Account
-              </h6>
+            <div class="text-left">
+              <h5 class="text-bold text-primary q-mt-xl q-mb-xl">
+                Create an Account
+              </h5>
             </div>
             <p class="text-subtitle1 text-negative" v-if="!!formError">
               {{ formError }}
             </p>
-            <div class="row q-col-gutter-lg">
+            <div class="row q-gutter-lg q-pl-md justify-center">
               <div class="col-12">
-                <p class="text-subtitle2 text-grey-6">Personal Information</p>
+                <p class="text-subtitle2 text-left text-accent text-uppercase text-bold">Personal Information</p>
                 <div class="row q-col-gutter-md">
                   <div class="col-12 col-md-6">
                     <q-input
@@ -33,61 +32,24 @@
                       v-model="form.last_name"
                     />
                   </div>
-                  <div class="col-12">
-                    <BaseInputDatePicker
-                      color="primary"
-                      outlined
-                      label="Birthday"
-                      v-model="form.birthday"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <p class="text-subtitle2 text-grey-6">Address</p>
-                <div class="row q-col-gutter-md">
-                  <div class="col-12 col-md-4">
-                    <q-input
-                      color="primary"
-                      outlined
-                      label="House number or building"
-                      v-model="form.house_number"
-                    />
-                  </div>
-                  <div class="col col-md-8">
-                    <q-input
-                      color="primary"
-                      outlined
-                      label="Street"
-                      v-model="form.street"
-                    />
-                  </div>
-                  <div class="col-12">
-                    <CustomBarangaySelect
-                      color="primary"
-                      outlined
-                      label="Barangay"
-                      v-model="form.barangay_code"
-                    />
-                  </div>
-                  <div class="col-12">
-                    <CustomHealthCenterSelect
-                      color="primary"
-                      outlined
-                      label="Health center"
-                      :disabled="form.barangay_code === null"
-                      :barangayCode="form.barangay_code"
-                      v-model="form.health_center_id"
-                    />
-                  </div>
                 </div>
               </div>
               <div class="col-12">
                 <div class="row q-col-gutter-md">
                   <div class="col-12">
-                    <p class="text-subtitle2 text-grey-6">Account Details</p>
+                    <p class="q-mb-none q-mt-xl text-subtitle2 text-left text-accent text-bold text-uppercase">Account Details</p>
+                  </div>
+                  <div class="col">
                     <q-input
-                      color="primary"
+                      color="accent"
+                      outlined
+                      label="Email Address"
+                      v-model="form.mobile_number"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-input
+                      color="accent"
                       outlined
                       label="Mobile No."
                       v-model="form.mobile_number"
@@ -95,7 +57,7 @@
                   </div>
                   <div class="col-12">
                     <CustomPasswordInput
-                      color="primary"
+                      color="accent"
                       outlined
                       label="Password"
                       v-model="form.password"
@@ -103,23 +65,23 @@
                   </div>
                   <div class="col-12">
                     <CustomPasswordInput
-                      color="primary"
+                      color="accent"
                       outlined
-                      label="Password Confirmation"
+                      label="Re-enter Password"
                       v-model="form.password_confirmation"
                     />
                   </div>
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-3 q-my-xl">
                 <q-btn
-                  color="primary"
-                  class="text-capitalize"
+                  color="accent"
+                  class="q-py-lg text-capitalize text-bold text-body1"
                   style="width: 100%"
                   @click="onRegister"
                   :loading="isFormLoading"
                   :disable="isFormLoading"
-                  >Register</q-btn
+                  >Create Account</q-btn
                 >
               </div>
             </div>
@@ -135,7 +97,6 @@ import { defineComponent } from 'vue';
 import CustomBarangaySelect from 'components/CustomBarangaySelect.vue';
 export default defineComponent({
   name: 'RegisterPage',
-  components: { CustomBarangaySelect },
 });
 </script>
 

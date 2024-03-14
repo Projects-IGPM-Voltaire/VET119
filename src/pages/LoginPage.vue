@@ -5,35 +5,32 @@
         <q-card flat>
           <q-card-section class="q-mb-none">
             <div class="text-center q-mb-xl">
-              <h5 class="text-h5 text-bold q-my-none text-primary">
-                MediQueue
-              </h5>
             </div>
             <p class="text-subtitle1 text-negative" v-if="!!formError">
               {{ formError }}
             </p>
-            <p class="text-subtitle2">Login to system using:</p>
             <div class="row q-col-gutter-md">
               <div class="col-12">
                 <q-input
-                  color="primary"
+                  color="accent"
                   outlined
-                  label="Mobile No."
+                  label="Email Address"
                   v-model="form.username"
                 />
               </div>
               <div class="col-12">
                 <CustomPasswordInput
-                  color="primary"
+                  color="accent"
                   outlined
                   label="Password"
                   v-model="form.password"
                 />
+                <span class="text-caption text-grey-7">Forgot password?</span>
               </div>
               <div class="col-12">
                 <q-btn
                   color="primary"
-                  class="text-capitalize"
+                  class="q-py-lg text-capitalize text-body1 text-bold"
                   style="width: 100%"
                   @click="onLogin"
                   :disable="isFormLoading"
@@ -48,7 +45,7 @@
               Don't have an account?
               <router-link
                 :to="{ name: 'register-page' }"
-                class="text-primary text-bold"
+                class="text-accent text-bold"
                 style="text-decoration: none"
               >
                 Register here
