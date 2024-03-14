@@ -19,7 +19,7 @@ export const areObjectsSame = (object1, object2) => {
   return true;
 };
 export const isObject = (object) => {
-  return object != null && typeof object === "object";
+  return object != null && typeof object === 'object';
 };
 export const objetHasValue = (object) => {
   if (!object) {

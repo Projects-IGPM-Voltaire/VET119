@@ -1,197 +1,228 @@
 <template>
-  <q-dialog persistent v-model="modelValueLocal">
-    <q-card style="width: 600px; max-width: 600px">
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Book an Appointment</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-stepper v-model="step" ref="stepper" color="primary" animated>
-        <q-step
-          :name="1"
-          title="Schedule"
-          icon="calendar_month"
-          :done="step > 1"
-        >
-          <template v-if="booted">
-            <p
-              class="text-subtitle1 text-negative"
-              v-if="noAvailableTimeslotsError"
-            >
-              No timeslots available. Please try again tomorrow.
-            </p>
-            <p class="text-subtitle1 text-negative" v-else-if="!!formError">
-              {{ formError }}
-            </p>
-            <div class="row q-col-gutter-md">
-              <div class="col-12">
-                <div class="row q-col-gutter-md">
-                  <div class="col-12">
-                    <div class="row q-col-gutter-md">
-                      <div class="col-12">
-                        <p class="text-subtitle2 text-grey-6">
-                          Choose preferred date
-                        </p>
-                        <q-date
-                          mask="YYYY-MM-DD"
-                          color="primary"
-                          style="width: 100%"
-                          :options="disablePastDates"
-                          v-model="form.date"
-                        />
-                      </div>
-                      <div class="col-12">
-                        <p class="text-subtitle2 text-grey-6">
-                          Choose preferred time
-                        </p>
-                        <q-select
-                          v-model="selectedTime"
-                          :disable="!form.date"
-                          :options="timeRanges"
-                          outlined
-                        />
-                      </div>
-                      <template v-if="doctors.length > 0">
-                        <div class="col-12">
-                          <p class="text-subtitle2 text-grey-6">
-                            Available Doctors
-                          </p>
-                          <div class="row col-gutter-md">
-                            <template
-                              v-for="(doctor, index) in doctors"
-                              :key="index"
-                            >
-                              <div class="col-12 col-lg-6">
-                                <div>
-                                  <q-item clickable v-ripple>
-                                    <q-item-section
-                                      avatar
-                                      v-if="objetHasValue(doctor.image)"
-                                    >
-                                      <q-avatar>
-                                        <img
-                                          :src="
-                                            toPublicImage(doctor.image.path)
-                                          "
-                                        />
-                                      </q-avatar>
-                                    </q-item-section>
-                                    <q-item-section
-                                      >{{ doctor.first_name }}
-                                      {{ doctor.last_name }}</q-item-section
-                                    >
-                                  </q-item>
-                                </div>
-                              </div>
-                            </template>
-                          </div>
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                </div>
+  <q-card style="width: 600px; max-width: 600px">
+    <q-card-section class="row items-center q-pb-none">
+      <div class="text-h6">Book an Appointment</div>
+      <q-space />
+      <q-btn icon="close" flat round dense v-close-popup />
+    </q-card-section>
+    <q-stepper v-model="step" ref="stepper" flat animated>
+      <q-step
+        :name="1"
+        color="accent"
+        class="text-white"
+        prefix="1"
+        title="Set Appointment"
+        :done="step > 1"
+      >
+        <div class="col q-col-gutter-lg">
+          <div class="col">
+            <div class="col-12">
+              <p class="text-subtitle2 text-bold text-uppercase text-primary">
+                Personal Information
+              </p>
+            </div>
+            <q-input
+              outlined
+              color="accent"
+              class="col-5 q-mb-sm"
+              label="First Name"
+            />
+            <q-input outlined color="accent" class="col-5" label="Last Name" />
+          </div>
+          <div class="row q-col-gutter-lg">
+            <div class="col-12 q-mb-none">
+              <p class="text-subtitle2 text-bold text-uppercase text-primary">
+                Pet Information
+              </p>
+            </div>
+            <q-input
+              outlined
+              type="number"
+              color="accent"
+              class="col-3"
+              label="No. of Pets"
+            />
+            <div class="col no-wrap q-col-gutter-lg">
+              <div class="col q-col-gutter-xs">
+                <q-select
+                  color="accent"
+                  class="col"
+                  label="Species of Pet #1"
+                />
+                <q-select
+                  color="accent"
+                  class="col"
+                  label="Species of Pet #2"
+                />
+              </div>
+              <div class="col q-col-gutter-xs">
+                <q-input color="accent" class="col" label="Name of Pet #1" />
+                <q-input color="accent" class="col" label="Name of Pet #2" />
+              </div>
+              <div class="col q-col-gutter-xs">
+                <span class="col-12 text-uppercase text-overline text-blue-grey"
+                  >Optional</span
+                >
+                <q-input color="accent" class="col" label="Breed of Pet #1" />
+                <q-input color="accent" class="col" label="Breed of Pet #2" />
               </div>
             </div>
-
-            <q-btn
-              label="Continue"
-              color="primary"
-              class="full-width text-capitalize q-mt-lg"
-              :loading="isFormLoading"
-              :disable="isFormLoading"
-              @click="onCreate"
-            />
-          </template>
-          <div class="q-py-xl" v-else>
-            <p class="text-center text-grey">Loading... Please wait...</p>
           </div>
-        </q-step>
-        <q-step
-          :name="2"
-          title="Reminder"
-          icon="notifications_active"
-          :done="step > 2"
-        >
-          <div class="row q-col-gutter-lg">
-            <div class="col-12" v-if="objetHasValue(schedule)">
-              <q-card class="bg-primary text-white">
-                <q-card-section>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label class="text-subtitle2 q-mb-none">
-                        Reference Number
-                      </q-item-label>
-                      <q-item-label class="text-h6 q-my-none text-bold">
-                        #{{ schedule.reference_number }}
-                      </q-item-label>
-                    </q-item-section>
-
-                    <q-item-section side top>
-                      <q-btn
-                        icon="content_copy"
-                        class="text-white"
-                        round
-                        rounded
-                        unelevated
-                        @click="copyReferenceNumber"
-                      ></q-btn>
-                    </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </div>
+          <div class="row q-col-gutter-sm q-gutter-xs">
             <div class="col-12">
-              <p class="text-subtitle1 q-mb-sm text-weight-bold">
-                <q-icon size="md" name="report" class="q-mr-xs" />Reminders for
-                Appointment!
+              <p class="text-subtitle2 text-bold text-uppercase text-primary">
+                Pet Information
               </p>
-              <ul class="q-mt-none q-gutter-md">
-                <li>
-                  Patient Number:
-                  <span
-                    style="text-decoration: underline; cursor: pointer"
-                    class="text-primary text-bold"
-                    @click="copyPatientNumber"
-                    >{{ schedule.patient_number }} <q-icon name="content_copy"
-                  /></span>
-                </li>
-                <li>
-                  Save your reference number beforehand to your notes app or as
-                  a picture for easy access during your booking day.
-                </li>
-                <li>
-                  Using your mobile device, you can track your queue in real
-                  time.
-                </li>
-                <li>
-                  Familiarize yourself with the Health Center Location.
-                  Accessible through the website's map under the health center
-                  tab.
-                </li>
-                <li>
-                  Bring light snacks and water. Consume these while waiting for
-                  your queue.
-                </li>
-                <li>
-                  Punctuality matters. Come on time to ensure a smooth process
-                  and to avoid pushing back your appointment and queue.
-                </li>
-              </ul>
             </div>
+            <q-input class="col-12" color="accent" outlined label="Purpose" />
+            <q-input
+              class="col-6"
+              color="accent"
+              outlined
+              label="Select Appointment Date"
+              type="date"
+            />
+            <q-select
+              class="col"
+              color="accent"
+              outlined
+              label="Select Appointment Time"
+              type="date"
+            />
           </div>
+        </div>
+      </q-step>
+      <q-step
+        :name="2"
+        color="accent"
+        prefix="2"
+        title="Confirmation"
+        :done="step > 2"
+      >
+        <div class="col q-col-gutter-md">
+          <div class="col-12">
+            <p class="text-subtitle2 text-uppercase text-primary">
+              Personal Information
+            </p>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Owner Name</span>
+            <span class="col text-gray">John Doe</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Number of Pets</span>
+            <span class="col text-gray">2</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Species of Pet(s)</span>
+            <span class="col text-gray">Moon,<br />Shine</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Species of Pet(s)</span>
+            <span class="col text-gray">cat,<br />hamster</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Breed of Pet(s)</span>
+            <span class="col text-gray">hamster</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Appointment Date</span>
+            <span class="col text-gray">March 10, 2024</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Appointment Time</span>
+            <span class="col text-gray">9:00 AM</span>
+          </div>
+          <div class="col-2 row">
+            <span class="col text-gray">Purpose</span>
+            <span class="col text-gray">vaccination</span>
+          </div>
+        </div>
+      </q-step>
+      <q-step :name="3" color="accent" prefix="3" title="Done">
+        <div class="column justify-start">
+          <h5 class="text-center text-weight-bold q-mt-xs q-mb-lg text-primary">
+            You're all set!
+          </h5>
+          <p class="text-center q-mb-none text-base">
+            You are set for an appointment on
+          </p>
+          <p class="text-center q-mb-none text-base">
+            <span class="text-accent text-bold">March 10, 2024</span> at
+            <span class="text-accent text-bold">9:00 AM.</span>
+          </p>
+          <p class="text-center text-base">
+            Your reference number is shown below:
+          </p>
+          <q-btn unelevated rounded color="accent-50" class="q-py-lg q-mb-lg">
+            <span class="text-primary text-weight-bold text-h4"
+              >031024-0006-001</span
+            >
+            <q-icon
+              name="copy_all"
+              color="primary"
+              class="q-ml-md"
+              size="1.5rem"
+            />
+          </q-btn>
+          <p class="text-primary text-uppercase">Reminders</p>
+          <p class="text-body text-base">
+            1. Save your reference number beforehand to your notes app or as a
+            picture for easy use during your booking day.
+          </p>
+          <p class="text-body text-base">
+            2. You can use your mobile device to track your queue in real time
+          </p>
+          <p class="text-body text-base">
+            3. Familiarize yourself with the Veterinary Clinic Location. You can
+            find the location by clicking here.
+          </p>
+          <p class="text-body text-base">
+            4. Bring light snacks and water. Consume these while waiting for
+            your queue.
+          </p>
+          <p class="text-body text-base">
+            5. Punctuality matters. Come on time to ensure a smooth processand
+            to avoid pushing back your appointment and queue.
+          </p>
+        </div>
+      </q-step>
 
-          <!--
+      <template v-slot:navigation>
+        <q-stepper-navigation class="row q-gutter-sm">
           <q-btn
-            label="Book Again"
+            v-if="step === 1"
+            unelevated
+            style="text-transform: none"
+            class="col text-bold q-py-md"
+            @click="$refs.stepper.next()"
             color="primary"
-            class="full-width text-capitalize q-mt-lg"
-            @click="onBookAgain"
+            label="Continue"
           />
--->
-        </q-step>
-      </q-stepper>
-    </q-card>
-  </q-dialog>
+          <q-btn
+            v-if="step === 2"
+            unelevated
+            outline
+            style="text-transform: none"
+            class="col text-bold q-py-md"
+            @click="$refs.stepper.previous()"
+            color="accent"
+            label="Go Back"
+          />
+          <q-btn
+            v-if="step >= 2"
+            unelevated
+            style="text-transform: none"
+            class="col text-bold q-py-md"
+            @click="$refs.stepper.next()"
+            color="primary"
+            :label="step === 2 ? 'Set Appointment' : 'Done'"
+          />
+        </q-stepper-navigation>
+      </template>
+    </q-stepper>
+  </q-card>
+  <q-dialog persistent v-model="modelValueLocal"> </q-dialog>
 </template>
 
 <script>

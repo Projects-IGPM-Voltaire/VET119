@@ -55,7 +55,7 @@ const routes = [
         name: 'dashboard-page',
         component: () => import('pages/UserDashboardPage.vue'),
       },
-    ]
+    ],
   },
   {
     path: '/admin',
@@ -86,8 +86,7 @@ const routes = [
         name: 'admin-schedules-page',
         component: () => import('pages/admin/SchedulePage.vue'),
         meta: {
-          requiresAuth: true,
-          level: 'admin',
+          requiresAuth: false,
         },
       },
 

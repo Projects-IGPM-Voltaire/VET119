@@ -1,10 +1,10 @@
-import { defineStore } from "pinia";
-import { api } from "boot/axios";
-import { toURLSearchParams } from "src/extras/http";
+import { defineStore } from 'pinia';
+import { api } from 'boot/axios';
+import { toURLSearchParams } from 'src/extras/http';
 
-const route = "/api/reference";
+const route = '/api/reference';
 
-export const useReferenceStore = defineStore("reference", {
+export const useReferenceStore = defineStore('reference', {
   actions: {
     async getBarangays({ page, perPage, search }) {
       try {

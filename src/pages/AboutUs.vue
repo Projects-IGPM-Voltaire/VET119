@@ -13,5 +13,6 @@ export default defineComponent({
 </script>
 
 <script setup>
+import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 import AboutUsWindow from 'components/AboutUsWindow.vue';
 </script>
