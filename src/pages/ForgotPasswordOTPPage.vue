@@ -18,7 +18,7 @@
                 <q-input
                   color="accent"
                   outlined
-                  label="Email Address"
+                  label="Enter OTP"
                   v-model="form.username"
                 />
               </div>
@@ -27,10 +27,9 @@
                   color="primary"
                   class="q-py-lg text-capitalize text-body1 text-bold"
                   style="width: 100%"
-                  @click="onLogin"
                   :disable="isFormLoading"
                   :loading="isFormLoading"
-                  >Send OTP</q-btn
+                  >Confirm</q-btn
                 >
               </div>
             </div>
@@ -44,7 +43,7 @@
 <script>
 import { defineComponent } from 'vue';
 export default defineComponent({
-  name: 'ForgotPasswordPage',
+  name: 'ForgotPasswordOTPPage',
   components: {},
 });
 </script>

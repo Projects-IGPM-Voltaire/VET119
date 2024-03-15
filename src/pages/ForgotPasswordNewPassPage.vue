@@ -1,3 +1,4 @@
+
 <template>
   <q-page padding>
     <div class="row justify-center q-col-gutter-md">
@@ -18,7 +19,15 @@
                 <q-input
                   color="accent"
                   outlined
-                  label="Email Address"
+                  label="Enter New Password"
+                  v-model="form.username"
+                />
+              </div>
+              <div class="col-12">
+                <q-input
+                  color="accent"
+                  outlined
+                  label="Re-enter New Password"
                   v-model="form.username"
                 />
               </div>
@@ -27,10 +36,9 @@
                   color="primary"
                   class="q-py-lg text-capitalize text-body1 text-bold"
                   style="width: 100%"
-                  @click="onLogin"
                   :disable="isFormLoading"
                   :loading="isFormLoading"
-                  >Send OTP</q-btn
+                  >Confirm New Password</q-btn
                 >
               </div>
             </div>
@@ -44,7 +52,7 @@
 <script>
 import { defineComponent } from 'vue';
 export default defineComponent({
-  name: 'ForgotPasswordPage',
+  name: 'ForgotPasswordNewPassPage',
   components: {},
 });
 </script>
