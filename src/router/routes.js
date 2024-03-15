@@ -36,6 +36,27 @@ const routes = [
   },
 
   {
+    path: '/forgot-password',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: 'enter-email',
+        name: 'forgot-email-page',
+        component: () => import('pages/ForgotPasswordPage.vue'),
+      },
+      {
+        path: 'enter-otp',
+        name: 'forgot-otp-page',
+        component: () => import('pages/ForgotPasswordOTPPage.vue'),
+      },
+      {
+        path: 'enter-new-password',
+        name: 'forgot-newpass-page',
+        component: () => import('pages/ForgotPasswordNewPassPage.vue'),
+      },
+    ],
+  },
+  {
     path: '/about-us',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -54,16 +75,25 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard-page',
         component: () => import('pages/UserDashboardPage.vue'),
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'profile',
         name: 'user-profile-page',
         component: () => import('pages/UserProfilePage.vue'),
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'appointments',
         name: 'check-appointments-page',
         component: () => import('pages/CheckAppointmentsPage.vue'),
+        meta: {
+          requiresAuth: true,
+        },
       },
     ],
   },
@@ -75,6 +105,10 @@ const routes = [
         path: 'dashboard',
         name: 'admin-dashboard-page',
         component: () => import('pages/admin/DashboardPage.vue'),
+        meta: {
+          requiresAuth: true,
+          level: 'admin',
+        },
       },
       {
         path: 'health-center',
