@@ -43,7 +43,6 @@ export default defineComponent({
 <script setup>
 import { useAuthStore } from 'stores/auth';
 import { computed } from 'vue';
-import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 import AboutUsWindow from 'components/AboutUsWindow.vue';
 import HomeServicesBanner from 'components/HomeServicesCard.vue';
 import LogoSmall from '../assets/mediqueue-small-logo.png';
