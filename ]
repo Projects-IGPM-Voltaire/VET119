@@ -1,0 +1,101 @@
+<template>
+  <q-page class="row justify-center items-start">
+    <div style="width:1000px;max-width:1000px;" class="q-pb-xl column items-stretch">
+      <h4 class="text-bold text-capitalize text-primary">Hi, Admin!</h4>
+      <div class="row justify-between">
+        <div class="col-8 row justify-start">
+          <q-input outlined type="search" label="Search.." color="grey" class="col-7 q-mr-md" />
+          <q-btn outline label="Filter" color="accent" class="col-4 q-py-md q-px-lg text-bold" />
+        </div>
+        <div class="col-3 row justify-end">
+          <q-btn outline label="Add" color="accent" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold" />
+          <q-btn outline label="Edit" color="accent" class="col-5 q-py-sm q-px-lg text-bold" />
+        </div>
+        <q-table
+            color="primary"
+            dense
+            flat
+            square
+            class="full-width q-my-lg"
+            table-header-class="bg-primary-50"
+            :columns="cols"
+            :rows="dummyr"
+            row-key="name"
+            hide-pagination
+        />
+      </div>
+      <div class="row self-center justify-center q-col-gutter-md" style="width:800px; max-width:800px;">
+          <q-btn
+            style="height: 8rem"
+            class="col column justify-baseline items-start full-width q-py-lg text-left shadow-5"
+            color="white"
+          >
+            <div
+              style="text-align: left; text-transform: none"
+              class="column justify-baseline items-start"
+            >
+              <div class="q-py-0 q-mt-sm row inline">
+                <q-icon name="calendar_month" color="accent" />
+                <span class="text-bold text-base q-ml-md q-mb-md">
+                  Appointment Schedule
+                </span>
+              </div>
+              <p class="text-grey">
+                Update available hours and appointment times for the clinic.
+              </p>
+            </div>
+          </q-btn>
+          <q-btn
+            style="height: 8rem"
+            class="col column justify-baseline items-start full-width q-py-lg text-left shadow-5"
+            color="white"
+          >
+            <div
+              style="text-align: left; text-transform: none"
+              class="col column justify-baseline items-start"
+            >
+              <div class="q-py-0 q-mt-sm row inline">
+                <q-icon name="info" color="accent" />
+                <span class="text-bold text-base q-ml-md q-mb-md">
+                  Clinic Information
+                </span>
+              </div>
+              <p class="text-grey">
+                Update information about the clinic including services offered, operating hours, and veterinarians available.
+              </p>
+            </div>
+          </q-btn>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'AdminDashboardPage',
+  components: {},
+});
+</script>
+
+<script setup>
+  const cols = [
+  { name: 'refno', required: true, label: 'Reference Number', field: row => row.refno, align: 'left', },
+  { name: 'owner', required: true, label: 'Pet Owner Name', field: row => row.owner, align: 'left', },
+  { name: 'purpose', required: true, label: 'Purpose', field: row => row.purpose, align: 'left', },
+  { name: 'date_time', required: true, label: 'Date and Time', field: row => row.dt, align: 'left', sortable: true },
+  { name: 'species', required: true, label: 'Species', field: row => row.species, align: 'left', },
+  { name: 'petname', required: true, label: 'Pet Name', field: row => row.petname, align: 'left', },
+  ];
+
+  const dummyr = [
+    {
+      refno: '092924-0021-001',
+      owner: 'Maria Santos',
+      purpose: 'vaccination',
+      date_time: 'Sept 29, 08:00 AM',
+      species: 'dog',
+      petname: 'Buddy',
+    },
+  ];
+</script>

@@ -72,6 +72,11 @@ const routes = [
     component: () => import('layouts/AdminLayout.vue'),
     children: [
       {
+        path: 'dashboard',
+        name: 'admin-dashboard-page',
+        component: () => import('pages/admin/DashboardPage.vue'),
+      },
+      {
         path: 'health-center',
         name: 'superadmin-health-centers-page',
         component: () => import('pages/superadmin/HealthCenterPage.vue'),
