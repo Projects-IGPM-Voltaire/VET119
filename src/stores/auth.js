@@ -14,10 +14,10 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    async login({ username, password }) {
+    async login({ email, password }) {
       try {
         const response = await api.post(`${route}/login`, {
-          username,
+          email,
           password,
         });
         const result = response.data;
@@ -64,31 +64,21 @@ export const useAuthStore = defineStore('auth', {
     async register({
       first_name,
       last_name,
-      birthday,
+      email,
       mobile_number,
       password,
       password_confirmation,
       level,
-      city_code,
-      barangay_code,
-      house_number,
-      street,
-      health_center_id,
     }) {
       try {
         const response = await api.post(`${route}/register`, {
           first_name,
           last_name,
-          birthday,
+          email,
           mobile_number,
           password,
           password_confirmation,
           level,
-          city_code,
-          barangay_code,
-          house_number,
-          street,
-          health_center_id: health_center_id || null,
         });
         return response.data;
       } catch (e) {

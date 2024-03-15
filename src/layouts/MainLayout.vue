@@ -26,7 +26,7 @@
               color="primary-50"
               unelevated
               class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'dashboard-page' }"
               >Dashboard</q-btn
             >
             <q-btn
@@ -72,6 +72,7 @@
             color="light"
             unelevated
             class="q-mr-md q-pa-sm text-capitalize"
+            :to="{ name: 'user-profile-page' }"
           >
             <q-icon name="person" color="base" size="2rem" />
           </q-btn>
@@ -142,7 +143,7 @@
             <template v-else>
               <router-link
                 style="text-decoration: none"
-                :to="{ name: 'home-page' }"
+                :to="{ name: 'register-page' }"
               >
                 <span class="text-weight-bold text-subtitle2 text-white">
                   Create an Account
@@ -162,7 +163,7 @@
         <div class="q-col-gutter-lg column">
           <router-link
             style="text-decoration: none"
-            :to="{ name: 'home-page' }"
+            :to="{ name: 'dashboard-page' }"
           >
             <span class="text-weight-bold text-subtitle2 text-white">
               Book an Appointment

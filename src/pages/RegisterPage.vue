@@ -44,7 +44,7 @@
                       color="accent"
                       outlined
                       label="Email Address"
-                      v-model="form.mobile_number"
+                      v-model="form.email"
                     />
                   </div>
                   <div class="col">
@@ -94,7 +94,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import CustomBarangaySelect from 'components/CustomBarangaySelect.vue';
 export default defineComponent({
   name: 'RegisterPage',
 });
@@ -116,16 +115,11 @@ const router = useRouter();
 const form = ref({
   first_name: null,
   last_name: null,
-  birthday: null,
+  email: null,
   mobile_number: null,
   password: null,
   password_confirmation: null,
   level: 'guest',
-  city_code: '137504',
-  barangay_code: null,
-  house_number: null,
-  street: null,
-  health_center_id: null,
 });
 const isFormLoading = ref(false);
 const formError = ref(false);

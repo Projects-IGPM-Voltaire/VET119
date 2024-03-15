@@ -25,7 +25,7 @@
             color="primary-50"
             unelevated
             class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-            :to="{ name: 'home-page' }"
+            :to="{ name: 'admin-dashboard-page' }"
             >Dashboard</q-btn
           >
           <q-btn
@@ -51,6 +51,7 @@
           color="light"
           unelevated
           class="q-mr-md q-pa-sm text-capitalize"
+          :to="{ name: 'user-profle-page' }"
         >
           <q-icon name="person" class="text-h1" color="base" size="2rem" />
         </q-btn>
@@ -82,7 +83,7 @@
           <div class="q-col-gutter-md column">
             <router-link
               style="text-decoration: none"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'admin-dashboard-page' }"
             >
               <span class="text-weight-bold text-subtitle2 text-white">
                 Dashboard
@@ -108,7 +109,7 @@
             </router-link>
             <router-link
               style="text-decoration: none"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'user-profile-page' }"
             >
               <span class="text-weight-bold text-subtitle2 text-white">
                 Profile
@@ -194,68 +195,11 @@ import LogoSmall from 'assets/vet119-logo-medium.png';
 const authStore = useAuthStore();
 const router = useRouter();
 
-const navigations = ref([
-  {
-    label: 'Dashboard',
-    icon: 'dashboard',
-    to: { name: 'admin-dashboard-page' },
-    level: 'admin',
-  },
-  {
-    label: 'Our Services',
-    to: { name: 'our-services-page' },
-    level: 'user',
-  },
-  {
-    label: 'About Us',
-    to: { name: 'about-us-page' },
-    level: 'user',
-  },
-  {
-    label: 'History',
-    to: { name: 'history-page' },
-    level: 'admin',
-  },
-  {
-    label: 'Edit',
-    to: { name: 'edit-page' },
-    level: 'admin',
-  },
-  /*
-  {
-    label: 'Users',
-    icon: 'group',
-    to: { name: 'admin-users-page' },
-    level: 'admin',
-  },
-  {
-    label: 'Schedules',
-    icon: 'calendar_month',
-    to: { name: 'admin-schedules-page' },
-    level: 'admin',
-  },
-  {
-    label: 'System',
-    icon: 'settings',
-    to: { name: 'admin-system-page' },
-    level: 'admin',
-  },
-  */
-]);
-
 const isAuthenticated = computed(() => {
   return authStore.isAuthenticated;
 });
 const user = computed(() => {
   return authStore.user;
-});
-const filteredNavigations = computed(() => {
-  if (!isAuthenticated.value) {
-    return [];
-  }
-  return navigations.value.filter(
-    (navigation) => navigation.level === user.value.level
-  );
 });
 
 const onLogout = () => {

@@ -19,7 +19,7 @@
                   color="accent"
                   outlined
                   label="Email Address"
-                  v-model="form.username"
+                  v-model="form.email"
                 />
               </div>
               <div class="col-12">
@@ -29,7 +29,13 @@
                   label="Password"
                   v-model="form.password"
                 />
-                <span class="text-caption text-grey-7">Forgot password?</span>
+                <router-link
+                    class="row inline"
+                    style="text-decoration: none"
+                    :to="{ name: 'forgot-email-page' }"
+                >
+                  <span class="text-caption text-grey-7">Forgot password?</span>
+                </router-link>
               </div>
               <div class="col-12">
                 <q-btn
@@ -83,9 +89,10 @@ const router = useRouter();
 const $q = useQuasar();
 
 const form = ref({
-  username: null,
+  email: null,
   password: null,
 });
+
 const formError = ref(null);
 const isFormLoading = ref(false);
 
@@ -97,10 +104,8 @@ const onLogin = async () => {
   if (code === 200) {
     const { user } = data;
     let routeName = null;
-    if (user.level === 'superadmin') {
-      routeName = 'superadmin-health-centers-page';
-    } else if (user.level === 'admin') {
-      routeName = 'admin-users-page';
+    if (user.level === 'admin') {
+      routeName = 'admin-dashboard-page';
     } else {
       routeName = 'home-page';
     }
