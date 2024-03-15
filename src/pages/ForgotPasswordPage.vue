@@ -1,3 +1,4 @@
+
 <template>
   <q-page padding>
     <div class="row justify-center q-col-gutter-md">
@@ -23,15 +24,6 @@
                 />
               </div>
               <div class="col-12">
-                <CustomPasswordInput
-                  color="accent"
-                  outlined
-                  label="Password"
-                  v-model="form.password"
-                />
-                <span class="text-caption text-grey-7">Forgot password?</span>
-              </div>
-              <div class="col-12">
                 <q-btn
                   color="primary"
                   class="q-py-lg text-capitalize text-body1 text-bold"
@@ -39,7 +31,7 @@
                   @click="onLogin"
                   :disable="isFormLoading"
                   :loading="isFormLoading"
-                  >Login</q-btn
+                  >Send OTP</q-btn
                 >
               </div>
             </div>

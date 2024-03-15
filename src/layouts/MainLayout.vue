@@ -34,7 +34,7 @@
               color="primary-50"
               unelevated
               class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'user-profile-page' }"
               >Our Services</q-btn
             >
             <q-btn

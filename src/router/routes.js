@@ -55,6 +55,16 @@ const routes = [
         name: 'dashboard-page',
         component: () => import('pages/UserDashboardPage.vue'),
       },
+      {
+        path: 'profile',
+        name: 'user-profile-page',
+        component: () => import('pages/UserProfilePage.vue'),
+      },
+      {
+        path: 'appointments',
+        name: 'check-appointments-page',
+        component: () => import('pages/CheckAppointmentsPage.vue'),
+      },
     ],
   },
   {
