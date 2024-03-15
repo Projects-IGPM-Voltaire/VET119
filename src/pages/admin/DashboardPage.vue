@@ -31,8 +31,10 @@
           color="accent"
           active-color="accent"
           active-text-color="white"
-          :max="1"
+          active-design="unelevated"
+          gutter="none"
           size="lg"
+          :max="1"
           direction-links
           outline
       />

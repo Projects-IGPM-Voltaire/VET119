@@ -49,7 +49,7 @@
           <template v-else>
             <q-btn
               dense
-              color="primary-50"
+              color="light"
               unelevated
               class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
               :to="{ name: 'home-page' }"
