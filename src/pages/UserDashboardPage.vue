@@ -13,15 +13,6 @@
           </h4>
         </div>
       </template>
-      <template v-else>
-        <div class="self-start">
-          <h4
-            class="q-ml-sm q-mb-sm text-primary text-weight-medium text-capitalize"
-          >
-            Hi, PlaceHolder!
-          </h4>
-        </div>
-      </template>
       <div
         class="full-width row q-gutter-md q-column-gutter-md q-mb-xl q-mt-none"
       >
