@@ -27,7 +27,7 @@
                   color="primary"
                   class="q-py-lg text-capitalize text-body1 text-bold"
                   style="width: 100%"
-                  @click="onLogin"
+                  @click="onSendOTP"
                   :disable="isFormLoading"
                   :loading="isFormLoading"
                   >Send OTP</q-btn
