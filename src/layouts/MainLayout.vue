@@ -1,4 +1,5 @@
 <template>
+  <ScheduleAppointmentDialog v-model:open="schedOpen"/>
   <q-layout view="hHh lpR fFf">
     <q-header class="bg-primary-50">
       <q-toolbar>
@@ -99,7 +100,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view @sched="schedOpen=true"/>
     </q-page-container>
 
     <q-footer
@@ -161,14 +162,12 @@
           </div>
         </div>
         <div class="q-col-gutter-lg column">
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'dashboard-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              Book an Appointment
-            </span>
-          </router-link>
+          <span
+            style="text-transform: none; cursor: pointer;"
+            @click="schedOpen=true"
+            class="text-weight-bold text-subtitle2 text-white">
+            Book an Appointment
+          </span>
           <router-link
             style="text-decoration: none"
             :to="{ name: 'check-appointments-page' }"
@@ -232,6 +231,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -239,13 +239,14 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'stores/auth';
 import LogoSmall from '../assets/vet119-logo-medium.png';
 
 const authStore = useAuthStore();
 const router = useRouter();
+const schedOpen = ref(false);
 
 const isAuthenticated = computed(() => {
   return authStore.isAuthenticated;

@@ -75,9 +75,6 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard-page',
         component: () => import('pages/UserDashboardPage.vue'),
-        meta: {
-          requiresAuth: true,
-        },
       },
       {
         path: 'profile',

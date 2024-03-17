@@ -4,9 +4,6 @@
       style="min-width: 50%; max-width: 65%"
       class="column justify-start items-center q-pb-xl"
     >
-      <q-dialog v-model="sched">
-        <ScheduleAppointmentDialog />
-      </q-dialog>
       <template v-if="isAuthenticated">
         <div class="self-start">
           <h4
@@ -26,7 +23,7 @@
               class="column justify-baseline items-start full-width q-py-lg text-left button-shadow"
               color="white"
               :to="{ name: (choice.link) ? choice.link : {} }"
-              @click="(choice.title === 'Book an Appointment') ? sched = true : {}"
+              @click="(choice.title === 'Book an Appointment') ? $emit('sched') : {}"
             >
               <div
                 style="text-align: left; text-transform: none"
@@ -60,10 +57,8 @@ export default defineComponent({
 
 <script setup>
 import { useAuthStore } from 'stores/auth';
-import { ref, computed } from 'vue';
-import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
+import { computed } from 'vue';
 
-const sched = ref(false);
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
