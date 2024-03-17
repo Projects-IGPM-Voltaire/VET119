@@ -12,34 +12,24 @@ const routes = [
         path: 'services',
         name: 'services-page',
         component: () => import('pages/ServicesPage.vue'),
-      }
-    ],
-  },
-
-  {
-    path: '/login',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
+      },
       {
-        path: '',
+        path: 'login',
         name: 'login-page',
         component: () => import('pages/LoginPage.vue'),
       },
-    ],
-  },
-
-  {
-    path: '/register',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
       {
-        path: '',
+        path: 'register',
         name: 'register-page',
         component: () => import('pages/RegisterPage.vue'),
       },
+      {
+        path: 'email-verification',
+        name: 'email-verification-page',
+        component: () => import('pages/EmailVerifPage.vue'),
+      },
     ],
   },
-
   {
     path: '/forgot-password',
     component: () => import('layouts/MainLayout.vue'),
