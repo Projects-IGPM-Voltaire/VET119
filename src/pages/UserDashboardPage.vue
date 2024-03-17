@@ -2,8 +2,11 @@
   <q-page class="row justify-center items-start">
     <div
       style="min-width: 50%; max-width: 65%"
-      class="column justify-start items-center"
+      class="column justify-start items-center q-pb-xl"
     >
+      <q-dialog v-model="sched">
+        <ScheduleAppointmentDialog />
+      </q-dialog>
       <template v-if="isAuthenticated">
         <div class="self-start">
           <h4
@@ -14,14 +17,16 @@
         </div>
       </template>
       <div
-        class="full-width row q-gutter-md q-column-gutter-md q-mb-xl q-mt-none"
+        class="full-width row q-gutter-xl q-column-gutter-md q-mb-xl q-mt-none"
       >
         <template v-for="(choice, index) in choices" :key="index">
           <div class="col-5">
             <q-btn
               style="height: 8rem"
-              class="column justify-baseline items-start full-width q-py-lg text-left shadow-5"
+              class="column justify-baseline items-start full-width q-py-lg text-left button-shadow"
               color="white"
+              :to="{ name: (choice.link) ? choice.link : {} }"
+              @click="(choice.title === 'Book an Appointment') ? sched = true : {}"
             >
               <div
                 style="text-align: left; text-transform: none"
@@ -55,8 +60,10 @@ export default defineComponent({
 
 <script setup>
 import { useAuthStore } from 'stores/auth';
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
+import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 
+const sched = ref(false);
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
@@ -67,14 +74,9 @@ const choices = [
     description: 'Schedule a checkup for your pet through VET 119.',
   },
   {
-    icon: 'event',
-    title: 'View Available Schedule',
-    description:
-      'This is the button description. What will this button do? What do users expect?',
-  },
-  {
     icon: 'event_available',
     title: 'Your Appointments',
+    link: 'check-appointments-page',
     description: 'View your upcoming appointments in VET 119.',
   },
   {

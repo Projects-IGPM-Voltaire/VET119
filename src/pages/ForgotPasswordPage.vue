@@ -19,7 +19,6 @@
                   color="accent"
                   outlined
                   label="Email Address"
-                  v-model="form.username"
                 />
               </div>
               <div class="col-12">
@@ -47,4 +46,7 @@ export default defineComponent({
   name: 'ForgotPasswordPage',
   components: {},
 });
+</script>
+<script setup>
+import Logo from 'assets/vet119-logo-medium.png';
 </script>

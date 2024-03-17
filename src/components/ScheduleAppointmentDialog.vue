@@ -1,7 +1,7 @@
 <template>
-  <q-card style="width: 600px; max-width: 600px">
-    <q-card-section class="row items-center q-pb-none">
-      <div class="text-h6">Book an Appointment</div>
+  <q-card style="width: 700px; max-width: 700px" class="q-px-md">
+    <q-card-section class="row items-center q-pb-none q-pt-lg">
+      <div class="text-h6 text-bold text-primary">Book an Appointment</div>
       <q-space />
       <q-btn icon="close" flat round dense v-close-popup />
     </q-card-section>

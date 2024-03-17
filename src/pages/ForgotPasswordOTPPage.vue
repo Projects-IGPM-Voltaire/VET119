@@ -19,7 +19,6 @@
                   color="accent"
                   outlined
                   label="Enter OTP"
-                  v-model="form.username"
                 />
               </div>
               <div class="col-12">
@@ -46,4 +45,7 @@ export default defineComponent({
   name: 'ForgotPasswordOTPPage',
   components: {},
 });
+</script>
+<script setup>
+import Logo from 'assets/vet119-logo-medium.png';
 </script>

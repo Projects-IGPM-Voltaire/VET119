@@ -20,7 +20,6 @@
                   color="accent"
                   outlined
                   label="Enter New Password"
-                  v-model="form.username"
                 />
               </div>
               <div class="col-12">
@@ -28,7 +27,6 @@
                   color="accent"
                   outlined
                   label="Re-enter New Password"
-                  v-model="form.username"
                 />
               </div>
               <div class="col-12">
@@ -55,4 +53,7 @@ export default defineComponent({
   name: 'ForgotPasswordNewPassPage',
   components: {},
 });
+</script>
+<script setup>
+import Logo from 'assets/vet119-logo-medium.png';
 </script>
