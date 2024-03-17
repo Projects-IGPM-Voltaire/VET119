@@ -31,6 +31,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="bg-primary q-pa-sm" style="padding: 5rem 0">
       <div class="container text-white">
         <div class="row q-col-gutter">
@@ -54,57 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="container q-mb-xl q-pa-sm">
-      <div class="row q-col-gutter-md">
-        <div class="col-12 col-md-6">
-          <div>
-            <h6>Proponents</h6>
-            <div class="row q-col-gutter">
-              <template v-for="(proponent, index) in proponents" :key="index">
-                <div class="col-6 col-md-3">
-                  <div>
-                    <div class="text-center">
-                      <q-avatar class="q-mb-sm" size="3rem">
-                        <img :src="proponent.image" />
-                      </q-avatar>
-                      <div class="text-center text-weight-medium">
-                        {{ proponent.name }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div>
-            <h6>Developer</h6>
-            <div class="flex justify-center">
-              <div class="row q-col-gutter-sm">
-                <div class="col-12 col-md-6">
-                  <div>
-                    <q-avatar size="9rem" class="q-mb-sm">
-                      <img :src="MeImage" />
-                    </q-avatar>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6">
-                  <div>
-                    <div class="text-weight-bold">
-                      Lavarias, Sebastian Curtis T.
-                    </div>
-                    <div class="text-weight-medium">
-                      Full-stack Web Developer
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    -->
   </div>
 </template>
 

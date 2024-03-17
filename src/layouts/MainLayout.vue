@@ -152,7 +152,7 @@
               </router-link>
               <router-link
                 style="text-decoration: none"
-                :to="{ name: 'home-page' }"
+                :to="{ name: 'login-page' }"
               >
                 <span class="text-weight-bold text-subtitle2 text-white">
                   Login
