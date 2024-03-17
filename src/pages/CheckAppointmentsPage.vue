@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bg-light">
+  <q-page class="bg-secondary">
     <div class="row q-py-lg q-px-xl q-col-gutter-xl q-gutter-lg">
       <div class="q-mt-none q-pt-none col-4 column q-gutter-none items-stretch">
         <div class="q-mb-lg">

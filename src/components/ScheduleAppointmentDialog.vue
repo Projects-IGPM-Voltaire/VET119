@@ -1,12 +1,12 @@
 <template>
   <q-dialog v-model="showBookModal" persistent>
-    <q-card style="width: 700px; max-width: 700px" class="q-px-md">
-      <q-card-section class="row items-center q-pb-none q-pt-lg">
+    <q-card style="width: 700px; max-width: 700px" class="q-px-md bg-secondary">
+      <q-card-section class="bg-secondary row items-center q-pb-none q-pt-lg">
         <div class="text-h6 text-bold text-primary">Book an Appointment</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
-      <q-stepper v-model="step" ref="stepper" flat animated>
+      <q-stepper class="bg-secondary" v-model="step" ref="stepper" flat animated>
         <q-step
           :name="1"
           color="accent"
