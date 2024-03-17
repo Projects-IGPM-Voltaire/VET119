@@ -28,6 +28,11 @@ const routes = [
         name: 'email-verification-page',
         component: () => import('pages/EmailVerifPage.vue'),
       },
+      {
+        path: 'about-us',
+        name: 'about-us-page',
+        component: () => import('pages/AboutUs.vue'),
+      },
     ],
   },
   {
@@ -52,17 +57,6 @@ const routes = [
     ],
   },
   {
-    path: '/about-us',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      {
-        path: '',
-        name: 'about-us-page',
-        component: () => import('pages/AboutUs.vue'),
-      },
-    ],
-  },
-  {
     path: '/user',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -82,6 +76,9 @@ const routes = [
         component: () => import('pages/CheckAppointmentsPage.vue'),
       },
     ],
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/admin',
