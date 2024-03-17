@@ -8,6 +8,11 @@ const routes = [
         name: 'home-page',
         component: () => import('pages/IndexPage.vue'),
       },
+      {
+        path: 'services',
+        name: 'services-page',
+        component: () => import('pages/ServicesPage.vue'),
+      }
     ],
   },
 
@@ -80,17 +85,11 @@ const routes = [
         path: 'profile',
         name: 'user-profile-page',
         component: () => import('pages/UserProfilePage.vue'),
-        meta: {
-          requiresAuth: true,
-        },
       },
       {
         path: 'appointments',
         name: 'check-appointments-page',
         component: () => import('pages/CheckAppointmentsPage.vue'),
-        meta: {
-          requiresAuth: true,
-        },
       },
     ],
   },
