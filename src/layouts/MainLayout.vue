@@ -171,18 +171,10 @@
           </router-link>
           <router-link
             style="text-decoration: none"
-            :to="{ name: 'home-page' }"
+            :to="{ name: 'check-appointments-page' }"
           >
             <span class="text-weight-bold text-subtitle2 text-white">
               Your Appointments
-            </span>
-          </router-link>
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              View Available Schedule
             </span>
           </router-link>
           <router-link
