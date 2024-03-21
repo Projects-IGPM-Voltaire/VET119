@@ -51,7 +51,7 @@
           color="light"
           unelevated
           class="q-mr-md q-pa-sm text-capitalize"
-          :to="{ name: 'user-profle-page' }"
+          :to="{ name: user.level === 'admin' ? 'admin-profile-page' : 'user-profile-page' }"
         >
           <q-icon name="person" class="text-h1" color="base" size="2rem" />
         </q-btn>
@@ -101,7 +101,7 @@
           <div class="q-col-gutter-md column">
             <router-link
               style="text-decoration: none"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'about-us-page' }"
             >
               <span class="text-weight-bold text-subtitle2 text-white">
                 About Us
@@ -109,7 +109,7 @@
             </router-link>
             <router-link
               style="text-decoration: none"
-              :to="{ name: 'user-profile-page' }"
+              :to="{ name: user.level === 'admin' ? 'admin-profile-page' : 'user-profile-page' }"
             >
               <span class="text-weight-bold text-subtitle2 text-white">
                 Profile

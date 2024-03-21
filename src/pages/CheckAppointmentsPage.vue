@@ -14,26 +14,28 @@
           <q-btn
               class="full-width"
               color="white"
-          >
-            <q-card flat class="full-width column items-stretch justify-between q-px-sm q-py-md q-gutter-xs">
-              <div class="q-mb-md col-12 text-left">
-                <q-icon name="event_available" color="accent" />
-                <span class="text-bold text-base q-ml-md">March 17, 2024, 10:00 AM</span>
-              </div>
-              <div class="col-12 q-mb-xs row justify-between">
-                <span class="col text-grey text-left text-capitalize">Owner Name</span>
-                <span class="col text-base text-right text-capitalize">John Doe</span>
-              </div>
-              <div class="col-12 row justify-between">
-                <span class="col text-grey text-left text-capitalize">Number of Pets</span>
-                <span class="col text-base text-right text-capitalize">2</span>
-              </div>
-              <div class="col-12 row justify-between">
-                <span class="col text-grey text-left text-capitalize">Reference Number</span>
-                <span class="col text-base text-right text-capitalize">031024-0006-001</span>
-              </div>
-            </q-card>
-          </q-btn>
+              v-for="appointment in upcomingAppointments"
+              v-bind:key="appointment.refno"
+            >
+              <q-card flat class="full-width column items-stretch justify-between q-px-sm q-py-md q-gutter-xs">
+                <div class="q-mb-md col-12 text-left">
+                  <q-icon name="event_available" color="accent" />
+                  <span class="text-bold text-base q-ml-md">{{ appointment.dt }}</span>
+                </div>
+                <div class="col-12 q-mb-xs row justify-between">
+                  <span class="col text-grey text-left text-capitalize">Owner Name</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.owner }}</span>
+                </div>
+                <div class="col-12 row justify-between">
+                  <span class="col text-grey text-left text-capitalize">Number of Pets</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.petno }}</span>
+                </div>
+                <div class="col-12 row justify-between">
+                  <span class="col text-grey text-left text-capitalize">Reference Number</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.refno }}</span>
+                </div>
+              </q-card>
+            </q-btn>
         </div>
       </div>
       <div class="q-mt-none q-pt-none col-7 column items-start">
@@ -58,23 +60,25 @@
             <q-btn
                 class="full-width"
                 color="white"
+                v-for="appointment in pastAppointments"
+                v-bind:key="appointment.refno"
             >
               <q-card flat class="full-width column items-stretch justify-between q-px-sm q-py-md q-gutter-xs">
                 <div class="q-mb-md col-12 text-left">
                   <q-icon name="event_available" color="accent" />
-                  <span class="text-bold text-base q-ml-md">March 17, 2024, 10:00 AM</span>
+                  <span class="text-bold text-base q-ml-md">{{ appointment.dt }}</span>
                 </div>
                 <div class="col-12 q-mb-xs row justify-between">
                   <span class="col text-grey text-left text-capitalize">Owner Name</span>
-                  <span class="col text-base text-right text-capitalize">John Doe</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.owner }}</span>
                 </div>
                 <div class="col-12 row justify-between">
                   <span class="col text-grey text-left text-capitalize">Number of Pets</span>
-                  <span class="col text-base text-right text-capitalize">2</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.petno }}</span>
                 </div>
                 <div class="col-12 row justify-between">
                   <span class="col text-grey text-left text-capitalize">Reference Number</span>
-                  <span class="col text-base text-right text-capitalize">031024-0006-001</span>
+                  <span class="col text-base text-right text-capitalize">{{ appointment.refno }}</span>
                 </div>
               </q-card>
             </q-btn>
@@ -91,4 +95,59 @@
   export default defineComponent({
     name: 'CheckAppointmentsPage',
   });
+</script>
+
+<script setup>
+import { useAppointmentStore } from 'stores/appointment';
+import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+
+const appointmentStore = useAppointmentStore();
+const upcomingAppointments = ref([]);
+const pastAppointments = ref([]);
+
+const $q = useQuasar();
+
+const getUpcomingAppointments = async () => {
+  const { code, data } = await appointmentStore.check('upcoming');
+  if (code === 200) {
+    upcomingAppointments.value = data.map((appointment) => ({
+      refno: appointment.reference_number,
+      owner: appointment.first_name + ' ' + appointment.last_name,
+      purpose: appointment.purpose,
+      dt: appointment.date + ' ' + appointment.time_from,
+      petno: appointment.pets_count,
+      species: appointment.pets.map((pet) => pet.species).join(', '),
+      petname: appointment.pets.map((pet) => pet.name).join(', '),
+    }));
+    console.log(upcomingAppointments.value);
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+const getPastAppointments = async () => {
+  const { code, data } = await appointmentStore.check('past');
+  if (code === 200) {
+    pastAppointments.value = data.map((appointment) => ({
+      refno: appointment.reference_number,
+      owner: appointment.first_name + ' ' + appointment.last_name,
+      purpose: appointment.purpose,
+      dt: appointment.date + ' ' + appointment.time_from,
+      petno: appointment.pets_count,
+      species: appointment.pets.map((pet) => pet.species).join(', '),
+      petname: appointment.pets.map((pet) => pet.name).join(', '),
+    }));
+    return;
+  }
+  $q.notify({
+    message: 'Something went wrong to the server.',
+    color: 'negative',
+  });
+};
+
+getUpcomingAppointments();
+getPastAppointments();
 </script>

@@ -35,16 +35,8 @@
               color="primary-50"
               unelevated
               class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-              :to="{ name: 'user-profile-page' }"
+              :to="{ name: 'services-page' }"
               >Our Services</q-btn
-            >
-            <q-btn
-              dense
-              color="primary-50"
-              unelevated
-              class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-              :to="{ name: 'home-page' }"
-              >About Us</q-btn
             >
           </template>
           <template v-else>
@@ -61,7 +53,7 @@
               color="primary-50"
               unelevated
               class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'services-page' }"
               >Services</q-btn
             >
           </template>
@@ -132,7 +124,7 @@
             </router-link>
             <router-link
               style="text-decoration: none"
-              :to="{ name: 'home-page' }"
+              :to="{ name: 'services-page' }"
             >
               <span class="text-weight-bold text-subtitle2 text-white">
                 Services

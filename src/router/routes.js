@@ -78,7 +78,8 @@ const routes = [
     ],
     meta: {
       requiresAuth: true,
-    }
+      level: 'guest',
+    },
   },
   {
     path: '/admin',
@@ -94,38 +95,9 @@ const routes = [
         },
       },
       {
-        path: 'health-center',
-        name: 'superadmin-health-centers-page',
-        component: () => import('pages/superadmin/HealthCenterPage.vue'),
-        meta: {
-          requiresAuth: true,
-          level: 'superadmin',
-        },
-      },
-
-      {
-        path: 'user',
-        name: 'admin-users-page',
-        component: () => import('pages/admin/UserPage.vue'),
-        meta: {
-          requiresAuth: true,
-          level: 'admin',
-        },
-      },
-
-      {
-        path: 'schedule',
-        name: 'admin-schedules-page',
-        component: () => import('pages/admin/SchedulePage.vue'),
-        meta: {
-          requiresAuth: false,
-        },
-      },
-
-      {
-        path: 'system',
-        name: 'admin-system-page',
-        component: () => import('pages/admin/SystemPage.vue'),
+        path: 'profile',
+        name: 'admin-profile-page',
+        component: () => import('pages/admin/AdminProfilePage.vue'),
         meta: {
           requiresAuth: true,
           level: 'admin',

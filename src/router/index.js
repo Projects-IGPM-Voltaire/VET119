@@ -44,19 +44,33 @@ export default route(function (/* { store, ssrContext } */) {
         !to.matched.some((record) => record.meta.level === user.level)
       ) {
         next({ name: 'login-page' });
+      } else {
+        next();
       }
     } else {
       if (isAuthenticated) {
-        if (user.level === 'superadmin') {
-          next({ name: 'superadmin-health-centers-page' });
-        } else if (user.level === 'admin') {
-          next({ name: 'admin-users-page' });
-        }
-        if (to.name === 'login-page') {
-          next({ name: 'home-page' });
-        }
-        if (to.name === 'register-page') {
-          next({ name: 'home-page' });
+        if (isAuthenticated) {
+          if (to.name === 'home-page') {
+            if (user.level === 'admin') {
+              next({ name: 'admin-users-page' });
+            } else if (user.level === 'guest') {
+              next({ name: 'dashboard-page' });
+            } else {
+              next();
+            }
+          } else if (to.name === 'login-page' || to.name === 'register-page') {
+            if (user.level === 'admin') {
+              next({ name: 'admin-dashboard-page' });
+            } else if (user.level === 'guest') {
+              next({ name: 'dashboard-page' });
+            } else {
+              next();
+            }
+          } else {
+            next();
+          }
+        } else {
+          next();
         }
       }
     }
