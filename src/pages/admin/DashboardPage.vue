@@ -13,7 +13,10 @@
            />
         </div>
         <div class="col-3 row justify-end">
-          <q-btn outline label="Add" color="accent" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold" />
+          <q-btn outline label="Add" color="accent" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold"
+          :to="{ name: {} }"
+          @click="$emit('sched')"
+          />
           <q-btn outline label="Edit" color="accent" class="col-5 q-py-sm q-px-lg text-bold" />
         </div>
       </div>

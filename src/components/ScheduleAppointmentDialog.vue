@@ -27,8 +27,11 @@
                 color="accent"
                 class="col-5 q-mb-sm"
                 label="First Name"
+                v-model="firstName"
               />
-              <q-input outlined color="accent" class="col-5" label="Last Name" />
+              <q-input outlined color="accent" class="col-5" label="Last Name"
+                v-model="lastName"
+              />
             </div>
             <div class="row q-col-gutter-lg">
               <div class="col-12 q-mb-none">
@@ -289,6 +292,8 @@ const $q = useQuasar();
 const healthCenterStore = useHealthCenterStore();
 const appointmentStore = useAppointmentStore();
 
+const firstName = ref('');
+const lastName = ref('');
 const petCount = ref(1);
 const pets = ref([{ name: '', species: '', breed: '' }]);
 const purpose = ref(null);
@@ -472,6 +477,8 @@ watch(
 const onCreate = async () => {
   isFormLoading.value = true;
   const { code, message, data } = await appointmentStore.create({
+    first_name: firstName.value,
+    last_name: lastName.value,
     date: date.value,
     time_from: selectedTime.value.value.time_from,
     time_to: selectedTime.value.value.time_to,

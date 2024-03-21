@@ -1,4 +1,5 @@
 <template>
+  <ScheduleAppointmentDialog v-model:open="schedOpen"/>
   <q-layout view="hHh lpR fFf">
     <q-header class="row justify-start bg-primary-50">
       <q-toolbar class="row items-center">
@@ -51,7 +52,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view @filter="filterOpen=true" />
+      <router-view @sched="schedOpen=true"/>
     </q-page-container>
 
     <q-footer
@@ -165,6 +166,7 @@
 <script>
 import { defineComponent } from 'vue';
 import FilterDialog from 'components/FilterDialog.vue';
+import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -179,7 +181,7 @@ import LogoSmall from 'assets/vet119-logo-medium.png';
 
 const authStore = useAuthStore();
 const router = useRouter();
-const filterOpen = ref(false);
+const schedOpen = ref(false);
 
 const isAuthenticated = computed(() => {
   return authStore.isAuthenticated;
