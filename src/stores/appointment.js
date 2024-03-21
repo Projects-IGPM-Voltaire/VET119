@@ -6,9 +6,19 @@ const route = '/api/appointment';
 
 export const useAppointmentStore = defineStore('appointment', {
   actions: {
-    async list(condition = null) {
+    async list(
+      { search, dateFrom, dateTo, timeFrom, timeTo, purpose }
+    ) {
       try {
-        const response = await api.get(`${route}/${condition ? `?${condition}` : ''}`);
+        const params = toURLSearchParams({
+          search: search,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
+          timeFrom: timeFrom,
+          timeTo: timeTo,
+          purpose: purpose,
+        });
+        const response = await api.get(`${route}/${params ? `?${params}` : ''}`);
         return response.data;
       } catch (e) {
         return {
@@ -87,7 +97,7 @@ export const useAppointmentStore = defineStore('appointment', {
 
     async check(condition) {
       try {
-        const response = await api.get(`${route}/${condition}`);
+        const response = await api.get(`${route}/check/${condition}`);
         return response.data;
       } catch (e) {
         return {

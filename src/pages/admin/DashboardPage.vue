@@ -4,10 +4,12 @@
       <h4 class="text-bold text-capitalize text-primary">Hi, Admin!</h4>
       <div class="row justify-between">
         <div class="col-8 row justify-start">
-          <q-input outlined type="search" label="Search.." color="grey" class="col-7 q-mr-md" />
+          <q-input outlined type="search" label="Search.." color="grey" class="col-7 q-mr-md"
+            v-model="search"
+           />
           <q-btn outline label="Filter" color="accent" class="col-4 q-py-md q-px-lg text-bold"
             :to="{ name: {} }"
-            @click="$emit('filter')"
+            @click="filterDialogOpen = true"
            />
         </div>
         <div class="col-3 row justify-end">
@@ -76,6 +78,45 @@
         </div>
       </div>
     </div>
+    <q-dialog v-model="filterDialogOpen">
+      <q-card style="width:50vw;">
+        <q-card-section class="q-pa-md column items-stretch q-gutter-md">
+          <div class="row col-12 q-col-gutter-md q-py-md q-pl-md">
+            <q-input outlined class="col" icon="calendar-month" color="grey" type="date" label="Date From"
+              v-model="filter.dateFrom"
+            />
+            <q-input outlined class="col" icon="calendar-month" color="grey" type="date" label="Date To"
+              v-model="filter.dateTo"
+            />
+          </div>
+          <div class="row col-12 q-col-gutter-md q-pl-md">
+            <q-input outlined class="col" icon="calendar-month" color="grey" type="time" label="Time From"
+              v-model="filter.timeFrom"
+            />
+            <q-input outlined class="col" icon="calendar-month" color="grey" type="time" label="Time To"
+              v-model="filter.timeTo"
+            />
+          </div>
+          <div class="col-12">
+            <q-select outlined color="grey" label="Purpose"
+              v-model="filter.purpose"
+              :options="['Checkup', 'Follow-up', 'Other']"
+            />
+          </div>
+          <div class="col-12">
+            <q-btn unelevated color="primary" class="full-width text-bold q-py-md" label="Filter"
+            @click="() => { getAppointments(); filterDialogOpen = false; }"
+            />
+            <q-btn unelevated outline class="full-width text-bold q-py-md q-mt-sm" label="Clear"
+              @click="() => {
+                filter = { dateFrom: '', dateTo: '', timeFrom: '', timeTo: '', purpose: '' };
+                getAppointments();
+                }"
+            />
+          </div>
+        </q-card-section>
+      </q-card>
+  </q-dialog>
   </q-page>
 </template>
 
@@ -100,18 +141,54 @@ const cols = [
 <script setup>
   import { ref, computed } from 'vue';
   import { useAppointmentStore } from 'stores/appointment';
+  import { watch } from 'vue';
+  import { onMounted } from 'vue';
+  import { debounce } from 'src/extras/misc';
 
   const appointmentStore = useAppointmentStore();
   const appointments = ref([]);
 
+  const formatDateString = (originalDateString) => {
+    let date = new Date(originalDateString);
+
+    // Format the date
+    let options = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+    return date.toLocaleString('en-US', options);
+}
+
+  const search = ref('');
+  watch(
+  () => search.value,
+  debounce(async () => await getAppointments(), 500)
+);
+
+
+  const filter = ref({
+    dateFrom: '',
+    dateTo: '',
+    timeFrom: '',
+    timeTo: '',
+    purpose: '',
+  })
+
+  const filterDialogOpen = ref(false);
+
   const getAppointments = async () => {
-    const { code, data } = await appointmentStore.list();
+    console.log(filter.value.timeFrom);
+    const { code, data } = await appointmentStore.list({
+      search: search.value,
+      dateFrom: filter.value.dateFrom,
+      dateTo: filter.value.dateTo,
+      timeFrom: filter.value.timeFrom,
+      timeTo: filter.value.timeTo,
+      purpose: filter.value.purpose,
+    });
     if (code === 200) {
       appointments.value = data.map((appointment) => ({
         refno: appointment.reference_number,
         owner: appointment.first_name + ' ' + appointment.last_name,
         purpose: appointment.purpose,
-        dt: appointment.date + ' ' + appointment.time_from,
+        dt: formatDateString(appointment.date + ' ' + appointment.time_from),
         species: appointment.pets.map((pet) => pet.species).join(', '),
         petname: appointment.pets.map((pet) => pet.name).join(', '),
       }));
@@ -131,5 +208,8 @@ const cols = [
     rowsPerPage: 20,
   });
 
-getAppointments();
+  onMounted(() => {
+    getAppointments();
+  });
+
 </script>

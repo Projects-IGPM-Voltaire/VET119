@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="showFilterModal" >
+  <q-dialog v-model="dialogVisible">
     <q-card style="width:50vw;">
       <q-card-section class="q-pa-md column items-stretch q-gutter-md">
         <div class="row col-12 q-col-gutter-md q-py-md q-pl-md">
@@ -29,12 +29,6 @@
 </script>
 <script setup>
   import { ref } from 'vue';
-  import { defineProps, defineEmits, computed } from 'vue';
 
-  const props = defineProps(['open']);
-  const emit = defineEmits(['update:open']);
-  const showFilterModal = computed({
-    get() { return props.open; },
-    set(val) { emit('update:open', val); },
-  });
+  const dialogVisible = ref(true);
 </script>

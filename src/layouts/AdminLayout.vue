@@ -1,5 +1,4 @@
 <template>
-  <FilterDialog v-model:open="filterOpen" />
   <q-layout view="hHh lpR fFf">
     <q-header class="row justify-start bg-primary-50">
       <q-toolbar class="row items-center">
