@@ -20,7 +20,7 @@
           class="q-my-lg"
           table-header-class="bg-primary-50"
           :columns="cols"
-          :rows="dummyr"
+          :rows="appointments"
           row-key="name"
           v-model:pagination="pagination"
           hide-pagination
@@ -34,7 +34,7 @@
           active-design="unelevated"
           gutter="none"
           size="lg"
-          :max="1"
+          :max="pagesNumber"
           direction-links
           outline
       />
@@ -78,6 +78,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+
 export default defineComponent({
   name: 'AdminDashboardPage',
   components: {},
@@ -91,26 +92,41 @@ const cols = [
 { name: 'petname', required: true, label: 'Pet Name', field: row => row.petname, align: 'left', },
 ];
 
-const dummyr = [
-  {
-    refno: '092924-0021-001',
-    owner: 'Maria Santos',
-    purpose: 'vaccination',
-    date_time: "Sept 29, 08:00 AM",
-    species: 'dog',
-    petname: 'Buddy',
-  },
-];
 </script>
 
 <script setup>
   import { ref, computed } from 'vue';
+  import { useAppointmentStore } from 'stores/appointment';
 
-  const pagesNumber = computed(() => Math.ceil(dummyr.length / pagination.value.rowsPerPage));
+  const appointmentStore = useAppointmentStore();
+  const appointments = ref([]);
+
+  const getAppointments = async () => {
+    const { code, data } = await appointmentStore.list();
+    if (code === 200) {
+      appointments.value = data.map((appointment) => ({
+        refno: appointment.reference_number,
+        owner: appointment.first_name + ' ' + appointment.last_name,
+        purpose: appointment.purpose,
+        dt: appointment.date + ' ' + appointment.time_from,
+        species: appointment.pets.map((pet) => pet.species).join(', '),
+        petname: appointment.pets.map((pet) => pet.name).join(', '),
+      }));
+      return;
+    }
+    $q.notify({
+      message: 'Something went wrong to the server.',
+      color: 'negative',
+    });
+  };
+
+  const pagesNumber = computed(() => Math.ceil(appointments.value.length / pagination.value.rowsPerPage));
   const pagination = ref({
     sortBy: 'date_time',
     descending: false,
     page: 1,
     rowsPerPage: 20,
   });
+
+getAppointments();
 </script>
