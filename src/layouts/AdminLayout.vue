@@ -33,16 +33,8 @@
             color="primary-50"
             unelevated
             class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-            :to="{ name: 'home-page' }"
-            >History</q-btn
-          >
-          <q-btn
-            dense
-            color="primary-50"
-            unelevated
-            class="q-mx-lg q-my-md q-pa-md text-weight-bold text-uppercase text-base"
-            :to="{ name: 'home-page' }"
-            >Edit</q-btn
+            :to="{ name: 'services-page' }"
+            >Our Services</q-btn
           >
         </div>
         <q-space></q-space>
@@ -99,14 +91,6 @@
             </router-link>
           </div>
           <div class="q-col-gutter-md column">
-            <router-link
-              style="text-decoration: none"
-              :to="{ name: 'about-us-page' }"
-            >
-              <span class="text-weight-bold text-subtitle2 text-white">
-                About Us
-              </span>
-            </router-link>
             <router-link
               style="text-decoration: none"
               :to="{ name: user.level === 'admin' ? 'admin-profile-page' : 'user-profile-page' }"
