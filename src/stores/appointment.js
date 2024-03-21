@@ -79,9 +79,17 @@ export const useAppointmentStore = defineStore('appointment', {
       }
     },
 
-    async delete(schedule) {
+    async delete(appointments) {
       try {
-        const response = await api.delete(`${route}/${schedule}`);
+        const response = await api.delete(`${route}/delete`, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: {
+              appointments: appointments
+            }
+          }
+        );
         return response.data;
       } catch (e) {
         return {

@@ -14,24 +14,33 @@
         </div>
         <div class="col-3 row justify-end">
           <q-btn outline label="Add" color="accent" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold"
+          v-if="!editMode"
           :to="{ name: {} }"
           @click="$emit('sched')"
           />
-          <q-btn outline label="Edit" color="accent" class="col-5 q-py-sm q-px-lg text-bold" />
+          <q-btn outline label="Delete" color="red" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold"
+          v-if="editMode"
+          @click="confirmDeleteDialog = true"
+          />
+          <q-btn outline v-bind:label="editMode ? 'View' : 'Edit'" color="accent" class="col-5 q-py-sm q-px-lg text-bold"
+            @click="editMode = !editMode"
+          />
         </div>
       </div>
       <q-table
-          color="primary"
-          dense
-          flat
-          square
-          class="q-my-lg"
-          table-header-class="bg-primary-50"
-          :columns="cols"
-          :rows="appointments"
-          row-key="name"
-          v-model:pagination="pagination"
-          hide-pagination
+        color="primary"
+        dense
+        flat
+        square
+        class="q-my-lg"
+        table-header-class="bg-primary-50"
+        :columns="cols"
+        :rows="appointments"
+        row-key="refno"
+        v-model:pagination="pagination"
+        :selection="editMode ? 'multiple' : 'none'"
+        v-model:selected="selected"
+        hide-pagination
       />
       <q-pagination
           class="self-center"
@@ -81,6 +90,25 @@
         </div>
       </div>
     </div>
+    <q-dialog v-model="confirmDeleteDialog">
+      <q-card style="width:50vw;">
+        <q-card-section class="q-pa-md column items-stretch q-gutter-md">
+          <div class="row col-12 q-col-gutter-md q-py-md q-pl-md">
+            <p class="text-bold text-primary text-h6">
+              Are you sure you want to delete the selected appointment(s)?
+            </p>
+          </div>
+          <div class="col-12">
+            <q-btn unelevated color="red" class="full-width text-bold q-py-md" label="Confirm"
+            @click="() => { deleteAppointments(); confirmDeleteDialog = false; }"
+            />
+            <q-btn unelevated outline class="full-width text-bold q-py-md q-mt-sm" label="Cancel"
+              @click="confirmDeleteDialog = false"
+            />
+          </div>
+        </q-card-section>
+      </q-card>
+  </q-dialog>
     <q-dialog v-model="filterDialogOpen">
       <q-card style="width:50vw;">
         <q-card-section class="q-pa-md column items-stretch q-gutter-md">
@@ -125,6 +153,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'AdminDashboardPage',
@@ -148,8 +177,14 @@ const cols = [
   import { onMounted } from 'vue';
   import { debounce } from 'src/extras/misc';
 
+  const $q = useQuasar();
+
   const appointmentStore = useAppointmentStore();
   const appointments = ref([]);
+
+  const editMode = ref(false);
+  const selected = ref([]);
+  const confirmDeleteDialog = ref(false);
 
   const formatDateString = (originalDateString) => {
     let date = new Date(originalDateString);
@@ -177,7 +212,6 @@ const cols = [
   const filterDialogOpen = ref(false);
 
   const getAppointments = async () => {
-    console.log(filter.value.timeFrom);
     const { code, data } = await appointmentStore.list({
       search: search.value,
       dateFrom: filter.value.dateFrom,
@@ -197,6 +231,34 @@ const cols = [
       }));
       return;
     }
+    $q.notify({
+      message: 'Something went wrong to the server.',
+      color: 'negative',
+    });
+  };
+
+  const deleteAppointments = async () => {
+
+    if (selected.value.length === 0) {
+      $q.notify({
+        message: 'No appointment(s) selected.',
+        color: 'negative',
+      });
+      return;
+    }
+
+    const { code, data, message } = await appointmentStore.delete(selected.value.map((appointment) => appointment.refno));
+    if (code === 200) {
+      $q.notify({
+        message: 'Appointment(s) deleted successfully.',
+        color: 'positive',
+      });
+      selected.value = [];
+      appointments.value = [];
+      getAppointments();
+      return;
+    }
+    console.log(message);
     $q.notify({
       message: 'Something went wrong to the server.',
       color: 'negative',
