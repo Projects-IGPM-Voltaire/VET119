@@ -5,7 +5,10 @@
       <div class="row justify-between">
         <div class="col-8 row justify-start">
           <q-input outlined type="search" label="Search.." color="grey" class="col-7 q-mr-md" />
-          <q-btn outline label="Filter" color="accent" class="col-4 q-py-md q-px-lg text-bold" />
+          <q-btn outline label="Filter" color="accent" class="col-4 q-py-md q-px-lg text-bold"
+            :to="{ name: {} }"
+            @click="$emit('filter')"
+           />
         </div>
         <div class="col-3 row justify-end">
           <q-btn outline label="Add" color="accent" class="col-5 q-mr-xs q-py-sm q-px-lg text-bold" />
