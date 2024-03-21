@@ -120,7 +120,6 @@ const getUpcomingAppointments = async () => {
       species: appointment.pets.map((pet) => pet.species).join(', '),
       petname: appointment.pets.map((pet) => pet.name).join(', '),
     }));
-    console.log(upcomingAppointments.value);
     return;
   }
   $q.notify({

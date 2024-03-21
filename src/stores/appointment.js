@@ -31,25 +31,23 @@ export const useAppointmentStore = defineStore('appointment', {
     },
 
     async create({
-      first_name,
-      last_name,
-      birthday,
+      first_name= '',
+      last_name= '',
       date,
       time_from,
       time_to,
-      healthCenterID,
-      userID,
+      purpose,
+      pets
     }) {
       try {
         const response = await api.post(`${route}`, {
           first_name,
           last_name,
-          birthday,
           date,
           time_from,
           time_to,
-          health_center_id: healthCenterID,
-          user_id: userID ?? null,
+          purpose,
+          pets
         });
         return response.data;
       } catch (e) {
