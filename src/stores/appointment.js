@@ -79,6 +79,25 @@ export const useAppointmentStore = defineStore('appointment', {
       }
     },
 
+    async filter(
+      { date }
+    ) {
+      try {
+        const params = toURLSearchParams({
+          date: date,
+        });
+        const response = await api.get(`${route}/filter/${params ? `?${params}` : ''}`);
+        return response.data;
+      } catch (e) {
+        return {
+          message: e.response.data.message,
+          code: e.response.data.code,
+          success: false,
+          data: null,
+        };
+      }
+    },
+
     async delete(appointments) {
       try {
         const response = await api.delete(`${route}/delete`, {

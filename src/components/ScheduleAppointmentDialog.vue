@@ -110,6 +110,8 @@
                 label="Select Appointment Time"
                 v-model="selectedTime"
                 :options="timeRanges"
+                :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"
+                :disable="!date"
               />
             </div>
           </div>
@@ -268,7 +270,6 @@ export default defineComponent({
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { useScheduleStore } from 'stores/schedule';
 import { useAppointmentStore } from 'src/stores/appointment';
 import { useQuasar } from 'quasar';
 import { useUserStore } from 'stores/user';
@@ -286,7 +287,6 @@ const showBookModal = computed({
 });
 
 const userStore = useUserStore();
-const scheduleStore = useScheduleStore();
 const authStore = useAuthStore();
 const $q = useQuasar();
 const healthCenterStore = useHealthCenterStore();
@@ -298,20 +298,6 @@ const petCount = ref(1);
 const pets = ref([{ name: '', species: '', breed: '' }]);
 const purpose = ref(null);
 const date = ref(null);
-const selectedTimeslot = ref(null);
-const minDate = ref(new Date().toISOString().split('T')[0]);
-const dateOptions = computed(() => ({
-  disabledDates: (date) => {
-    return disablePastDates(date);
-  },
-  defaultDate: new Date(),
-  color: 'accent',
-  mask: 'YYYY-MM-DD',
-  options: {
-    format: 'YYYY-MM-DD',
-    title: 'Select Appointment Date',
-  },
-}));
 
 const selectedTime = ref(null);
 const defaultForm = {
@@ -319,16 +305,13 @@ const defaultForm = {
   time_from: null,
   time_to: null,
 };
-let form = ref(Object.assign({}, defaultForm));
 const isFormLoading = ref(false);
 const formError = ref(false);
-const doctors = ref([]);
 const booted = ref(false);
-const operationHour = ref(null);
 const step = ref(1);
-const schedule = ref(null);
 const appointment = ref(null);
 const referenceNumber = ref('');
+const bookedDates = ref([]);
 
 const formatDateString = (originalDateString) => {
   let date = new Date(originalDateString);
@@ -417,49 +400,47 @@ const generateTimeRanges = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
+
+    const time_from = timeFrom.toLocaleString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    const time_to = timeTo.toLocaleString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+
+    const inactive = bookedDates.value.some((date) => {
+      return date.time_from === time_from
+    });
+
     timeRanges.push({
       label: `${formattedTimeFrom} - ${formattedTimeTo}`,
       value: {
-        time_from: timeFrom.toLocaleString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        }),
-        time_to: timeTo.toLocaleString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        }),
+        time_from: time_from,
+        time_to: time_to,
       },
+      inactive: inactive,
     });
   }
 
   return timeRanges;
 };
 
-const timeRanges = ref(generateTimeRanges());
-
-watch(
-  () => date.value,
-  (value) => {
-    timeRanges.value = generateTimeRanges();
-  }
-);
+const timeRanges = ref([]);
 
 const authUser = computed(() => authStore.user);
 
 const isAdmin = computed(() => authUser.value.level === 'admin');
 
-const healthCenterID = computed(
-  () => authUser.value.health_center_member.center.id
-);
-
 watch(
   () => date.value,
   (value) => {
-    timeRanges.value = generateTimeRanges();
+    getBookedDates();
   }
 );
 
@@ -499,20 +480,7 @@ const onCreate = async () => {
   }
   formError.value = message;
 };
-const disablePastDates = (timestamp) => {
-  const date = new Date(timestamp);
-  const now = new Date();
 
-  return date >= now || date.setHours(0, 0, 0, 0) === now.setHours(0, 0, 0, 0);
-};
-const copyPatientNumber = async () => {
-  await copyToClipboard(schedule.value.patient_number);
-  $q.notify({
-    message: 'Patient number copied to clipboard.',
-    color: 'positive',
-    icon: 'done',
-  });
-};
 const copyReferenceNumber = async () => {
   await copyToClipboard(referenceNumber.value);
   $q.notify({
@@ -521,21 +489,14 @@ const copyReferenceNumber = async () => {
     icon: 'done',
   });
 };
-const onBookAgain = async () => {
-  modelValueLocal.value = false;
-  form.value.date = null;
-  selectedTime.value = null;
-  step.value = 1;
-  modelValueLocal.value = true;
-};
-const checkHasSchedule = async () => {
-  const { code, data } = await scheduleStore.check();
+
+const getBookedDates = async () => {
+  const { code, data } = await appointmentStore.filter(
+    { date: date.value }
+  );
   if (code === 200) {
-    const { has_schedule } = data;
-    if (has_schedule) {
-      schedule.value = Object.assign({}, data.schedule);
-      step.value = 2;
-    }
+    bookedDates.value = data;
+    timeRanges.value = generateTimeRanges();
     return;
   }
   $q.notify({
