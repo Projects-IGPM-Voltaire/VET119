@@ -23,7 +23,8 @@
               class="column justify-baseline items-start full-width q-py-lg text-left button-shadow"
               color="white"
               :to="{ name: (choice.link) ? choice.link : {} }"
-              @click="(choice.title === 'Book an Appointment') ? $emit('sched') : {}"
+              @click="(choice.title === 'Book an Appointment') ? $emit('sched') :
+                (choice.title === 'View Contact Information') ? contactDialog = true : {}"
             >
               <div
                 style="text-align: left; text-transform: none"
@@ -45,6 +46,47 @@
       </div>
     </div>
   </q-page>
+  <q-dialog v-model="contactDialog">
+    <q-card style="width: 700px; max-width: 700px" class="q-px-md q-py-md bg-secondary">
+      <q-card-section class="bg-secondary row items-center q-pb-none q-pt-lg">
+        <div class="text-h6 text-bold text-primary">Contact Information</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
+      <div class="column justify-start q-px-md q-py-md">
+        <div class="col-2 row">
+          <span class="col text-gray">Clinic Name</span>
+          <span class="col">This is the clinic name</span>
+        </div>
+        <div class="col-2 row">
+          <span class="col text-gray">Contact Number(s)</span>
+          <span class="col">This is a contact number</span>
+        </div>
+        <div class="col-2 row">
+          <span class="col text-gray"></span>
+          <span class="col">This is a contact number</span>
+        </div>
+        <div class="col-2 row">
+          <span class="col text-gray">Email Address</span>
+          <span class="col">This is an email</span>
+        </div>
+        <div class="col-2 row">
+          <span class="col text-gray"></span>
+          <a href="" class="col">View location using map</a>
+        </div>
+      </div>
+      <div class="row q-gutter-sm">
+        <q-btn
+          unelevated
+          style="text-transform: none"
+          class="col text-bold q-py-md"
+          color="primary"
+          label="Close"
+          v-close-popup
+        />
+      </div>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -58,9 +100,11 @@ export default defineComponent({
 <script setup>
 import { useAuthStore } from 'stores/auth';
 import { computed } from 'vue';
+import { ref } from 'vue';
 
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
+const contactDialog = ref(false);
 
 const choices = [
   {
