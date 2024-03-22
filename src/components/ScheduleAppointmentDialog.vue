@@ -145,7 +145,7 @@
             </div>
             <div class="col-2 row">
               <span class="col text-gray">Breed of Pet(s)</span>
-              <span class="col text-gray">{{ pets.map((pet) => pet.breed).join(', ') }}</span>
+              <span class="col text-gray">{{ pets.map((pet) => pet.breed ? pet.breed : 'N/A').join(', ') }}</span>
             </div>
             <div class="col-2 row">
               <span class="col text-gray">Appointment Date</span>

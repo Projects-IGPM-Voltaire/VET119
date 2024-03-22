@@ -20,19 +20,13 @@ export const debounce = (fn, delay) => {
   };
 };
 
-export const convertTo12HourFormat = (time24hr) => {
-  const [hours, minutes] = time24hr.split(':');
-  let period = 'AM';
-
-  let hours12 = parseInt(hours, 10);
-  if (hours12 >= 12) {
-    period = 'PM';
-    if (hours12 > 12) {
-      hours12 -= 12;
-    }
+export const convertTo12HourFormat = (dateString) => {
+  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return 'Invalid Date';
   }
-
-  return `${hours12}:${minutes} ${period}`;
+  return date.toLocaleTimeString('en-US', options);
 };
 
 export const convertToDateReadable = (dateString) => {

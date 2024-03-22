@@ -16,11 +16,12 @@
               color="white"
               v-for="appointment in upcomingAppointments"
               v-bind:key="appointment.refno"
+              @click="handleAppointmentClick(appointment)"
             >
               <q-card flat class="full-width column items-stretch justify-between q-px-sm q-py-md q-gutter-xs">
                 <div class="q-mb-md col-12 text-left">
                   <q-icon name="event_available" color="accent" />
-                  <span class="text-bold text-base q-ml-md">{{ appointment.dt }}</span>
+                  <span class="text-bold text-base q-ml-md">{{ convertToDateReadable(appointment.dt)  }} {{ convertTo12HourFormat(appointment.dt) }}</span>
                 </div>
                 <div class="col-12 q-mb-xs row justify-between">
                   <span class="col text-grey text-left text-capitalize">Owner Name</span>
@@ -86,11 +87,13 @@
         </div>
       </div>
     </div>
+    <AppointmentDetailsDialog v-model="appointmentDetailsDialog" :appointment="selectedAppointment" />
   </q-page>
 </template>
 
 <script>
   import { defineComponent } from 'vue';
+  import AppointmentDetailsDialog from 'src/components/AppointmentDetailsDialog.vue';
 
   export default defineComponent({
     name: 'CheckAppointmentsPage',
@@ -101,12 +104,22 @@
 import { useAppointmentStore } from 'stores/appointment';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { convertTo12HourFormat, convertToDateReadable } from 'src/extras/misc';
 
 const appointmentStore = useAppointmentStore();
 const upcomingAppointments = ref([]);
 const pastAppointments = ref([]);
 
+const selectedAppointment = ref({});
+
+const appointmentDetailsDialog = ref(false);
+
 const $q = useQuasar();
+
+const handleAppointmentClick = (appointment) => {
+  selectedAppointment.value = appointment;
+  appointmentDetailsDialog.value = true;
+};
 
 const getUpcomingAppointments = async () => {
   const { code, data } = await appointmentStore.check('upcoming');
@@ -119,6 +132,7 @@ const getUpcomingAppointments = async () => {
       petno: appointment.pets_count,
       species: appointment.pets.map((pet) => pet.species).join(', '),
       petname: appointment.pets.map((pet) => pet.name).join(', '),
+      breed: appointment.pets.map((pet) => pet.breed ?? 'N/A' ).join(', '),
     }));
     return;
   }
@@ -138,6 +152,7 @@ const getPastAppointments = async () => {
       petno: appointment.pets_count,
       species: appointment.pets.map((pet) => pet.species).join(', '),
       petname: appointment.pets.map((pet) => pet.name).join(', '),
+      breed: appointment.pets.map((pet) => pet.breed ?? 'N/A' ).join(', '),
     }));
     return;
   }
