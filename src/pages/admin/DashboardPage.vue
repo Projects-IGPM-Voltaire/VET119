@@ -41,6 +41,7 @@
         :selection="editMode ? 'multiple' : 'none'"
         v-model:selected="selected"
         hide-pagination
+        @row-click="handleRowClick"
       />
       <q-pagination
           class="self-center"
@@ -148,12 +149,14 @@
         </q-card-section>
       </q-card>
   </q-dialog>
+  <AppointmentDetailsDialog v-model="appointmentDetailsDialog" :appointment="selectedAppointment" />
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import { useQuasar } from 'quasar';
+import AppointmentDetailsDialog from 'src/components/AppointmentDetailsDialog.vue';
 
 export default defineComponent({
   name: 'AdminDashboardPage',
@@ -185,6 +188,14 @@ const cols = [
   const editMode = ref(false);
   const selected = ref([]);
   const confirmDeleteDialog = ref(false);
+
+  const selectedAppointment = ref({});
+  const appointmentDetailsDialog = ref(false);
+
+  const handleRowClick = (event, row) => {
+    selectedAppointment.value = row;
+    appointmentDetailsDialog.value = true;
+  };
 
   const formatDateString = (originalDateString) => {
     let date = new Date(originalDateString);
@@ -228,6 +239,8 @@ const cols = [
         dt: formatDateString(appointment.date + ' ' + appointment.time_from),
         species: appointment.pets.map((pet) => pet.species).join(', '),
         petname: appointment.pets.map((pet) => pet.name).join(', '),
+        breed: appointment.pets.map((pet) => pet.breed ?? 'N/A' ).join(', '),
+        petno: appointment.pets_count,
       }));
       return;
     }
