@@ -50,7 +50,7 @@ export default route(function (/* { store, ssrContext } */) {
     } else {
       if (isAuthenticated) {
         if (isAuthenticated) {
-          if (to.name === 'home-page') {
+          if (to.name === 'home-page' || to.name === 'email-verification-page') {
             if (user.level === 'admin') {
               next({ name: 'admin-users-page' });
             } else if (user.level === 'guest') {

@@ -24,9 +24,12 @@ const routes = [
         component: () => import('pages/RegisterPage.vue'),
       },
       {
-        path: 'email-verification',
+        path: 'email-verification/:id/:hash',
         name: 'email-verification-page',
         component: () => import('pages/EmailVerifPage.vue'),
+        meta: {
+          requiresAuth: false,
+        },
       },
       {
         path: 'about-us',
