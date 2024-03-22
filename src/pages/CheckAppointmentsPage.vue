@@ -12,7 +12,7 @@
         </div>
         <div>
           <q-btn
-              class="full-width"
+              class="full-width q-mb-lg"
               color="white"
               v-for="appointment in upcomingAppointments"
               v-bind:key="appointment.refno"
@@ -59,10 +59,11 @@
           </div>
           <div>
             <q-btn
-                class="full-width"
+                class="full-width q-mb-lg"
                 color="white"
                 v-for="appointment in pastAppointments"
                 v-bind:key="appointment.refno"
+                @click="handleAppointmentClick(appointment)"
             >
               <q-card flat class="full-width column items-stretch justify-between q-px-sm q-py-md q-gutter-xs">
                 <div class="q-mb-md col-12 text-left">
@@ -153,6 +154,7 @@ const getPastAppointments = async () => {
       species: appointment.pets.map((pet) => pet.species).join(', '),
       petname: appointment.pets.map((pet) => pet.name).join(', '),
       breed: appointment.pets.map((pet) => pet.breed ?? 'N/A' ).join(', '),
+      past: true
     }));
     return;
   }

@@ -48,6 +48,7 @@
         <q-btn unelevated color="primary" text-color="white" class="q-py-md q-mb-sm col-12 text-bold" label="Close" v-close-popup />
         <q-btn outline unelevated color="red" text-color="red" class="q-py-md col-12 text-bold" label="Cancel Appointment"
           @click="deleteAppointment"
+          v-if="!appointment.past"
         />
       </q-card-section>
     </q-card>
