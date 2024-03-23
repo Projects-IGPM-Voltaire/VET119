@@ -243,6 +243,8 @@
               @click="onCreate"
               color="primary"
               label="Set Appointment"
+              :disable="isFormLoading"
+              :loading="isFormLoading"
             />
             <q-btn
               v-if="step === 3"
@@ -370,6 +372,7 @@ watch(
         color: 'negative',
       });
     }
+    selectedTime.value = null;
   }
 )
 
