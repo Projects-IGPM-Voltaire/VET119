@@ -1,8 +1,8 @@
 {
-  "name": "mediqueue",
+  "name": "vet119",
   "version": "0.0.1",
-  "description": "Mediqueue app",
-  "productName": "MediQueue",
+  "description": "VET 119 app",
+  "productName": "VET 119",
   "author": "Sebastian Curtis T. Lavarias <sebastiancurtislavarias@gmail.com>",
   "private": true,
   "scripts": {

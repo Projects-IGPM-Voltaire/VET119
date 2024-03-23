@@ -9,26 +9,15 @@
     </template>
     <template v-if="!isAuthenticated">
       <div class="text-center">
-        <h3 class="text-weight-medium q-mb-md">
-          Welcome to
-          <span class="text-weight-bold text-primary"
-            >MediQueue
-            <q-avatar class="q-ml-xs" size="5rem">
-              <img :src="LogoSmall" /> </q-avatar
-          ></span>
+        <h3 class="text-weight-bolder text-primary q-mb-md">
+          Welcome to VET 119!
         </h3>
-        <q-btn
-          color="primary"
-          class="text-weight-bold text-capitalize"
-          size="lg"
-          unelevated
-          :to="{ name: 'login-page' }"
-          >Schedule a Meeting</q-btn
-        >
+        <p class="text-body1 text-weight-medium text-italic text-accent text-center">
+        Enhancing Pet Health Management through a<br/>Streamlined Digital Appointment System
+        </p>
       </div>
       <AboutUsWindow />
     </template>
-    <HomeServicesBanner v-if="isAuthenticated" />
   </q-page>
 </template>
 

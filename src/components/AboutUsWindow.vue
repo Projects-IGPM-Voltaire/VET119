@@ -1,31 +1,14 @@
 <template>
-  <div>
+  <div class="q-mt-xl">
     <div class="container q-mb-xl q-pa-sm">
       <div class="row q-col-gutter-md">
-        <div class="col-12 col-md-6">
-          <div>
-            <h5 class="text-bold">WHAT IS MEDIQUEUE?</h5>
-            <p class="text-body1 q-pl-md">
-              MediQueue is a digital scheduling website made to streamline
-              patient experiences in booking their appointment in clinics. Aside
-              from allowing patients to book their clinical appointments online,
-              MediQueue can also show the patients' queueing numbers to check
-              their current standing for the day they booked a schedule to avoid
-              long waiting lines and save patients' time.
-            </p>
-          </div>
+        <div class="col-12 q-pa-lg col-md-6 bg-grey-5" style="min-height: 350px;">
         </div>
-
         <div class="col-12 col-md-6">
           <div>
-            <h5 class="text-bold">HISTORY OF MEDIQUEUE?</h5>
-            <p class="text-body1 q-pl-md">
-              MediQueue is a website created by the students of Valenzuela City
-              School of Mathematics and Science in line with their research
-              study entitled "MediQueue: Streamlining Patient Care in Private
-              Health Clinics Through a Digital Scheduling Website." The website
-              was officially launched in January 2024. Its features respond to
-              the needs of addressing the research objectives of the study.
+            <p class="text-body1 q-pl-md q-mt-xl">
+              This website aims to implement a new digital queuing system in veterinary clinics, with features aimed at streamlining
+              reservation, reception and appointment management with the goal of enhancing convenience for pet owners and clinical staff.
             </p>
           </div>
         </div>
