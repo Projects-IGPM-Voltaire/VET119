@@ -99,7 +99,7 @@ const onConfirmNewPassword = async () => {
       message: 'Password reset successful',
     });
     console.log(response);
-    // router.push({ name: 'login-page' });
+    router.push({ name: 'login-page' });
   } else {
     formError.value = message;
     $q.notify({
