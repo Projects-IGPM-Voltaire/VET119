@@ -19,6 +19,8 @@
                   color="accent"
                   outlined
                   label="Email Address"
+                  v-model="email"
+                  type="email"
                 />
               </div>
               <div class="col-12">
@@ -27,9 +29,9 @@
                   class="q-py-lg text-capitalize text-body1 text-bold"
                   style="width: 100%"
                   @click="onSendOTP"
-                  :disable="isFormLoading"
+                  :disable="isFormLoading || linkSent"
                   :loading="isFormLoading"
-                  >Send OTP</q-btn
+                  >{{ linkSent ? 'Reset Link Sent' : 'Send Reset Link' }}</q-btn
                 >
               </div>
             </div>
@@ -49,4 +51,51 @@ export default defineComponent({
 </script>
 <script setup>
 import Logo from 'assets/vet119-logo-medium.png';
+import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+import { useResetStore } from 'src/stores/reset';
+
+const $q = useQuasar();
+const { send } = useResetStore();
+
+const email = ref('');
+const isFormLoading = ref(false);
+const linkSent = ref(false);
+
+const onSendOTP = () => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(email.value)) {
+    $q.notify({
+      message: 'Invalid email address',
+      color: 'negative',
+      position: 'top',
+      timeout: 3000,
+    });
+    return;
+  }
+  isFormLoading.value = true;
+  send(email.value)
+    .then(() => {
+      $q.notify({
+        message: 'Reset link sent to your email',
+        color: 'positive',
+        position: 'top',
+        timeout: 3000,
+      });
+      linkSent.value = true;
+    })
+    .catch((error) => {
+      $q.notify({
+        message: error.message,
+        color: 'negative',
+        position: 'top',
+        timeout: 3000,
+      });
+    })
+    .finally(() => {
+      isFormLoading.value = false;
+    });
+
+};
+
 </script>

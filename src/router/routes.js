@@ -43,7 +43,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
-        path: 'enter-email',
+        path: '',
         name: 'forgot-email-page',
         component: () => import('pages/ForgotPasswordPage.vue'),
       },
@@ -53,11 +53,14 @@ const routes = [
         component: () => import('pages/ForgotPasswordOTPPage.vue'),
       },
       {
-        path: 'enter-new-password',
+        path: 'enter-new-password/:code',
         name: 'forgot-newpass-page',
         component: () => import('pages/ForgotPasswordNewPassPage.vue'),
       },
     ],
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
     path: '/user',
