@@ -365,7 +365,7 @@ const validateForm = () => {
 watch(
   () => date.value,
   (value) => {
-    if (new Date(value) < new Date()) {
+    if (new Date(value).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
       date.value = null;
       $q.notify({
         message: 'Please select a valid date.',
@@ -479,6 +479,10 @@ const onCreate = async () => {
       message: 'Appointment booked successfully!',
       color: 'positive',
     });
+    if (isAdmin.value) {
+      location.reload();
+      return;
+    }
     return;
   }
   formError.value = message;

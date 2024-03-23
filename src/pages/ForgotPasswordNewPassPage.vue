@@ -84,7 +84,7 @@ const password_confirmation = ref('');
 const onConfirmNewPassword = async () => {
   isFormLoading.value = true;
 
-  if (password.value !== password_confirmation.value) {
+  if ((password.value !== password_confirmation.value) || password.value === '') {
     formError.value = 'Passwords do not match';
     isFormLoading.value = false;
     return;
@@ -98,13 +98,12 @@ const onConfirmNewPassword = async () => {
       type: 'positive',
       message: 'Password reset successful',
     });
-    console.log(response);
     router.push({ name: 'login-page' });
   } else {
-    formError.value = message;
+    formError.value = "Password reset failed",
     $q.notify({
       type: 'negative',
-      message: message,
+      message: "Password reset failed",
     });
   }
 

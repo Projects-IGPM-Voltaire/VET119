@@ -56,7 +56,7 @@
           direction-links
           outline
       />
-      <div style="width:800px; max-width:800px;" class="self-center row q-my-xl q-col-gutter-md justify-center">
+      <!-- <div style="width:800px; max-width:800px;" class="self-center row q-my-xl q-col-gutter-md justify-center">
         <div class="col">
           <q-btn
               style="height:8.5rem;"
@@ -89,7 +89,7 @@
             </q-card>
           </q-btn>
         </div>
-      </div>
+      </div> -->
     </div>
     <q-dialog v-model="confirmDeleteDialog">
       <q-card style="width:50vw;">
@@ -162,11 +162,29 @@ export default defineComponent({
   name: 'AdminDashboardPage',
   components: {},
 });
+
+const formatDateString = (originalDateString) => {
+    let date = originalDateString;
+
+    // Format the date
+    let options = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+    return date.toLocaleString('en-US', options);
+  }
+
 const cols = [
 { name: 'refno', required: true, label: 'Reference Number', field: row => row.refno, align: 'left', },
 { name: 'owner', required: true, label: 'Pet Owner Name', field: row => row.owner, align: 'left', },
 { name: 'purpose', required: true, label: 'Purpose', field: row => row.purpose, align: 'left', },
-{ name: 'date_time', required: true, label: 'Date and Time', field: row => row.dt, align: 'left', sortable: true },
+{
+  name: 'date_time',
+  required: true,
+  label: 'Date and Time',
+  field: row => row.dt,
+  align: 'left',
+  sortable: true,
+  format: (val) => formatDateString(val),
+  sort: (a, b) => new Date(a) - new Date(b),
+},
 { name: 'species', required: true, label: 'Species', field: row => row.species, align: 'left', },
 { name: 'petname', required: true, label: 'Pet Name', field: row => row.petname, align: 'left', },
 ];
@@ -197,13 +215,12 @@ const cols = [
     appointmentDetailsDialog.value = true;
   };
 
-  const formatDateString = (originalDateString) => {
-    let date = new Date(originalDateString);
 
-    // Format the date
-    let options = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-    return date.toLocaleString('en-US', options);
-}
+  const setToDateTime = (date, time) => {
+    let dateParts = date.split('-');
+    let timeParts = time.split(':');
+    return new Date(dateParts[0], dateParts[1] - 1, dateParts[2], timeParts[0], timeParts[1]);
+  }
 
   const search = ref('');
   watch(
@@ -236,7 +253,7 @@ const cols = [
         refno: appointment.reference_number,
         owner: appointment.first_name + ' ' + appointment.last_name,
         purpose: appointment.purpose,
-        dt: formatDateString(appointment.date + ' ' + appointment.time_from),
+        dt: setToDateTime(appointment.date, appointment.time_from),
         species: appointment.pets.map((pet) => pet.species).join(', '),
         petname: appointment.pets.map((pet) => pet.name).join(', '),
         breed: appointment.pets.map((pet) => pet.breed ?? 'N/A' ).join(', '),
