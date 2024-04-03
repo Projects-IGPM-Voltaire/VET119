@@ -78,7 +78,7 @@
               style="text-decoration: none"
               :to="{ name: 'admin-dashboard-page' }"
             >
-              <span class="text-weight-bold text-subtitle2 text-white">
+              <span class="col-4 text-weight-bold text-subtitle2 text-white">
                 Dashboard
               </span>
             </router-link>
@@ -102,25 +102,7 @@
             </router-link>
           </div>
         </div>
-        <div class="q-col-gutter-lg column">
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              Proponents
-            </span>
-          </router-link>
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              Developers
-            </span>
-          </router-link>
-        </div>
-        <div class="q-col-gutter-lg column col-2">
+        <div class="col-3 q-col-gutter-lg column col-2">
           <span class="text-weight-bold text-h5 text-white">
             Contact Developers
           </span>
@@ -131,10 +113,10 @@
               Isaac Melgar
             </span>
             <span class="text-subtitle2 text-white text-italic">
-              +63 XXX XXX XXXX
+              +63 927 134 1205
             </span>
             <span class="text-subtitle2 text-white text-italic">
-              xxxxxxxxxxxx@gmail.com
+              inquiriesgrp1@gmail.com
             </span>
           </div>
           <div class="column">
@@ -144,10 +126,10 @@
               Danni Gallardo
             </span>
             <span class="text-subtitle2 text-white text-italic">
-              +63 901 234 5678
+              +63 916 345 1753
             </span>
             <span class="text-subtitle2 text-white text-italic">
-              marchiusdanielle@gmail.com
+              marchriusdanielle@gmail.com
             </span>
           </div>
         </div>
@@ -169,7 +151,7 @@ import FilterDialog from 'components/FilterDialog.vue';
 import ScheduleAppointmentDialog from 'components/ScheduleAppointmentDialog.vue';
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: 'AdminLayout',
 });
 </script>
 
@@ -178,7 +160,6 @@ import { computed, ref } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { useRouter } from 'vue-router';
 import LogoSmall from 'assets/vet119-logo-medium.png';
-
 const authStore = useAuthStore();
 const router = useRouter();
 const schedOpen = ref(false);

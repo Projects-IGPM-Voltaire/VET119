@@ -114,14 +114,26 @@
         </div>
         <div class="q-col-gutter-xl column">
           <div class="q-col-gutter-md column">
-            <router-link
-              style="text-decoration: none"
-              :to="{ name: 'dashboard-page' }"
-            >
-              <span class="text-weight-bold text-subtitle2 text-white">
-                Dashboard
-              </span>
-            </router-link>
+            <template v-if="isAuthenticated">
+              <router-link
+                style="text-decoration: none"
+                :to="{ name: 'dashboard-page' }"
+              >
+                <span class="text-weight-bold text-subtitle2 text-white">
+                  Dashboard
+                </span>
+              </router-link>
+            </template>
+            <template v-else>
+              <router-link
+                style="text-decoration: none"
+                :to="{ name: 'home-page' }"
+              >
+                <span class="text-weight-bold text-subtitle2 text-white">
+                  Home
+                </span>
+              </router-link>
+            </template>
             <router-link
               style="text-decoration: none"
               :to="{ name: 'services-page' }"
@@ -168,16 +180,11 @@
               Your Appointments
             </span>
           </router-link>
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <a style="text-decoration: none;" href="https://maps.app.goo.gl/X7wvaRRzND4mFerL6" class="text-weight-bold text-subtitle2 text-white">
-              View Clinic Location
-            </a>
-          </router-link>
+          <a style="text-decoration: none;" href="https://maps.app.goo.gl/X7wvaRRzND4mFerL6" class="text-weight-bold text-subtitle2 text-white">
+            View Clinic Location
+          </a>
         </div>
-        <div class="q-mr-lg q-col-gutter-lg column col-2">
+        <div class="col-2 q-mr-lg q-col-gutter-lg column col-2">
           <span class="text-weight-bold text-h5 text-white"> Contact Us </span>
           <div class="column">
             <span
@@ -199,22 +206,6 @@
               https://www.dlsau.edu.ph/veterinary-teaching-hospital/
             </a>
           </div>
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              Proponents
-            </span>
-          </router-link>
-          <router-link
-            style="text-decoration: none"
-            :to="{ name: 'home-page' }"
-          >
-            <span class="text-weight-bold text-subtitle2 text-white">
-              Developers
-            </span>
-          </router-link>
         </div>
       </div>
       <!--
