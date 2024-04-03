@@ -172,25 +172,32 @@
             style="text-decoration: none"
             :to="{ name: 'home-page' }"
           >
-            <span class="text-weight-bold text-subtitle2 text-white">
+            <a style="text-decoration: none;" href="https://maps.app.goo.gl/X7wvaRRzND4mFerL6" class="text-weight-bold text-subtitle2 text-white">
               View Clinic Location
-            </span>
+            </a>
           </router-link>
         </div>
-        <div class="q-col-gutter-lg column col-2">
+        <div class="q-mr-lg q-col-gutter-lg column col-2">
           <span class="text-weight-bold text-h5 text-white"> Contact Us </span>
           <div class="column">
             <span
               class="text-weight-bold text-subtitle2 text-white text-italic"
             >
-              Name of Clinic
+              De La Salle Araneta University Veterinary Teaching Hospital
             </span>
             <span class="text-subtitle2 text-white text-italic">
-              +63 901 234 5678
+              (+632) 8330-9129
             </span>
-            <span class="text-subtitle2 text-white text-italic">
-              email of clinic
-            </span>
+            <a href="mailto:vetmedhospital@dlsau.edu.ph"
+                     style="text-decoration:none"
+                     class="text-subtitle2 text-white text-italic">
+              vetmedhospital@dlsau.edu.ph
+            </a>
+            <a href="https://www.dlsau.edu.ph/veterinary-teaching-hospital/"
+                     style="text-decoration:none"
+                     class="text-subtitle2 text-white text-italic">
+              https://www.dlsau.edu.ph/veterinary-teaching-hospital/
+            </a>
           </div>
           <router-link
             style="text-decoration: none"

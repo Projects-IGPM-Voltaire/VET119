@@ -201,7 +201,9 @@
             </p>
             <p class="text-body text-base">
               3. Familiarize yourself with the Veterinary Clinic Location. You can
-              find the location by clicking here.
+              find the location by <a
+              href="https://maps.app.goo.gl/X7wvaRRzND4mFerL6"
+              class="text-accent">clicking here.</a>
             </p>
             <p class="text-body text-base">
               4. Bring light snacks and water. Consume these while waiting for
