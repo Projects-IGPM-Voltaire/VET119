@@ -20,7 +20,7 @@
                 <span class="q-py-none q-my-none text-weight-bolder text-h4 text-primary"
                   style="line-height: 80%;">VET 119</span>
                 <span class="q-py-none q-my-none text-weight-regular text-caption
-                  text-italic text-accent">In
+                  text-italic text-green-800">In
                   partnership with DLSAU</span>
               </div>
             </router-link>
