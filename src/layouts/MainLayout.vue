@@ -16,10 +16,14 @@
                   style="max-width: 3rem; height: 3rem; width: 2.5rem"
                   :src="LogoSmall"
               /></q-avatar>
-              <span class="text-weight-bolder text-h4 text-primary"
-                >VET 119</span
-              ></router-link
-            >
+              <div class="column">
+                <span class="q-py-none q-my-none text-weight-bolder text-h4 text-primary"
+                  style="line-height: 80%;">VET 119</span>
+                <span class="q-py-none q-my-none text-weight-regular text-caption
+                  text-italic text-accent">In
+                  partnership with DLSAU</span>
+              </div>
+            </router-link>
           </q-toolbar-title>
           <template v-if="isAuthenticated">
             <q-btn
