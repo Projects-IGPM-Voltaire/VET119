@@ -83,10 +83,7 @@ export const useAppointmentStore = defineStore('appointment', {
       { date }
     ) {
       try {
-        const params = toURLSearchParams({
-          date: date,
-        });
-        const response = await api.get(`${route}/filter/${params ? `?${params}` : ''}`);
+        const response = await api.get(`${route}/filter/${date}`);
         return response.data;
       } catch (e) {
         return {
