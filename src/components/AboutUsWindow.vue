@@ -2,14 +2,8 @@
   <div class="q-mt-xl">
     <div class="container q-mb-xl q-pa-sm">
       <div class="row q-col-gutter-md">
-        <div class="col-12 q-pa-lg col-md-6 bg-grey-5" style="min-height: 350px;">
-        </div>
         <div class="col-12 col-md-6">
           <div>
-            <p class="text-body1 q-pl-md q-mt-xl">
-              This website aims to implement a new digital queuing system in veterinary clinics, with features aimed at streamlining
-              reservation, reception and appointment management with the goal of enhancing convenience for pet owners and clinical staff.
-            </p>
           </div>
         </div>
       </div>
