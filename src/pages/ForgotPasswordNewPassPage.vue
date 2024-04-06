@@ -5,6 +5,13 @@
       <div class="col-12 col-sm-11 col-md-10 col-md-8 col-lg-6">
         <q-card flat>
           <q-card-section class="q-mb-none">
+            <div class="row q-pr-lg q-mb-lg justify-center">
+              <q-img :src="Logo" height="9rem" width="8rem"
+                           fit="cover"/>
+              <h4 class="q-mx-lg text-primary text-uppercase text-weight-bolder">Vet 119</h4>
+              <q-separator class="q-mx-lg" vertical />
+              <h4 class="q-mx-lg text-primary text-weight-bold">Login</h4>
+            </div>
             <div class="row q-mb-lg justify-center">
               <q-img :src="Logo" style="height: 8rem; max-width: 5.5rem;"/>
               <h4 class="q-mx-lg text-primary text-uppercase text-weight-bolder">Vet 119</h4>

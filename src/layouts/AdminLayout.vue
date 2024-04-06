@@ -10,13 +10,12 @@
               style="text-decoration: none"
               :to="{ name: 'home-page' }"
             >
-              <q-avatar class="q-avatar-right q-mr-md" square size="3rem"
+              <q-avatar class="q-avatar-right q-mr-md" size="4rem"
                 ><q-img
-                  :fit="scale - down"
-                  style="max-width: 3rem; height: 3rem; width: 2.5rem"
-                  :src="LogoSmall"
+                 fit="contain"
+                :src="LogoSmall"
               /></q-avatar>
-              <div class="column">
+              <div class="column q-mt-sm">
                 <span class="q-py-none q-my-none text-weight-bolder text-h4 text-primary"
                   style="line-height: 80%;">VET 119</span>
                 <span class="q-py-none q-my-none text-weight-regular text-caption
