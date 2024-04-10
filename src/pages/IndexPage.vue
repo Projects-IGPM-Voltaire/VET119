@@ -7,17 +7,25 @@
         </h3>
       </div>
     </template>
-    <template v-if="!isAuthenticated">
-      <div class="text-center">
-        <h3 class="text-weight-bolder text-primary q-mb-md">
+    <div class="row justify-evenly q-mb-xl q-mx-lg items-center"
+                style="height: 70vh;">
+      <div class="col-5 q-pa-none bg-grey-5 q-mr-md" style="height: 40vh;">
+        <q-img :src="DLSAUImage" fit="contain" />
+      </div>
+      <div class="col-6 column justify-start text-left">
+        <h3 class="text-weight-bold text-primary q-mb-md q-pl-md">
           Welcome to VET 119!
         </h3>
-        <p class="text-body1 text-weight-medium text-italic text-accent text-center">
-        Enhancing Pet Health Management through a<br/>Streamlined Digital Appointment System
+        <p class="text-body1 q-pl-md text-weight-medium text-italic text-accent">
+        Enhancing Pet Health Management through a<br/>Streamlined Digital
+        Appointment System
+        </p>
+        <p class="text-body1 q-pl-md q-mt-xl">
+          This website aims to implement a new digital queuing system in veterinary clinics, with features aimed at streamlining
+          reservation, reception and appointment management with the goal of enhancing convenience for pet owners and clinical staff.
         </p>
       </div>
-      <AboutUsWindow />
-    </template>
+    </div>
   </q-page>
 </template>
 
@@ -35,6 +43,7 @@ import { computed } from 'vue';
 import AboutUsWindow from 'components/AboutUsWindow.vue';
 import HomeServicesBanner from 'components/HomeServicesCard.vue';
 import LogoSmall from '../assets/mediqueue-small-logo.png';
+import DLSAUImage from '../assets/dlsau-bg.png';
 
 const authStore = useAuthStore();
 
