@@ -18,7 +18,7 @@ export const useAppointmentStore = defineStore('appointment', {
           timeTo: timeTo,
           purpose: purpose,
         });
-        const response = await api.get(`${route}/${params ? `?${params}` : ''}`);
+        const response = await api.get(`${route}${params ? `?${params}` : ''}`);;
         return response.data;
       } catch (e) {
         return {
